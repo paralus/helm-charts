@@ -80,3 +80,12 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+kratos:
+  enabled: true
+
+elasticsearch:
+  enabled: false
+
+postgresql:
+  enabled: false
