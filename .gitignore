@@ -1,0 +1,6 @@
+# Chart dependencies
+**/charts/*.tgz
+
+.vscode
+.DS_Store
+.idea
