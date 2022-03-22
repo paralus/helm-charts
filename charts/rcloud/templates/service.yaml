@@ -6,12 +6,14 @@ metadata:
     {{$data := dict "image" $.Values.images.rcloudBase "release" $.Release }}
     {{- include "rcloud.selectorLabels" $data | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.services.rcloudBase.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    {{- range .Values.services.rcloudBase.ports }}
+    - name: {{ .name }}
       protocol: TCP
-      name: http
+      port: {{ .port }}
+      targetPort: {{ .name }}
+    {{- end }}
   selector:
     {{$data := dict "image" $.Values.images.rcloudBase "release" $.Release }}
     {{- include "rcloud.selectorLabels" $data | nindent 4 }}

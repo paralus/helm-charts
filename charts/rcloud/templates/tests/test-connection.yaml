@@ -12,5 +12,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['rcloud-base:{{ .Values.service.port }}']
+      args: ['rcloud-base:11000']
   restartPolicy: Never

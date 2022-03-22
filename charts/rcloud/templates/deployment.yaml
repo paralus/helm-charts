@@ -37,9 +37,10 @@ spec:
           image: "{{ .Values.images.rcloudBase.repository }}:{{ .Values.images.rcloudBase.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.images.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
+            {{- range .Values.services.rcloudBase.ports }}
+            - name: {{ .name }}
+              containerPort: {{ .port }}
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /

@@ -56,9 +56,16 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-service:
-  type: ClusterIP
-  port: 80
+services:
+  rcloudBase:
+    type: ClusterIP
+    ports:
+      - name: http
+        port: 11000
+      - name: rpc
+        port: 10000
+      - name: relay-peering
+        port: 10001
 
 ingress:
   enabled: false
