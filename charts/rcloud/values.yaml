@@ -2,13 +2,33 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Number of replicas in deployment
 replicaCount: 1
 
-image:
-  repository: nginx
+images:
+  rcloudBase:
+    name: rcloud-base
+    repository: registry.dev.rafay-edge.net/akshay196/rcloud-base
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+  relay:
+    name: relay
+    repository: registry.dev.rafay-edge.net/akshay196/relay
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+  prompt:
+    name: prompt
+    repository: registry.dev.rafay-edge.net/akshay196/prompt
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+  rcloudConsoleUI:
+    name: rcloud-console-ui
+    repository: registry.dev.rafay-edge.net/akshay196/rcloud-console-ui
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+
+  # If defined, a imagePullPolicy applied to all Rcloud deployments
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
