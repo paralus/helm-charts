@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "rcloud.fullname" . }}-test-connection"
+  name: rcloud-base-test-connection
   labels:
     {{$data := dict "image" $.Values.images.rcloudBase "release" $.Release }}
     {{- include "rcloud.selectorLabels" $data | nindent 4 }}
@@ -12,5 +12,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "rcloud.fullname" . }}:{{ .Values.service.port }}']
+      args: ['rcloud-base:{{ .Values.service.port }}']
   restartPolicy: Never
