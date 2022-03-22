@@ -5,31 +5,31 @@
 # Number of replicas in deployment
 replicaCount: 1
 
+# List of images to be deployed along with its tag. Specifying image
+# tag overrides deault value which is chart appVersion.
 images:
   rcloudBase:
     name: rcloud-base
     repository: registry.dev.rafay-edge.net/akshay196/rcloud-base
-    # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   relay:
     name: relay
     repository: registry.dev.rafay-edge.net/akshay196/relay
-    # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   prompt:
     name: prompt
     repository: registry.dev.rafay-edge.net/akshay196/prompt
-    # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   rcloudConsoleUI:
     name: rcloud-console-ui
     repository: registry.dev.rafay-edge.net/akshay196/rcloud-console-ui
-    # Overrides the image tag whose default is the chart appVersion.
     tag: ""
 
-  # If defined, a imagePullPolicy applied to all Rcloud deployments
+  # If defined, a imagePullPolicy applied to all deployments.
   pullPolicy: IfNotPresent
 
+# If defined, uses a Secret to pull an image from a private Docker
+# registry or repository.
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -43,11 +43,14 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+# Annotations for the all deployed pods
 podAnnotations: {}
 
+# Pod Security Context
 podSecurityContext: {}
   # fsGroup: 2000
 
+# Security Context
 securityContext: {}
   # capabilities:
   #   drop:
@@ -56,6 +59,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+# List of services and their port numbers.
 services:
   rcloudBase:
     type: ClusterIP
@@ -95,6 +99,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+# Autoscale rcloud-base deployment resource
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -108,11 +113,14 @@ tolerations: []
 
 affinity: {}
 
+# Dependency Kratos config
 kratos:
   enabled: true
 
+# Dependency Elasticsearch config
 elasticsearch:
   enabled: false
 
+# Dependency Postgresql config
 postgresql:
   enabled: false
