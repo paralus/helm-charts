@@ -31,7 +31,7 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
-Common labels
+Common labels.   //Deprecated//
 */}}
 {{- define "rcloud.labels" -}}
 helm.sh/chart: {{ include "rcloud.chart" . }}
@@ -46,8 +46,8 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "rcloud.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "rcloud.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/name: {{ .image.name }}
+app.kubernetes.io/instance: {{ .release.Name }}
 {{- end }}
 
 {{/*

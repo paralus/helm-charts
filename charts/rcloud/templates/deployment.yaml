@@ -3,14 +3,16 @@ kind: Deployment
 metadata:
   name: {{ include "rcloud.fullname" . }}
   labels:
-    {{- include "rcloud.labels" . | nindent 4 }}
+    {{$data := dict "image" $.Values.images.rcloudBase "release" $.Release }}
+    {{- include "rcloud.selectorLabels" $data | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "rcloud.selectorLabels" . | nindent 6 }}
+      {{$data := dict "image" $.Values.images.rcloudBase "release" $.Release }}
+      {{- include "rcloud.selectorLabels" $data | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +20,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "rcloud.selectorLabels" . | nindent 8 }}
+        {{$data := dict "image" $.Values.images.rcloudBase "release" $.Release }}
+        {{- include "rcloud.selectorLabels" $data | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

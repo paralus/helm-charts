@@ -3,7 +3,8 @@ kind: Pod
 metadata:
   name: "{{ include "rcloud.fullname" . }}-test-connection"
   labels:
-    {{- include "rcloud.labels" . | nindent 4 }}
+    {{$data := dict "image" $.Values.images.rcloudBase "release" $.Release }}
+    {{- include "rcloud.selectorLabels" $data | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
