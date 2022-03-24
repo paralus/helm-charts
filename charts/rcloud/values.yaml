@@ -75,6 +75,11 @@ services:
     ports:
       - name: http
         port: 7009
+  relay:
+    type: ClusterIP
+    ports:
+      - name: http
+        port: 10002
 
 ingress:
   enabled: false
