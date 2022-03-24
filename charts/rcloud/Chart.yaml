@@ -6,15 +6,15 @@ dependencies:
   - name: kratos
     version: 0.22.2
     repository: https://k8s.ory.sh/helm/charts
-    condition: kratos.enabled
+    condition: dependency.kratos.enabled
   - name: elasticsearch
     version: 7.17.1
     repository: https://helm.elastic.co
-    condition: elasticsearch.enabled
+    condition: dependency.elasticsearch.enabled
   - name: postgresql
     version: 11.1.9
     repository: https://charts.bitnami.com/bitnami
-    condition: postgresql.enabled
+    condition: dependency.postgresql.enabled
 maintainers:
   - name: Rafay
 version: 0.1.0

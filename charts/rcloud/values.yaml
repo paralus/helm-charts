@@ -113,14 +113,34 @@ tolerations: []
 
 affinity: {}
 
-# Dependency Kratos config
+dependency:
+  kratos:
+    # Install Kratos as Helm subchart
+    enabled: true
+  elasticsearch:
+    # Install Elasticsearch as Helm subchart
+    enabled: false
+  postgresql:
+    # Install Postgresql as Helm subchart
+    enabled: false
+
+# Kratos config
 kratos:
-  enabled: true
+  # Kratos public service endpoint.
+  kratosAddr: "release-kratos-public:80"
 
-# Dependency Elasticsearch config
+# Elasticsearch config
 elasticsearch:
-  enabled: false
+  # Elasticsearch service endpoint.
+  elasticsearchAddr: elasticsearch-master:9200
 
-# Dependency Postgresql config
+# Postgresql config
 postgresql:
-  enabled: false
+  dbAddr: "releasename-postgresql:5432"
+  auth:
+    # Postgres username.
+    username: "admindbuser"
+    # Postgres password.
+    password: "admindbpassword"
+    # Postgres database name.
+    database: "admindb"
