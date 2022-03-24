@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rcloud-base-config
+  labels:
+    {{$data := dict "image" $.Values.images.rcloudBase "release" $.Release }}
+    {{- include "rcloud.selectorLabels" $data | nindent 4 }}
+data:
+  DEV: "false"
+  DB_ADDR: {{ .Values.postgresql.dbAddr }}
+  ES_END_POINT: {{ .Values.elasticsearch.esAddr }}
+  KRATOS_ADDR: {{ .Values.kratos.kratosAddr }}

@@ -36,6 +36,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.images.rcloudBase.repository }}:{{ .Values.images.rcloudBase.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.images.pullPolicy }}
+          envFrom:
+          - configMapRef:
+              name: rcloud-base-config
           ports:
             {{- range .Values.services.rcloudBase.ports }}
             - name: {{ .name }}

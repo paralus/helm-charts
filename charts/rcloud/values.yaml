@@ -132,7 +132,7 @@ kratos:
 # Elasticsearch config
 elasticsearch:
   # Elasticsearch service endpoint.
-  elasticsearchAddr: elasticsearch-master:9200
+  esAddr: "elasticsearch-master:9200"
 
 # Postgresql config
 postgresql:
