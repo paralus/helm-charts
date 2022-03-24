@@ -70,6 +70,11 @@ services:
         port: 10000
       - name: relay-peering
         port: 10001
+  prompt:
+    type: ClusterIP
+    ports:
+      - name: http
+        port: 7009
 
 ingress:
   enabled: false

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prompt
+  labels:
+    {{$data := dict "image" $.Values.images.prompt "release" $.Release }}
+    {{- include "rcloud.selectorLabels" $data | nindent 4 }}
+spec:
+  type: {{ .Values.services.prompt.type }}
+  ports:
+    {{- range .Values.services.prompt.ports }}
+    - name: {{ .name }}
+      protocol: TCP
+      port: {{ .port }}
+      targetPort: {{ .name }}
+    {{- end }}
+  selector:
+    {{$data := dict "image" $.Values.images.prompt "release" $.Release }}
+    {{- include "rcloud.selectorLabels" $data | nindent 4 }}
