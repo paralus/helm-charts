@@ -1,0 +1,29 @@
+apiVersion: v1
+entries:
+  rcloud:
+  - apiVersion: v2
+    appVersion: v0.0.1
+    created: "2022-03-24T17:00:22.336551295+05:30"
+    dependencies:
+    - condition: dependency.kratos.enabled
+      name: kratos
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.22.2
+    - condition: dependency.elasticsearch.enabled
+      name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 7.17.1
+    - condition: dependency.postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.9
+    description: A Helm chart for Rcloud.
+    digest: 4267a78b9fca3cf816c461c6192f6fb6575c9b15e810c1de6c6aa727217c0953
+    maintainers:
+    - name: Rafay
+    name: rcloud
+    type: application
+    urls:
+    - https://rafaylabs.github.io/rcloud-helm/rcloud-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-03-24T17:00:22.32756427+05:30"
