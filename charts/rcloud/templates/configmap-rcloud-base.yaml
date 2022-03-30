@@ -7,6 +7,36 @@ metadata:
     {{- include "rcloud.selectorLabels" $data | nindent 4 }}
 data:
   DEV: "false"
+  {{- if .Values.dependency.postgresql.enabled }}
+  DB_ADDR: {{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local
+  {{ else if .Values.postgresql.dbAddr }}
   DB_ADDR: {{ .Values.postgresql.dbAddr }}
+  {{ end -}}
+  {{- if .Values.dependency.elasticsearch.enabled }}
+  ES_END_POINT: elasticsearch-master
+  {{ else if .Values.elasticsearch.esAddr }}
   ES_END_POINT: {{ .Values.elasticsearch.esAddr }}
+  {{ end -}}
+  {{- if .Values.dependency.kratos.enabled }}
+  KRATOS_ADDR: {{.Release.Name}}-kratos-public
+  {{ else if .Values.kratos.kratosAddr }}
   KRATOS_ADDR: {{ .Values.kratos.kratosAddr }}
+  {{ end -}}
+
+  {{- if .Values.dependency.postgresql.enabled }}
+  DB_USER: "get-it-from-postgresql-subchart"
+  {{ else if .Values.postgresql.auth.username }}
+  DB_USER: {{ .Values.postgresql.auth.username }}
+  {{ end -}}
+
+  {{- if .Values.dependency.postgresql.enabled }}
+  DB_PASSWORD: "get-it-from-postgresql-subchart"
+  {{ else if .Values.postgresql.auth.password }}
+  DB_PASSWORD: {{ .Values.postgresql.auth.password }}
+  {{ end -}}
+
+  {{- if .Values.dependency.postgresql.enabled }}
+  DB_NAME: "get-it-from-postgresql-subchart"
+  {{ else if .Values.postgresql.auth.database }}
+  DB_NAME: {{ .Values.postgresql.auth.database }}
+  {{ end -}}

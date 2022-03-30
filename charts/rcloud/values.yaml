@@ -137,16 +137,16 @@ dependency:
 # Kratos config
 kratos:
   # Kratos public service endpoint.
-  kratosAddr: "release-kratos-public:80"
+  kratosAddr: ""
 
 # Elasticsearch config
 elasticsearch:
   # Elasticsearch service endpoint.
-  esAddr: "elasticsearch-master:9200"
+  esAddr: ""
 
 # Postgresql config
 postgresql:
-  dbAddr: "releasename-postgresql:5432"
+  dbAddr: ""
   auth:
     # Postgres username.
     username: "admindbuser"
