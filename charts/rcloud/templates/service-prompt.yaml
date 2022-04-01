@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: prompt
   labels:
-    {{$data := dict "image" $.Values.images.prompt "release" $.Release }}
-    {{- include "rcloud.selectorLabels" $data | nindent 4 }}
+    {{- include "rcloud.labels" . | nindent 4 }}
+    {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.prompt "release" $.Release) | nindent 4 }}
 spec:
   type: {{ .Values.services.prompt.type }}
   ports:
@@ -15,5 +15,4 @@ spec:
       targetPort: {{ .name }}
     {{- end }}
   selector:
-    {{$data := dict "image" $.Values.images.prompt "release" $.Release }}
-    {{- include "rcloud.selectorLabels" $data | nindent 4 }}
+    {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.prompt "release" $.Release) | nindent 4 }}

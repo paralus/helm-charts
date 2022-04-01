@@ -3,8 +3,8 @@ kind: ConfigMap
 metadata:
   name: relay-server-config
   labels:
-    {{$data := dict "image" $.Values.images.relay "release" $.Release }}
-    {{- include "rcloud.selectorLabels" $data | nindent 4 }}
+    {{- include "rcloud.labels" . | nindent 4 }}
+    {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 4 }}
 data:
   RAFAY_RELAY_PEERSERVICE: https://peering.sentry.rafay.local:10001
   SENTRY_ADDR: rcloud-base:10000

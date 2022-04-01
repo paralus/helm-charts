@@ -31,8 +31,6 @@ images:
 # If defined, uses a Secret to pull an image from a private Docker
 # registry or repository.
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -40,7 +38,7 @@ serviceAccount:
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
+  # If not set and create is true, a name is auto generated.
   name: ""
 
 # Annotations for the all deployed pods

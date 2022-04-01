@@ -17,8 +17,8 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{$data := dict "image" $.Values.images.rcloudBase "release" $.Release }}
-    {{- include "rcloud.selectorLabels" $data | nindent 4 }}
+    {{- include "rcloud.labels" . | nindent 4 }}
+    {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudBase "release" $.Release) | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
