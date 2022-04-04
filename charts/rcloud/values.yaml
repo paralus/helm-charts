@@ -22,7 +22,7 @@ images:
     tag: ""
   rcloudConsoleUI:
     name: rcloud-console-ui
-    repository: registry.dev.rafay-edge.net/akshay196/rcloud-console-ui
+    repository: registry.dev.rafay-edge.net/akshay196-temp/rcloud-console-ui
     tag: ""
 
   # If defined, a imagePullPolicy applied to all deployments.
@@ -78,6 +78,11 @@ services:
     ports:
       - name: http
         port: 10002
+  rcloudConsoleUI:
+    type: ClusterIP
+    ports:
+      - name: nginx
+        port: 80
 
 ingress:
   enabled: false
