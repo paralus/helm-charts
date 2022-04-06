@@ -28,6 +28,9 @@ spec:
       serviceAccountName: {{ include "rcloud.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: admindb-migration
+          emptyDir: {}
       initContainers:
         {{- if .Values.dependency.kratos.enabled }}
         - name: {{ .Chart.Name }}-kratos-automigrate
@@ -41,11 +44,34 @@ spec:
                   name: rcloud-base-config
                   key: DSN
         {{- end }}
+        {{- if .Values.rcloudBase.automigrate }}
+        - name: copy-migrations-files
+          image: "{{ .Values.images.rcloudBase.repository }}:{{ .Values.images.rcloudBase.tag | default .Chart.AppVersion }}"
+          volumeMounts:
+            - name: admindb-migration
+              mountPath: /migrations
+          command: ['sh', '-c', 'cp -rf /data/migrations/admindb /migrations/admindb']
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+        - name: migrate-admindb
+          image: migrate/migrate:v4.15.1
+          command: ['sh', '-c', 'migrate -path=/migrations/admindb -database $DSN up']
+          volumeMounts:
+            - name: admindb-migration
+              subPath: admindb
+              mountPath: /migrations/admindb
+          env:
+            - name: DSN
+              valueFrom:
+                configMapKeyRef:
+                  name: rcloud-base-config
+                  key: DSN
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.images.rcloudBase.repository }}:{{ .Values.images.rcloudBase.tag | default .Chart.AppVersion }}"
+          command: ["./rcloud-base"]
           imagePullPolicy: {{ .Values.images.pullPolicy }}
           envFrom:
           - configMapRef:

@@ -126,6 +126,10 @@ tolerations: []
 
 affinity: {}
 
+rcloudBase:
+  # Enable running rcloud-base migrations
+  automigrate: true
+
 dependency:
   kratos:
     # Install Kratos as Helm subchart
@@ -238,3 +242,5 @@ postgresql:
     password: "admindbpassword"
     # Postgres database name.
     database: "admindb"
+    # Base64 version of password (for Secret)
+    passwordBase64: "YWRtaW5kYnBhc3N3b3Jk"
