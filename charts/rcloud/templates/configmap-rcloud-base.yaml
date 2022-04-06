@@ -38,3 +38,5 @@ data:
   {{ else }}
   DSN: "TODO(user): add-db-address"
   {{ end -}}
+
+  RELAY_IMAGE: {{ .Values.images.relay.repository }}:{{ .Values.images.relay.tag | default .Chart.AppVersion }}
