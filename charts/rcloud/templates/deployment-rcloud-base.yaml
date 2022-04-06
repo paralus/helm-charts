@@ -28,6 +28,19 @@ spec:
       serviceAccountName: {{ include "rcloud.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        {{- if .Values.dependency.kratos.enabled }}
+        - name: {{ .Chart.Name }}-kratos-automigrate
+          image: "{{ .Values.kratos.image.repository }}:{{ .Values.kratos.image.tag }}"
+          command: ["kratos"]
+          args: ["migrate", "sql", "-e", "--yes"]
+          env:
+            - name: DSN
+              valueFrom:
+                configMapKeyRef:
+                  name: rcloud-base-config
+                  key: DSN
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

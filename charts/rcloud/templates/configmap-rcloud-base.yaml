@@ -30,3 +30,11 @@ data:
   DB_USER: {{ .Values.postgresql.auth.username }}
   DB_PASSWORD: {{ .Values.postgresql.auth.password }}
   DB_NAME: {{ .Values.postgresql.auth.database }}
+
+  {{- if .Values.dependency.postgresql.enabled }}
+  DSN: postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable&max_conns=20&max_idle_conns=4
+  {{ else if .Values.postgresql.dbAddr }}
+  DSN: postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.dbAddr }}:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable&max_conns=20&max_idle_conns=4
+  {{ else }}
+  DSN: "TODO(user): add-db-address"
+  {{ end -}}
