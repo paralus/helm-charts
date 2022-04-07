@@ -66,6 +66,21 @@ spec:
                   name: rcloud-base-config
                   key: DSN
         {{- end }}
+        - name: initialize-rcloud-base
+          image: "{{ .Values.images.rcloudBaseInit.repository }}:{{ .Values.images.rcloudBaseInit.tag | default .Chart.AppVersion }}"
+          args: [
+            "-partner", {{.Values.rcloudBase.initialize.partner|quote}},
+            "-partner-desc", {{.Values.rcloudBase.initialize.partnerDesc|quote}},
+            "-partner-host", {{.Values.rcloudBase.initialize.partnerHost|quote}},
+            "-org", {{.Values.rcloudBase.initialize.org|quote}},
+            "-org-desc", {{.Values.rcloudBase.initialize.orgDesc|quote}},
+            "-admin-email", {{.Values.rcloudBase.initialize.adminEmail|quote}},
+            "-admin-first-name", {{.Values.rcloudBase.initialize.adminFirstName|quote}},
+            "-admin-last-name", {{.Values.rcloudBase.initialize.adminLastName|quote}},
+             ]
+          envFrom:
+          - configMapRef:
+              name: rcloud-base-config
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

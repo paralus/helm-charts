@@ -12,6 +12,10 @@ images:
     name: rcloud-base
     repository: registry.dev.rafay-edge.net/akshay196/rcloud-base
     tag: ""
+  rcloudBaseInit:
+    name: rcloud-base-init
+    repository: registry.dev.rafay-edge.net/akshay196-temp/rcloud-base-init
+    tag: ""
   relay:
     name: relay
     repository: registry.dev.rafay-edge.net/akshay196/relay
@@ -129,6 +133,20 @@ affinity: {}
 rcloudBase:
   # Enable running rcloud-base migrations
   automigrate: true
+  initialize:
+    # Name of partner
+    partner: "example"
+    partnerDesc: "Partner description"
+    partnerHost: "example.com"
+    # Name of an organization
+    org: "exampleorg"
+    orgDesc: "Org description"
+    # Admin email address
+    adminEmail: "foo@example.com"
+    # Admin first name
+    adminFirstName: "Foo"
+    # Admin last name
+    adminLastName: "Bar"
 
 dependency:
   kratos:
