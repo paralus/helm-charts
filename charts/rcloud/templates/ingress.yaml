@@ -33,13 +33,41 @@ spec:
     - host: {{ .Values.ingress.host | quote }}
       http:
         paths:
-          - path: /apis
+          - path: /auth
             pathType: Prefix
             backend:
               service:
                 name: rcloud-base
                 port:
                   number: 11000
+          - path: /event
+            pathType: Prefix
+            backend:
+              service:
+                name: rcloud-base
+                port:
+                  number: 11000
+          - path: /infra
+            pathType: Prefix
+            backend:
+              service:
+                name: rcloud-base
+                port:
+                  number: 11000
+          - path: /v2/sentry
+            pathType: Prefix
+            backend:
+              service:
+                name: rcloud-base
+                port:
+                  number: 11000
+          - path: /v2/debug/prompt
+            pathType: Prefix
+            backend:
+              service:
+                name: prompt
+                port:
+                  number: 7009
           - path: /
             pathType: Prefix
             backend:
