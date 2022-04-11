@@ -1,0 +1,120 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rcloud-base
+  labels:
+    {{- include "rcloud.labels" . | nindent 4 }}
+    {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudBase "release" $.Release) | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudBase "release" $.Release) | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudBase "release" $.Release) | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "rcloud.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: admindb-migration
+          emptyDir: {}
+      initContainers:
+        {{- if .Values.dependency.kratos.enabled }}
+        - name: {{ .Chart.Name }}-kratos-automigrate
+          image: "{{ .Values.kratos.image.repository }}:{{ .Values.kratos.image.tag }}"
+          command: ["kratos"]
+          args: ["migrate", "sql", "-e", "--yes"]
+          env:
+            - name: DSN
+              valueFrom:
+                configMapKeyRef:
+                  name: rcloud-base-config
+                  key: DSN
+        {{- end }}
+        {{- if .Values.rcloudBase.automigrate }}
+        - name: copy-migrations-files
+          image: "{{ .Values.images.rcloudBase.repository }}:{{ .Values.images.rcloudBase.tag | default .Chart.AppVersion }}"
+          volumeMounts:
+            - name: admindb-migration
+              mountPath: /migrations
+          command: ['sh', '-c', 'cp -rf /data/migrations/admindb /migrations/admindb']
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+        - name: migrate-admindb
+          image: migrate/migrate:v4.15.1
+          command: ['sh', '-c', 'migrate -path=/migrations/admindb -database $DSN up']
+          volumeMounts:
+            - name: admindb-migration
+              subPath: admindb
+              mountPath: /migrations/admindb
+          env:
+            - name: DSN
+              valueFrom:
+                configMapKeyRef:
+                  name: rcloud-base-config
+                  key: DSN
+        {{- end }}
+        - name: initialize-rcloud-base
+          image: "{{ .Values.images.rcloudBaseInit.repository }}:{{ .Values.images.rcloudBaseInit.tag | default .Chart.AppVersion }}"
+          args: [
+            "-partner", {{.Values.rcloudBase.initialize.partner|quote}},
+            "-partner-desc", {{.Values.rcloudBase.initialize.partnerDesc|quote}},
+            "-partner-host", {{.Values.rcloudBase.initialize.partnerHost|quote}},
+            "-org", {{.Values.rcloudBase.initialize.org|quote}},
+            "-org-desc", {{.Values.rcloudBase.initialize.orgDesc|quote}},
+            "-admin-email", {{.Values.rcloudBase.initialize.adminEmail|quote}},
+            "-admin-first-name", {{.Values.rcloudBase.initialize.adminFirstName|quote}},
+            "-admin-last-name", {{.Values.rcloudBase.initialize.adminLastName|quote}},
+             ]
+          envFrom:
+          - configMapRef:
+              name: rcloud-base-config
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.images.rcloudBase.repository }}:{{ .Values.images.rcloudBase.tag | default .Chart.AppVersion }}"
+          command: ["./rcloud-base"]
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          envFrom:
+          - configMapRef:
+              name: rcloud-base-config
+          ports:
+            {{- range .Values.services.rcloudBase.ports }}
+            - name: {{ .name }}
+              containerPort: {{ .port }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

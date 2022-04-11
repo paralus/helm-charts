@@ -1,0 +1,260 @@
+# Default values for rcloud.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Number of replicas in deployment
+replicaCount: 1
+
+# List of images to be deployed along with its tag. Specifying image
+# tag overrides deault value which is chart appVersion.
+images:
+  rcloudBase:
+    name: rcloud-base
+    repository: registry.dev.rafay-edge.net/akshay196/rcloud-base
+    tag: ""
+  rcloudBaseInit:
+    name: rcloud-base-init
+    repository: registry.dev.rafay-edge.net/akshay196-temp/rcloud-base-init
+    tag: ""
+  relay:
+    name: relay
+    repository: registry.dev.rafay-edge.net/akshay196/relay
+    tag: ""
+  prompt:
+    name: prompt
+    repository: registry.dev.rafay-edge.net/akshay196/prompt
+    tag: ""
+  rcloudConsoleUI:
+    name: rcloud-console-ui
+    repository: registry.dev.rafay-edge.net/akshay196-temp/rcloud-console-ui
+    tag: ""
+
+  # If defined, a imagePullPolicy applied to all deployments.
+  pullPolicy: IfNotPresent
+
+# If defined, uses a Secret to pull an image from a private Docker
+# registry or repository.
+imagePullSecrets: []
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is auto generated.
+  name: ""
+
+# Annotations for the all deployed pods
+podAnnotations: {}
+
+# Pod Security Context
+podSecurityContext: {}
+  # fsGroup: 2000
+
+# Security Context
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# List of services and their port numbers.
+services:
+  rcloudBase:
+    type: ClusterIP
+    ports:
+      - name: http
+        port: 11000
+      - name: rpc
+        port: 10000
+      - name: relay-peering
+        port: 10001
+  prompt:
+    type: ClusterIP
+    ports:
+      - name: http
+        port: 7009
+  relay:
+    type: ClusterIP
+    ports:
+      - name: http
+        port: 10002
+  rcloudConsoleUI:
+    type: ClusterIP
+    ports:
+      - name: nginx
+        port: 80
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  host: chart-example.com
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# Autoscale rcloud-base deployment resource
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+rcloudBase:
+  # Enable running rcloud-base migrations
+  automigrate: true
+  initialize:
+    # Name of partner
+    partner: "example"
+    partnerDesc: "Partner description"
+    partnerHost: "example.com"
+    # Name of an organization
+    org: "exampleorg"
+    orgDesc: "Org description"
+    # Admin email address
+    adminEmail: "foo@example.com"
+    # Admin first name
+    adminFirstName: "Foo"
+    # Admin last name
+    adminLastName: "Bar"
+
+dependency:
+  kratos:
+    # Install Kratos as Helm subchart
+    enabled: true
+  elasticsearch:
+    # Install Elasticsearch as Helm subchart
+    enabled: false
+  postgresql:
+    # Install Postgresql as Helm subchart
+    enabled: false
+
+# Kratos config
+kratos:
+  # Kratos public service endpoint.
+  kratosAddr: ""
+
+  kratos:
+    # Kratos config
+    config:
+      courier:
+        smtp: {}
+      serve:
+        public:
+          port: 4433
+          cors:
+            enabled: true
+        admin:
+          port: 4434
+      selfservice:
+        methods:
+          password:
+            enabled: true
+          oidc:
+            enabled: true
+      secrets: {}
+      identity:
+        default_schema_url: file:///etc/config/identity.default.schema.json
+
+    # Identity schemas here
+    identitySchemas:
+      "identity.default.schema.json": |
+        {
+          "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "title": "Person",
+          "type": "object",
+          "properties": {
+            "traits": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "title": "First name",
+                  "type": "string",
+                  "pattern": "^.*$"
+                },
+                "last_name": {
+                  "title": "Last name",
+                  "type": "string",
+                  "pattern": "^.*$"
+                },
+                "description": {
+                  "title": "Description",
+                  "type": "string",
+                  "pattern": "^.*$"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "title": "E-Mail",
+                  "minLength": 3,
+                  "ory.sh/kratos": {
+                    "credentials": {
+                      "password": {
+                        "identifier": true
+                      }
+                    },
+                    "verification": {
+                      "via": "email"
+                    },
+                    "recovery": {
+                      "via": "email"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "first_name",
+                "last_name",
+                "description",
+                "email"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+
+# Elasticsearch config
+elasticsearch:
+  # Elasticsearch service endpoint.
+  esAddr: ""
+
+# Postgresql config
+postgresql:
+  dbAddr: ""
+  auth:
+    existingSecret: rcloud-postgresql
+    # Postgres username.
+    username: "admindbuser"
+    # Postgres password.
+    password: "admindbpassword"
+    # Postgres database name.
+    database: "admindb"
+    # Base64 version of password (for Secret)
+    passwordBase64: "YWRtaW5kYnBhc3N3b3Jk"

@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rcloud-base-config
+  labels:
+    {{- include "rcloud.labels" . | nindent 4 }}
+    {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudBase "release" $.Release) | nindent 4 }}
+data:
+  DEV: "false"
+  {{- if .Values.dependency.postgresql.enabled }}
+  DB_ADDR: {{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local
+  {{ else if .Values.postgresql.dbAddr }}
+  DB_ADDR: {{ .Values.postgresql.dbAddr }}
+  {{ else }}
+  DB_ADDR: "TODO(user): add-db-address"
+  {{ end -}}
+
+  {{- if .Values.dependency.elasticsearch.enabled }}
+  ES_END_POINT: elasticsearch-master
+  {{ else if .Values.elasticsearch.esAddr }}
+  ES_END_POINT: {{ .Values.elasticsearch.esAddr }}
+  {{ end -}}
+
+  {{- if .Values.dependency.kratos.enabled }}
+  KRATOS_ADDR: {{.Release.Name}}-kratos-public
+  {{ else if .Values.kratos.kratosAddr }}
+  KRATOS_ADDR: {{ .Values.kratos.kratosAddr }}
+  {{ end -}}
+
+  DB_USER: {{ .Values.postgresql.auth.username }}
+  DB_PASSWORD: {{ .Values.postgresql.auth.password }}
+  DB_NAME: {{ .Values.postgresql.auth.database }}
+
+  {{- if .Values.dependency.postgresql.enabled }}
+  DSN: postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable
+  {{ else if .Values.postgresql.dbAddr }}
+  DSN: postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.dbAddr }}:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable
+  {{ else }}
+  DSN: "TODO(user): add-db-address"
+  {{ end -}}
+
+  RELAY_IMAGE: {{ .Values.images.relay.repository }}:{{ .Values.images.relay.tag | default .Chart.AppVersion }}
