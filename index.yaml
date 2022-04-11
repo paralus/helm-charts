@@ -3,7 +3,7 @@ entries:
   rcloud:
   - apiVersion: v2
     appVersion: v0.0.1
-    created: "2022-03-24T17:00:22.336551295+05:30"
+    created: "2022-04-11T11:19:00.26953102+05:30"
     dependencies:
     - condition: dependency.kratos.enabled
       name: kratos
@@ -18,7 +18,7 @@ entries:
       repository: https://charts.bitnami.com/bitnami
       version: 11.1.9
     description: A Helm chart for Rcloud.
-    digest: 4267a78b9fca3cf816c461c6192f6fb6575c9b15e810c1de6c6aa727217c0953
+    digest: ada8699d50214f385fc4f48d2123c44e34ff1755c6c1ce2f7c715e13f10be0f3
     maintainers:
     - name: Rafay
     name: rcloud
@@ -26,4 +26,4 @@ entries:
     urls:
     - https://rafaylabs.github.io/rcloud-helm/rcloud-0.1.0.tgz
     version: 0.1.0
-generated: "2022-03-24T17:00:22.32756427+05:30"
+generated: "2022-04-11T11:19:00.258006624+05:30"
