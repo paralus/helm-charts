@@ -81,6 +81,7 @@ spec:
           envFrom:
           - configMapRef:
               name: rcloud-base-config
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -96,14 +97,6 @@ spec:
             - name: {{ .name }}
               containerPort: {{ .port }}
             {{- end }}
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
