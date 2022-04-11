@@ -8,3 +8,4 @@ metadata:
 data:
   DEV: "false"
   SENTRY_ADDR: rcloud-base:10000
+  KRATOS_ADDR: {{ include "rcloud.kratosAddr" . }}

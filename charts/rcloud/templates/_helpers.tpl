@@ -34,3 +34,56 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+
+{{/*
+Get DSN
+*/}}
+{{- define "rcloud.dsn" -}}
+  {{- if .Values.dependency.postgresql.enabled -}}
+postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable
+  {{- else if .Values.postgresql.dbAddr -}}
+postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.dbAddr }}:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable
+  {{- else -}}
+TODO(user): add-db-address
+  {{- end -}}
+{{- end }}
+
+{{/*
+Get Kratos Address
+*/}}
+{{- define "rcloud.kratosAddr" -}}
+  {{- if .Values.dependency.kratos.enabled -}}
+http://{{.Release.Name}}-kratos-admin
+  {{- else if .Values.kratos.kratosAddr -}}
+{{ .Values.kratos.kratosAddr }}
+  {{- else -}}
+TODO(user): add-kratos-address
+  {{- end -}}
+{{- end }}
+
+{{/*
+Get DB Address
+*/}}
+{{- define "rcloud.dbAddr" -}}
+  {{- if .Values.dependency.postgresql.enabled -}}
+{{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local
+  {{- else if .Values.postgresql.dbAddr -}}
+{{ .Values.postgresql.dbAddr }}
+  {{- else -}}
+TODO(user): add-db-address
+  {{- end -}}
+{{- end }}
+
+{{/*
+Get Elasticsearch Address
+*/}}
+{{- define "rcloud.esAddr" -}}
+  {{- if .Values.dependency.elasticsearch.enabled -}}
+elasticsearch-master
+  {{- else if .Values.elasticsearch.esAddr -}}
+{{ .Values.elasticsearch.esAddr }}
+  {{- else -}}
+TODO(user): add-es-address
+  {{- end -}}
+{{- end }}

@@ -159,6 +159,10 @@ dependency:
 kratos:
   # Kratos public service endpoint.
   kratosAddr: ""
+  secret:
+    # Disabled creating the secret
+    enabled: false
+    nameOverride: "rcloud-kratos"
 
   kratos:
     # Kratos config
@@ -167,12 +171,13 @@ kratos:
         smtp: {}
       serve:
         public:
-          port: 4433
+          base_url: http://kratos.charts-example.com
           cors:
             enabled: true
         admin:
           port: 4434
       selfservice:
+        default_browser_return_url: http://chart-example.com
         methods:
           password:
             enabled: true
@@ -244,6 +249,8 @@ kratos:
 elasticsearch:
   # Elasticsearch service endpoint.
   esAddr: ""
+  replicas: 1
+  minimumMasterNodes: 1
 
 # Postgresql config
 postgresql:
@@ -256,5 +263,5 @@ postgresql:
     password: "admindbpassword"
     # Postgres database name.
     database: "admindb"
-    # Base64 version of password (for Secret)
-    passwordBase64: "YWRtaW5kYnBhc3N3b3Jk"
+    # Postgres-user password
+    postgresPassword: "changethislater"
