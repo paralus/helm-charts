@@ -30,7 +30,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    - host: {{ .Values.ingress.host | quote }}
+    - host: "console.{{ .Values.ingress.host }}"
       http:
         paths:
           - path: /auth
@@ -75,4 +75,24 @@ spec:
                 name: rcloud-console-ui
                 port:
                   number: 80
+    - host: "*.core-connector.ztka.{{ .Values.ingress.host }}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: relay-server
+                port:
+                  number: 10002
+    - host: "*.user.ztka.{{ .Values.ingress.host}}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: relay-server
+                port:
+                  number: 10002
 {{- end }}
