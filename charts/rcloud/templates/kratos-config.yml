@@ -7,22 +7,50 @@ metadata:
     {{- include "rcloud.labels" . | nindent 4 }}
 data:
   "kratos.yaml": |
-    courier:
-      smtp: {}
     serve:
       public:
-        base_url: {{.Values.ingress.host}}
+        # TODO: When ingress not enabled?
+        {{- if .Values.ingress.tls }}
+        base_url: https://{{.Values.ingress.host}}/kratos/public
+        {{- else }}
+        base_url: http://{{.Values.ingress.host}}/kratos/public
+        {{- end }}
         cors:
           enabled: true
+          allowed_headers:
+            - Authorization
+            - Cookie
+            - Content-Type
+            - X-Session-Token
+          exposed_headers:
+            - Content-Type
+            - Set-Cookie
       admin:
         port: 4434
     selfservice:
-      default_browser_return_url: {{.Values.ingress.host}}
+      default_browser_return_url: /#/main
+      whitelisted_return_urls:
+        - /#/main
       methods:
         password:
           enabled: true
         oidc:
           enabled: true
+      flows:
+        registration:
+          lifespan: 10m
+          {{- if .Values.ingress.tls }}
+          ui_url: https://{{.Values.ingress.host}}/registration
+          {{- else }}
+          ui_url: http://{{.Values.ingress.host}}/registration
+          {{- end }}
+          after:
+            password:
+              hooks:
+                - hook: session
+              oidc:
+                hooks:
+                  - hook: session
     identity:
       default_schema_url: file:///etc/kratos/identity.default.schema.json
 

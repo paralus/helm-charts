@@ -148,6 +148,9 @@ dependency:
   kratos:
     # Install Kratos as Helm subchart
     enabled: true
+    # SMTP connection URI that used by auto-deployed kratos for
+    # sending mails like account recovery etc.
+    smtpConnectionURI: "smtps://test:test@mypost:1025/?skip_ssl_verify=true"
   elasticsearch:
     # Install Elasticsearch as Helm subchart
     enabled: false
