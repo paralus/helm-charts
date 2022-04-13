@@ -1,0 +1,84 @@
+{{- if .Values.dependency.kratos.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rcloud-kratos-config
+  labels:
+    {{- include "rcloud.labels" . | nindent 4 }}
+data:
+  "kratos.yaml": |
+    courier:
+      smtp: {}
+    serve:
+      public:
+        base_url: {{.Values.ingress.host}}
+        cors:
+          enabled: true
+      admin:
+        port: 4434
+    selfservice:
+      default_browser_return_url: {{.Values.ingress.host}}
+      methods:
+        password:
+          enabled: true
+        oidc:
+          enabled: true
+    identity:
+      default_schema_url: file:///etc/kratos/identity.default.schema.json
+
+  "identity.default.schema.json": |
+    {
+      "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Person",
+      "type": "object",
+      "properties": {
+        "traits": {
+          "type": "object",
+          "properties": {
+            "first_name": {
+              "title": "First name",
+              "type": "string",
+              "pattern": "^.*$"
+            },
+            "last_name": {
+              "title": "Last name",
+              "type": "string",
+              "pattern": "^.*$"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string",
+              "pattern": "^.*$"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "title": "E-Mail",
+              "minLength": 3,
+              "ory.sh/kratos": {
+                "credentials": {
+                  "password": {
+                    "identifier": true
+                  }
+                },
+                "verification": {
+                  "via": "email"
+                },
+                "recovery": {
+                  "via": "email"
+                }
+              }
+            }
+          },
+          "required": [
+            "first_name",
+            "last_name",
+            "description",
+            "email"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+{{- end }}

@@ -163,87 +163,18 @@ kratos:
     # Disabled creating the secret
     enabled: false
     nameOverride: "rcloud-kratos"
-
-  kratos:
-    # Kratos config
-    config:
-      courier:
-        smtp: {}
-      serve:
-        public:
-          base_url: http://kratos.charts-example.com
-          cors:
-            enabled: true
-        admin:
-          port: 4434
-      selfservice:
-        default_browser_return_url: http://chart-example.com
-        methods:
-          password:
-            enabled: true
-          oidc:
-            enabled: true
-      secrets: {}
-      identity:
-        default_schema_url: file:///etc/config/identity.default.schema.json
-
-    # Identity schemas here
-    identitySchemas:
-      "identity.default.schema.json": |
-        {
-          "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "title": "Person",
-          "type": "object",
-          "properties": {
-            "traits": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "title": "First name",
-                  "type": "string",
-                  "pattern": "^.*$"
-                },
-                "last_name": {
-                  "title": "Last name",
-                  "type": "string",
-                  "pattern": "^.*$"
-                },
-                "description": {
-                  "title": "Description",
-                  "type": "string",
-                  "pattern": "^.*$"
-                },
-                "email": {
-                  "type": "string",
-                  "format": "email",
-                  "title": "E-Mail",
-                  "minLength": 3,
-                  "ory.sh/kratos": {
-                    "credentials": {
-                      "password": {
-                        "identifier": true
-                      }
-                    },
-                    "verification": {
-                      "via": "email"
-                    },
-                    "recovery": {
-                      "via": "email"
-                    }
-                  }
-                }
-              },
-              "required": [
-                "first_name",
-                "last_name",
-                "description",
-                "email"
-              ],
-              "additionalProperties": false
-            }
-          }
-        }
+  deployment:
+    extraArgs:
+      - --config
+      - /etc/kratos/kratos.yaml
+    extraVolumes:
+      - name: rcloud-kratos-config-vol
+        configMap:
+          name: rcloud-kratos-config
+    extraVolumeMounts:
+      - name: rcloud-kratos-config-vol
+        mountPath: /etc/kratos
+        readOnly: true
 
 # Elasticsearch config
 elasticsearch:
