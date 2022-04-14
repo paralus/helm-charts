@@ -93,3 +93,16 @@ postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.pas
 postgres://{{ $username }}:{{ $.password }}@{{ $address }}:5432/{{ $database }}?sslmode=disable
   {{- end -}}
 {{- end }}
+
+
+{{/*
+Get application domain name.
+TODO: domain when no ingress?
+*/}}
+{{- define "rcloud.app.domain" -}}
+  {{- if .Values.ingress.tls -}}
+https://{{.Values.ingress.host}}
+  {{- else -}}
+http://{{.Values.ingress.host}}
+  {{- end -}}
+{{- end }}

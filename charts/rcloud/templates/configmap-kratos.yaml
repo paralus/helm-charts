@@ -10,11 +10,7 @@ data:
     serve:
       public:
         # TODO: When ingress not enabled?
-        {{- if .Values.ingress.tls }}
-        base_url: https://{{.Values.ingress.host}}/kratos/public
-        {{- else }}
-        base_url: http://{{.Values.ingress.host}}/kratos/public
-        {{- end }}
+        base_url: {{ include "rcloud.app.domain" . }}/kratos/public
         cors:
           enabled: true
           allowed_headers:
@@ -28,9 +24,9 @@ data:
       admin:
         port: 4434
     selfservice:
-      default_browser_return_url: /#/main
+      default_browser_return_url: {{ include "rcloud.app.domain" . }}
       whitelisted_return_urls:
-        - /#/main
+        - {{ include "rcloud.app.domain" . }}
       methods:
         password:
           enabled: true
@@ -39,11 +35,7 @@ data:
       flows:
         registration:
           lifespan: 10m
-          {{- if .Values.ingress.tls }}
-          ui_url: https://{{.Values.ingress.host}}/registration
-          {{- else }}
-          ui_url: http://{{.Values.ingress.host}}/registration
-          {{- end }}
+          ui_url: {{ include "rcloud.app.domain" . }}/registration
           after:
             password:
               hooks:
