@@ -101,8 +101,8 @@ TODO: domain when no ingress?
 */}}
 {{- define "rcloud.app.domain" -}}
   {{- if .Values.ingress.tls -}}
-https://{{.Values.ingress.host}}
+https://console.{{.Values.ingress.host}}
   {{- else -}}
-http://{{.Values.ingress.host}}
+http://console.{{.Values.ingress.host}}
   {{- end -}}
 {{- end }}
