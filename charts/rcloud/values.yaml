@@ -192,18 +192,120 @@ kratos:
   secret:
     enabled: false
     nameOverride: "rcloud-kratos"
+  kratos:
+    config:
+      serve:
+        public:
+          cors:
+            enabled: true
+            allowed_headers:
+              - Authorization
+              - Cookie
+              - Content-Type
+              - X-Session-Token
+            exposed_headers:
+              - Content-Type
+              - Set-Cookie
+        admin:
+          port: 4434
+      selfservice:
+        methods:
+          password:
+            enabled: true
+          oidc:
+            enabled: true
+        flows:
+          registration:
+            lifespan: 10m
+            after:
+              password:
+                hooks:
+                  - hook: session
+              oidc:
+                hooks:
+                  - hook: session
+      identity:
+        default_schema_url: file:///etc/config/identity.default.schema.json
+
+    identitySchemas:
+      "identity.default.schema.json": |
+        {
+          "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "title": "Person",
+          "type": "object",
+          "properties": {
+            "traits": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "title": "First name",
+                  "type": "string",
+                  "pattern": "^.*$"
+                },
+                "last_name": {
+                  "title": "Last name",
+                  "type": "string",
+                  "pattern": "^.*$"
+                },
+                "description": {
+                  "title": "Description",
+                  "type": "string",
+                  "pattern": "^.*$"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "title": "E-Mail",
+                  "minLength": 3,
+                  "ory.sh/kratos": {
+                    "credentials": {
+                      "password": {
+                        "identifier": true
+                      }
+                    },
+                    "verification": {
+                      "via": "email"
+                    },
+                    "recovery": {
+                      "via": "email"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "first_name",
+                "last_name",
+                "description",
+                "email"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+
   deployment:
-    extraArgs:
-      - --config
-      - /etc/kratos/kratos.yaml
-    extraVolumes:
-      - name: rcloud-kratos-config-vol
-        configMap:
-          name: rcloud-kratos-config
-    extraVolumeMounts:
-      - name: rcloud-kratos-config-vol
-        mountPath: /etc/kratos
-        readOnly: true
+    extraEnv:
+      - name: SERVE_PUBLIC_BASE_URL
+        valueFrom:
+          configMapKeyRef:
+            name: rcloud-kratos-config
+            key: base_url
+      - name: SELFSERVICE_DEFAULT_BROWSER_RETURN_URL
+        valueFrom:
+          configMapKeyRef:
+            name: rcloud-kratos-config
+            key: default_browser_return_url
+      - name: SELFSERVICE_WHITELISTED_RETURN_URLS
+        valueFrom:
+          configMapKeyRef:
+            name: rcloud-kratos-config
+            key: default_browser_return_url
+      - name: SELFSERVICE_FLOWS_REGISTRATION_UI_URL
+        valueFrom:
+          configMapKeyRef:
+            name: rcloud-kratos-config
+            key: registration_ui_url
 
 # Elasticsearch subchart values overwrite.
 elasticsearch:
