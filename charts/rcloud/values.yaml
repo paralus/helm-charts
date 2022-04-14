@@ -144,26 +144,52 @@ rcloudBase:
     # Admin last name
     adminLastName: "Bar"
 
-dependency:
+deploy:
   kratos:
-    # Install Kratos as Helm subchart
-    enabled: true
+    # Kratos instance is auto deployed and managed by Helm release
+    # when enable is true.
+    enable: true
     # SMTP connection URI that used by auto-deployed kratos for
-    # sending mails like account recovery etc.
+    # sending mails for example, account recovery etc.
     smtpConnectionURI: "smtps://test:test@mypost:1025/?skip_ssl_verify=true"
-  elasticsearch:
-    # Install Elasticsearch as Helm subchart
-    enabled: false
-  postgresql:
-    # Install Postgresql as Helm subchart
-    enabled: false
+    # Kratos public address. Required when deploy.kratos.enable is
+    # false.
+    publicAddr: ""
+    # Kratos admin address. Required when deploy.kratos.enable is
+    # false.
+    adminAddr: ""
 
-# Kratos config
+  elasticsearch:
+    # Elasticsearch instance is auto deployed and managed by Helm
+    # release when enable is true.
+    enable: false
+    # Elasticsearch address. Required when deploy.elasticsearch.enable
+    # is false.
+    address: ""
+
+  postgresql:
+    # Postgresql db is auto deployed and managed by Helm release when
+    # enable is true.
+    #
+    # Note: It is recommended to manage your own DB instance
+    # separately or use DB services like Amazon RDS in production.
+    enable: false
+    # database address for example, "localhost:5432". Required when
+    # deploy.postgresql.enable is false.
+    address: ""
+    # Postgresql username. Required when deploy.postgresql.enable is
+    # false.
+    username: ""
+    # Postgresql password. Required when deploy.postgresql.enable is
+    # false.
+    password: ""
+    # Postgresql database name. Required when deploy.postgresql.enable
+    # is false.
+    database: ""
+
+# Kratos subchart values overwrite.
 kratos:
-  # Kratos public service endpoint.
-  kratosAddr: ""
   secret:
-    # Disabled creating the secret
     enabled: false
     nameOverride: "rcloud-kratos"
   deployment:
@@ -179,23 +205,18 @@ kratos:
         mountPath: /etc/kratos
         readOnly: true
 
-# Elasticsearch config
+# Elasticsearch subchart values overwrite.
 elasticsearch:
-  # Elasticsearch service endpoint.
-  esAddr: ""
   replicas: 1
   minimumMasterNodes: 1
 
-# Postgresql config
+# Postgresql subchart values overwrite.
 postgresql:
   dbAddr: ""
   auth:
     existingSecret: rcloud-postgresql
-    # Postgres username.
+    # Postgres instance is created with following credentials.
     username: "admindbuser"
-    # Postgres password.
     password: "admindbpassword"
-    # Postgres database name.
     database: "admindb"
-    # Postgres-user password
-    postgresPassword: "changethislater"
+    postgresPassword: "HamsterFrothCannon"

@@ -1,4 +1,4 @@
-{{- if .Values.dependency.kratos.enabled }}
+{{- if .Values.deploy.kratos.enable }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
