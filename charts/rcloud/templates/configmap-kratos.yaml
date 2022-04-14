@@ -48,9 +48,9 @@ data:
             password:
               hooks:
                 - hook: session
-              oidc:
-                hooks:
-                  - hook: session
+            oidc:
+              hooks:
+                - hook: session
     identity:
       default_schema_url: file:///etc/kratos/identity.default.schema.json
 
