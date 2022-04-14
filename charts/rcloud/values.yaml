@@ -306,6 +306,40 @@ kratos:
           configMapKeyRef:
             name: rcloud-kratos-config
             key: registration_ui_url
+    # OIDC Provider config synchronizer as sidecar to Kratos
+    extraContainers: |
+        - name: synchronizer
+          image: "registry.dev.rafay-edge.net/akshay196-temp/kratos-synchronizer:v0.0.1"
+          volumeMounts:
+            - name: other-configs
+              mountPath: /etc/kratos
+          env:
+            - name: DSN
+              valueFrom:
+                configMapKeyRef:
+                  name: rcloud-base-config
+                  key: DSN
+            - name: KRATOS_PROVIDER_CFG
+              value: "/etc/kratos/providers.yaml"
+    extraArgs:
+      - --config
+      - /etc/kratos/providers.yaml
+    extraVolumes:
+      - name: other-configs
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: other-configs
+        mountPath: /etc/kratos
+    extraInitContainers: |
+        - name: create-file
+          image: "busybox:latest"
+          command: ['sh', '-c', 'touch /etc/kratos/providers.yaml']
+          volumeMounts:
+            - name: other-configs
+              mountPath: /etc/kratos
+  watcher:
+    enabled: true
+    mountFile: /etc/kratos/providers.yaml
 
 # Elasticsearch subchart values overwrite.
 elasticsearch:
