@@ -351,8 +351,8 @@ postgresql:
   dbAddr: ""
   auth:
     existingSecret: rcloud-postgresql
+    enablePostgresUser: false
     # Postgres instance is created with following credentials.
     username: "admindbuser"
     password: "admindbpassword"
     database: "admindb"
-    postgresPassword: "HamsterFrothCannon"
