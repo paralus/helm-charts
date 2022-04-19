@@ -8,4 +8,8 @@ metadata:
 data:
   DEV: "false"
   SENTRY_ADDR: rcloud-base:10000
-  KRATOS_ADDR: {{ include "rcloud.kratos.adminAddr" . }}
+  KRATOS_ADDR: {{ include "rcloud.kratos.adminAddr" . | quote }}
+  DB_ADDR: {{ include "rcloud.dbAddr" . | quote }}
+  DB_USER: {{ .Values.postgresql.auth.username | quote }}
+  DB_PASSWORD: {{ .Values.postgresql.auth.password | quote }}
+  DB_NAME: {{ .Values.postgresql.auth.database | quote }}
