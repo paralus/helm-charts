@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "rcloud.labels" . | nindent 4 }}
 data:
-  base_url: {{ include "rcloud.app.domain" . }}/self-service
+  base_url: {{ include "rcloud.app.domain" . }}
   default_browser_return_url: {{ include "rcloud.app.domain" . }}
   selfservice_flows_settings_ui_url: {{ include "rcloud.app.domain" . }}/ksettings
   selfservice_flows_recovery_ui_url: {{ include "rcloud.app.domain" . }}/ksettings
