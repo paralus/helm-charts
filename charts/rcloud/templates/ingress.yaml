@@ -75,7 +75,7 @@ spec:
                 name: rcloud-console-ui
                 port:
                   number: 80
-          - path: /kratos/public
+          - path: /self-service
             pathType: Prefix
             backend:
               service:
