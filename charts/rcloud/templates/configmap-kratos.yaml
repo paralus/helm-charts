@@ -1,0 +1,13 @@
+{{- if .Values.deploy.kratos.enable }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rcloud-kratos-config
+  labels:
+    {{- include "rcloud.labels" . | nindent 4 }}
+data:
+  base_url: {{ include "rcloud.app.domain" . }}/self-service
+  default_browser_return_url: {{ include "rcloud.app.domain" . }}
+  selfservice_flows_settings_ui_url: {{ include "rcloud.app.domain" . }}/ksettings
+  selfservice_flows_recovery_ui_url: {{ include "rcloud.app.domain" . }}/ksettings
+{{- end }}

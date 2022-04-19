@@ -8,7 +8,7 @@ metadata:
 data:
   DEV: "false"
   ES_END_POINT: {{ include "rcloud.esAddr" . | quote }}
-  KRATOS_ADDR: {{ include "rcloud.kratosAddr" . | quote }}
+  KRATOS_ADDR: {{ include "rcloud.kratos.adminAddr" . | quote }}
   DB_ADDR: {{ include "rcloud.dbAddr" . | quote }}
   DB_USER: {{ .Values.postgresql.auth.username | quote }}
   DB_PASSWORD: {{ .Values.postgresql.auth.password | quote }}

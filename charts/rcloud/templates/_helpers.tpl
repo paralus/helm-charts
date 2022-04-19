@@ -35,55 +35,74 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
+{{/*
+Get Kratos public address.
+*/}}
+{{- define "rcloud.kratos.publicAddr" -}}
+  {{- if .Values.deploy.kratos.enable -}}
+http://{{.Release.Name}}-kratos-public
+  {{- else -}}
+{{ required "A valid .Values.deploy.kratos.publicAddr entry required!" .Values.deploy.kratos.publicAddr }}
+  {{- end -}}
+{{- end }}
+
+{{/*
+Get Kratos admin address.
+*/}}
+{{- define "rcloud.kratos.adminAddr" -}}
+  {{- if .Values.deploy.kratos.enable -}}
+http://{{.Release.Name}}-kratos-admin
+  {{- else -}}
+{{ required "A valid .Values.deploy.kratos.adminAddr entry required!" .Values.deploy.kratos.adminAddr }}
+  {{- end -}}
+{{- end }}
+
+{{/*
+Get Elasticsearch Address.
+*/}}
+{{- define "rcloud.esAddr" -}}
+  {{- if .Values.deploy.elasticsearch.enable -}}
+elasticsearch-master
+  {{- else -}}
+{{ required "A valid .Values.deploy.elasticsearch.address entry required!" .Values.deploy.elasticsearch.address }}
+  {{- end -}}
+{{- end }}
+
+{{/*
+Get DB Address.
+*/}}
+{{- define "rcloud.dbAddr" -}}
+  {{- if .Values.deploy.postgresql.enable -}}
+{{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local
+  {{- else -}}
+{{ required "A valid .Values.deploy.postgresql.address entry required!" .Values.deploy.postgresql.address }}
+  {{- end -}}
+{{- end }}
 
 {{/*
 Get DSN
 */}}
 {{- define "rcloud.dsn" -}}
-  {{- if .Values.dependency.postgresql.enabled -}}
+  {{- if .Values.deploy.postgresql.enable -}}
 postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable
-  {{- else if .Values.postgresql.dbAddr -}}
-postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.dbAddr }}:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable
   {{- else -}}
-TODO(user): add-db-address
+{{- $username := required "A valid .Values.deploy.postgresql.username entry required!" .Values.deploy.postgresql.username -}}
+{{- $password := required "A valid .Values.deploy.postgresql.password entry required!" .Values.deploy.postgresql.password -}}
+{{- $address := required "A valid .Values.deploy.postgresql.address entry required!" .Values.deploy.postgresql.address -}}
+{{- $database := required "A valid .Values.deploy.postgresql.database entry required!" .Values.deploy.postgresql.database -}}
+postgres://{{ $username }}:{{ $.password }}@{{ $address }}:5432/{{ $database }}?sslmode=disable
   {{- end -}}
 {{- end }}
 
-{{/*
-Get Kratos Address
-*/}}
-{{- define "rcloud.kratosAddr" -}}
-  {{- if .Values.dependency.kratos.enabled -}}
-http://{{.Release.Name}}-kratos-admin
-  {{- else if .Values.kratos.kratosAddr -}}
-{{ .Values.kratos.kratosAddr }}
-  {{- else -}}
-TODO(user): add-kratos-address
-  {{- end -}}
-{{- end }}
 
 {{/*
-Get DB Address
+Get application domain name.
+TODO: domain when no ingress?
 */}}
-{{- define "rcloud.dbAddr" -}}
-  {{- if .Values.dependency.postgresql.enabled -}}
-{{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local
-  {{- else if .Values.postgresql.dbAddr -}}
-{{ .Values.postgresql.dbAddr }}
+{{- define "rcloud.app.domain" -}}
+  {{- if .Values.ingress.tls -}}
+https://console.{{.Values.ingress.host}}
   {{- else -}}
-TODO(user): add-db-address
-  {{- end -}}
-{{- end }}
-
-{{/*
-Get Elasticsearch Address
-*/}}
-{{- define "rcloud.esAddr" -}}
-  {{- if .Values.dependency.elasticsearch.enabled -}}
-elasticsearch-master
-  {{- else if .Values.elasticsearch.esAddr -}}
-{{ .Values.elasticsearch.esAddr }}
-  {{- else -}}
-TODO(user): add-es-address
+http://console.{{.Values.ingress.host}}
   {{- end -}}
 {{- end }}

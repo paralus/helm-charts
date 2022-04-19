@@ -32,7 +32,7 @@ spec:
         - name: admindb-migration
           emptyDir: {}
       initContainers:
-        {{- if .Values.dependency.kratos.enabled }}
+        {{- if .Values.deploy.kratos.enable }}
         - name: {{ .Chart.Name }}-kratos-automigrate
           image: "{{ .Values.kratos.image.repository }}:{{ .Values.kratos.image.tag }}"
           command: ["kratos"]

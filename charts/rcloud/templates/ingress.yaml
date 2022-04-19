@@ -75,6 +75,13 @@ spec:
                 name: rcloud-console-ui
                 port:
                   number: 80
+          - path: /self-service
+            pathType: Prefix
+            backend:
+              service:
+                name: {{.Release.Name}}-kratos-public
+                port:
+                  number: 80
     - host: "*.core-connector.ztka.{{ .Values.ingress.host }}"
       http:
         paths:

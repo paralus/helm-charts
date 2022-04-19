@@ -144,50 +144,84 @@ rcloudBase:
     # Admin last name
     adminLastName: "Bar"
 
-dependency:
+deploy:
   kratos:
-    # Install Kratos as Helm subchart
-    enabled: true
-  elasticsearch:
-    # Install Elasticsearch as Helm subchart
-    enabled: false
-  postgresql:
-    # Install Postgresql as Helm subchart
-    enabled: false
+    # Kratos instance is auto deployed and managed by Helm release
+    # when enable is true.
+    enable: true
+    # SMTP connection URI that used by auto-deployed kratos for
+    # sending mails for example, account recovery etc.
+    smtpConnectionURI: "smtps://test:test@mypost:1025/?skip_ssl_verify=true"
+    # Kratos public address. Required when deploy.kratos.enable is
+    # false.
+    publicAddr: ""
+    # Kratos admin address. Required when deploy.kratos.enable is
+    # false.
+    adminAddr: ""
 
-# Kratos config
+  elasticsearch:
+    # Elasticsearch instance is auto deployed and managed by Helm
+    # release when enable is true.
+    enable: false
+    # Elasticsearch address. Required when deploy.elasticsearch.enable
+    # is false.
+    address: ""
+
+  postgresql:
+    # Postgresql db is auto deployed and managed by Helm release when
+    # enable is true.
+    #
+    # Note: It is recommended to manage your own DB instance
+    # separately or use DB services like Amazon RDS in production.
+    enable: false
+    # database address for example, "localhost:5432". Required when
+    # deploy.postgresql.enable is false.
+    address: ""
+    # Postgresql username. Required when deploy.postgresql.enable is
+    # false.
+    username: ""
+    # Postgresql password. Required when deploy.postgresql.enable is
+    # false.
+    password: ""
+    # Postgresql database name. Required when deploy.postgresql.enable
+    # is false.
+    database: ""
+
+# Kratos subchart values overwrite.
 kratos:
-  # Kratos public service endpoint.
-  kratosAddr: ""
   secret:
-    # Disabled creating the secret
     enabled: false
     nameOverride: "rcloud-kratos"
-
   kratos:
-    # Kratos config
     config:
-      courier:
-        smtp: {}
       serve:
         public:
-          base_url: http://kratos.charts-example.com
           cors:
             enabled: true
+            allowed_headers:
+              - Authorization
+              - Cookie
+              - Content-Type
+              - X-Session-Token
+            exposed_headers:
+              - Content-Type
+              - Set-Cookie
         admin:
           port: 4434
       selfservice:
-        default_browser_return_url: http://chart-example.com
         methods:
           password:
             enabled: true
           oidc:
             enabled: true
-      secrets: {}
+        flows:
+          settings:
+            privileged_session_max_age: 15m
+          recovery:
+            enabled: true
       identity:
         default_schema_url: file:///etc/config/identity.default.schema.json
 
-    # Identity schemas here
     identitySchemas:
       "identity.default.schema.json": |
         {
@@ -245,23 +279,80 @@ kratos:
           }
         }
 
-# Elasticsearch config
+  deployment:
+    extraEnv:
+      - name: SERVE_PUBLIC_BASE_URL
+        valueFrom:
+          configMapKeyRef:
+            name: rcloud-kratos-config
+            key: base_url
+      - name: SELFSERVICE_DEFAULT_BROWSER_RETURN_URL
+        valueFrom:
+          configMapKeyRef:
+            name: rcloud-kratos-config
+            key: default_browser_return_url
+      - name: SELFSERVICE_WHITELISTED_RETURN_URLS
+        valueFrom:
+          configMapKeyRef:
+            name: rcloud-kratos-config
+            key: default_browser_return_url
+      - name: SELFSERVICE_FLOWS_SETTINGS_UI_URL
+        valueFrom:
+          configMapKeyRef:
+            name: rcloud-kratos-config
+            key: selfservice_flows_settings_ui_url
+      - name: SELFSERVICE_FLOWS_RECOVERY_UI_URL
+        valueFrom:
+          configMapKeyRef:
+            name: rcloud-kratos-config
+            key: selfservice_flows_recovery_ui_url
+    # OIDC Provider config synchronizer as sidecar to Kratos
+    extraContainers: |
+        - name: synchronizer
+          image: "registry.dev.rafay-edge.net/akshay196-temp/kratos-synchronizer:v0.0.1"
+          volumeMounts:
+            - name: other-configs
+              mountPath: /etc/kratos
+          env:
+            - name: DSN
+              valueFrom:
+                configMapKeyRef:
+                  name: rcloud-base-config
+                  key: DSN
+            - name: KRATOS_PROVIDER_CFG
+              value: "/etc/kratos/providers.yaml"
+    extraArgs:
+      - --config
+      - /etc/kratos/providers.yaml
+    extraVolumes:
+      - name: other-configs
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: other-configs
+        mountPath: /etc/kratos
+    extraInitContainers: |
+        - name: create-file
+          image: "busybox:latest"
+          command: ['sh', '-c', 'touch /etc/kratos/providers.yaml']
+          volumeMounts:
+            - name: other-configs
+              mountPath: /etc/kratos
+  watcher:
+    enabled: true
+    mountFile: /etc/kratos/providers.yaml
+
+# Elasticsearch subchart values overwrite.
 elasticsearch:
-  # Elasticsearch service endpoint.
-  esAddr: ""
   replicas: 1
   minimumMasterNodes: 1
 
-# Postgresql config
+# Postgresql subchart values overwrite.
 postgresql:
   dbAddr: ""
   auth:
     existingSecret: rcloud-postgresql
-    # Postgres username.
+    enablePostgresUser: false
+    # Postgres instance is created with following credentials.
     username: "admindbuser"
-    # Postgres password.
     password: "admindbpassword"
-    # Postgres database name.
     database: "admindb"
-    # Postgres-user password
-    postgresPassword: "changethislater"
