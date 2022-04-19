@@ -6,7 +6,8 @@ metadata:
   labels:
     {{- include "rcloud.labels" . | nindent 4 }}
 data:
-  base_url: {{ include "rcloud.app.domain" . }}/kratos/public
+  base_url: {{ include "rcloud.app.domain" . }}/self-service
   default_browser_return_url: {{ include "rcloud.app.domain" . }}
-  registration_ui_url: {{ include "rcloud.app.domain" . }}/registration
+  selfservice_flows_settings_ui_url: {{ include "rcloud.app.domain" . }}/ksettings
+  selfservice_flows_recovery_ui_url: {{ include "rcloud.app.domain" . }}/ksettings
 {{- end }}
