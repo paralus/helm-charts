@@ -40,8 +40,8 @@ spec:
           env:
             - name: DSN
               valueFrom:
-                configMapKeyRef:
-                  name: rcloud-base-config
+                secretKeyRef:
+                  name: rcloud-db
                   key: DSN
         {{- end }}
         {{- if .Values.rcloudBase.automigrate }}
@@ -62,8 +62,8 @@ spec:
           env:
             - name: DSN
               valueFrom:
-                configMapKeyRef:
-                  name: rcloud-base-config
+                secretKeyRef:
+                  name: rcloud-db
                   key: DSN
         {{- end }}
         - name: initialize-rcloud-base
@@ -81,6 +81,8 @@ spec:
           envFrom:
           - configMapRef:
               name: rcloud-base-config
+          - secretRef:
+              name: rcloud-db
           imagePullPolicy: {{ .Values.images.pullPolicy }}
       containers:
         - name: {{ .Chart.Name }}
@@ -92,6 +94,8 @@ spec:
           envFrom:
           - configMapRef:
               name: rcloud-base-config
+          - secretRef:
+              name: rcloud-db
           ports:
             {{- range .Values.services.rcloudBase.ports }}
             - name: {{ .name }}

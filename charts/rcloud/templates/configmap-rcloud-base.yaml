@@ -10,11 +10,6 @@ data:
   ES_END_POINT: {{ include "rcloud.esAddr" . | quote }}
   KRATOS_ADDR: {{ include "rcloud.kratos.adminAddr" . | quote }}
   KRATOS_PUB_ADDR: {{ include "rcloud.kratos.publicAddr" . | quote }}
-  DB_ADDR: {{ include "rcloud.dbAddr" . | quote }}
-  DB_USER: {{ .Values.postgresql.auth.username | quote }}
-  DB_PASSWORD: {{ .Values.postgresql.auth.password | quote }}
-  DB_NAME: {{ .Values.postgresql.auth.database | quote }}
-  DSN: {{ include "rcloud.dsn" . | quote }}
   RELAY_IMAGE: {{ .Values.images.relay.repository }}:{{ .Values.images.relay.tag | default .Chart.AppVersion }}
   SCHEDULER_NAMESPACE: {{ .Release.Namespace | quote }}
   SENTRY_PEERING_HOST: "rcloud-base:10001"

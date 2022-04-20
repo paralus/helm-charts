@@ -80,6 +80,39 @@ Get DB Address.
 {{- end }}
 
 {{/*
+Get DB Username.
+*/}}
+{{- define "rcloud.dbUser" -}}
+  {{- if .Values.deploy.postgresql.enable -}}
+{{.Values.postgresql.auth.username}}
+  {{- else -}}
+{{ required "A valid .Values.deploy.postgresql.username entry required!" .Values.deploy.postgresql.username }}
+  {{- end -}}
+{{- end }}
+
+{{/*
+Get DB Password.
+*/}}
+{{- define "rcloud.dbPassword" -}}
+  {{- if .Values.deploy.postgresql.enable -}}
+{{.Values.postgresql.auth.password}}
+  {{- else -}}
+{{ required "A valid .Values.deploy.postgresql.password entry required!" .Values.deploy.postgresql.password }}
+  {{- end -}}
+{{- end }}
+
+{{/*
+Get DB Name.
+*/}}
+{{- define "rcloud.dbName" -}}
+  {{- if .Values.deploy.postgresql.enable -}}
+{{.Values.postgresql.auth.database}}
+  {{- else -}}
+{{ required "A valid .Values.deploy.postgresql.database entry required!" .Values.deploy.postgresql.database }}
+  {{- end -}}
+{{- end }}
+
+{{/*
 Get DSN
 */}}
 {{- define "rcloud.dsn" -}}

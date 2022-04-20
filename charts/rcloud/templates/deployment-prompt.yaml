@@ -47,6 +47,8 @@ spec:
           envFrom:
           - configMapRef:
               name: prompt-config
+          - secretRef:
+              name: rcloud-db
           ports:
             {{- range .Values.services.prompt.ports }}
             - name: {{ .name }}
