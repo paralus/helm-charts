@@ -328,8 +328,8 @@ kratos:
           env:
             - name: DSN
               valueFrom:
-                configMapKeyRef:
-                  name: rcloud-base-config
+                secretKeyRef:
+                  name: rcloud-db
                   key: DSN
             - name: KRATOS_PROVIDER_CFG
               value: "/etc/kratos/providers.yaml"
