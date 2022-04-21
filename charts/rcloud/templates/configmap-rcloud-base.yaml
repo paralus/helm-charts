@@ -13,8 +13,6 @@ data:
   RELAY_IMAGE: {{ .Values.images.relay.repository }}:{{ .Values.images.relay.tag | default .Chart.AppVersion }}
   SCHEDULER_NAMESPACE: {{ .Release.Namespace | quote }}
   SENTRY_PEERING_HOST: "rcloud-base:10001"
-  {{ if .Values.ingress.enabled -}}
-  CORE_RELAY_CONNECTOR_HOST: "*.core-connector.ztka.{{ .Values.ingress.host }}:10002"
-  CORE_RELAY_USER_HOST: "*.user.ztka.{{ .Values.ingress.host }}:10002"
-  SENTRY_BOOTSTRAP_ADDR: "console.{{ .Values.ingress.host }}"
-  {{ end }}
+  CORE_RELAY_CONNECTOR_HOST: {{ include "rcloud.coreConnectorFQDN" . | quote }}
+  CORE_RELAY_USER_HOST: {{ include "rcloud.userFQDN" . | quote }}
+  SENTRY_BOOTSTRAP_ADDR: {{ include "rcloud.consoleFQDN" . | quote }}

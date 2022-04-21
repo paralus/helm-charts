@@ -21,7 +21,7 @@ spec:
   ingressClassName: {{ .Values.ingress.className }}
   {{- end }}
   rules:
-    - host: "*.core-connector.ztka.{{ .Values.ingress.host }}"
+    - host: {{ include "rcloud.coreConnectorFQDN" . | quote }}
       http:
         paths:
           - path: /
@@ -31,7 +31,7 @@ spec:
                 name: relay-server
                 port:
                   number: 443
-    - host: "*.user.ztka.{{ .Values.ingress.host}}"
+    - host: {{ include "rcloud.userFQDN" . | quote }}
       http:
         paths:
           - path: /

@@ -30,7 +30,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    - host: "console.{{ .Values.ingress.host }}"
+    - host: {{ include "rcloud.consoleFQDN" . | quote }}
       http:
         paths:
           - path: /auth

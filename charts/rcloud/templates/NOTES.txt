@@ -1,6 +1,6 @@
 1. Access the application URL by running these commands:
 {{- if .Values.ingress.enabled }}
-  Open http{{ if $.Values.ingress.tls }}s{{ end }}://console.{{ .Values.ingress.host }} in browser.
+  Open {{ include "rcloud.consoleFQDNWithScheme" . }} in browser.
 {{- else if contains "NodePort" .Values.services.rcloudConsoleUI.type }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services rcloud-console-ui)
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")

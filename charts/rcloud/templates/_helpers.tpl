@@ -129,13 +129,34 @@ postgres://{{ $username }}:{{ $.password }}@{{ $address }}:5432/{{ $database }}?
 
 
 {{/*
-Get application domain name.
-TODO: domain when no ingress?
+Get console full-qualified domain with scheme.
+TODO: Domain name when ingress disabled.
 */}}
-{{- define "rcloud.app.domain" -}}
-  {{- if .Values.ingress.tls -}}
-https://console.{{.Values.ingress.host}}
-  {{- else -}}
-http://console.{{.Values.ingress.host}}
-  {{- end -}}
-{{- end }}
+{{- define "rcloud.consoleFQDNWithScheme" -}}
+{{- if .Values.ingress.tls -}}
+https://{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
+{{- else -}}
+http://{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get console full-qualified domain.
+*/}}
+{{- define "rcloud.consoleFQDN" -}}
+{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
+{{- end -}}
+
+{{/*
+Get core-connector full-qualified domain.
+*/}}
+{{- define "rcloud.coreConnectorFQDN" -}}
+{{.Values.ingress.coreConnectorSubdomain}}.{{.Values.ingress.host}}
+{{- end -}}
+
+{{/*
+Get user full-qualified domain.
+*/}}
+{{- define "rcloud.userFQDN" -}}
+{{.Values.ingress.coreConnectorSubdomain}}.{{.Values.ingress.host}}
+{{- end -}}
