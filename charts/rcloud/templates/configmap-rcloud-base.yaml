@@ -13,6 +13,6 @@ data:
   RELAY_IMAGE: {{ .Values.images.relay.repository }}:{{ .Values.images.relay.tag | default .Chart.AppVersion }}
   SCHEDULER_NAMESPACE: {{ .Release.Namespace | quote }}
   SENTRY_PEERING_HOST: "rcloud-base:10001"
-  CORE_RELAY_CONNECTOR_HOST: {{ include "rcloud.coreConnectorFQDN" . | quote }}
-  CORE_RELAY_USER_HOST: {{ include "rcloud.userFQDN" . | quote }}
+  CORE_RELAY_CONNECTOR_HOST: {{ printf "%s:%s" (include "rcloud.coreConnectorFQDN" .) "443" | quote }}
+  CORE_RELAY_USER_HOST: {{ printf "%s:%s" (include "rcloud.userFQDN" .) "443" | quote }}
   SENTRY_BOOTSTRAP_ADDR: {{ include "rcloud.consoleFQDN" . | quote }}
