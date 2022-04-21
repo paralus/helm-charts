@@ -158,5 +158,5 @@ Get core-connector full-qualified domain.
 Get user full-qualified domain.
 */}}
 {{- define "rcloud.userFQDN" -}}
-{{.Values.ingress.coreConnectorSubdomain}}.{{.Values.ingress.host}}
+{{.Values.ingress.userSubdomain}}.{{.Values.ingress.host}}
 {{- end -}}
