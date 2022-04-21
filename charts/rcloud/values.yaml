@@ -83,8 +83,7 @@ services:
     type: ClusterIP
     ports:
       - name: https
-        containerPort: 10002
-        port: 443
+        containerPort: 443
   rcloudConsoleUI:
     type: ClusterIP
     ports:
