@@ -30,7 +30,7 @@ spec:
               service:
                 name: relay-server
                 port:
-                  number: 10002
+                  number: 443
     - host: "*.user.ztka.{{ .Values.ingress.host}}"
       http:
         paths:
@@ -40,5 +40,5 @@ spec:
               service:
                 name: relay-server
                 port:
-                  number: 10002
+                  number: 443
 {{- end }}
