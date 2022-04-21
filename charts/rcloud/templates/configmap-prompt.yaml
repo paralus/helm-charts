@@ -7,6 +7,7 @@ metadata:
     {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.prompt "release" $.Release) | nindent 4 }}
 data:
   DEV: "false"
+  AUDIT_LOG_FILE: "/audit-logs/audit.log"
   SENTRY_ADDR: rcloud-base:10000
   KRATOS_ADDR: {{ include "rcloud.kratos.adminAddr" . | quote }}
   KRATOS_PUB_ADDR: {{ include "rcloud.kratos.publicAddr" . | quote }}

@@ -31,6 +31,8 @@ spec:
       volumes:
         - name: admindb-migration
           emptyDir: {}
+        - name: rcloud-audit-logs
+          emptyDir: {}
       initContainers:
         {{- if .Values.deploy.kratos.enable }}
         - name: {{ .Chart.Name }}-kratos-automigrate
@@ -85,12 +87,24 @@ spec:
               name: rcloud-db
           imagePullPolicy: {{ .Values.images.pullPolicy }}
       containers:
+        - name: {{ .Chart.Name }}-tail
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "busybox:latest"
+          command: ["tail", "-F", "/audit-logs/audit.log"]  # TODO: should the path be configurable?
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          volumeMounts:
+            - name: rcloud-audit-logs
+              mountPath: /audit-logs
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.images.rcloudBase.repository }}:{{ .Values.images.rcloudBase.tag | default .Chart.AppVersion }}"
           command: ["./rcloud-base"]
           imagePullPolicy: {{ .Values.images.pullPolicy }}
+          volumeMounts:
+            - name: rcloud-audit-logs
+              mountPath: /audit-logs
           envFrom:
           - configMapRef:
               name: rcloud-base-config
