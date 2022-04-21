@@ -52,7 +52,7 @@ spec:
           ports:
             {{- range .Values.services.prompt.ports }}
             - name: {{ .name }}
-              containerPort: {{ .port }}
+              containerPort: {{ .containerPort }}
             {{- end }}
           volumeMounts:
             - name: kubectl

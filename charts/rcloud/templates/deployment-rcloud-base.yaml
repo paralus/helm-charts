@@ -99,7 +99,7 @@ spec:
           ports:
             {{- range .Values.services.rcloudBase.ports }}
             - name: {{ .name }}
-              containerPort: {{ .port }}
+              containerPort: {{ .containerPort }}
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

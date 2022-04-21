@@ -61,32 +61,35 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-# List of services and their port numbers.
+# List of services and their port numbers. When port is not specificed
+# in services.<name>.ports list then service exposes on containerPort
+# instead.
 services:
   rcloudBase:
     type: ClusterIP
     ports:
       - name: http
-        port: 11000
+        containerPort: 11000
       - name: rpc
-        port: 10000
+        containerPort: 10000
       - name: relay-peering
-        port: 10001
+        containerPort: 10001
   prompt:
     type: ClusterIP
     ports:
       - name: http
-        port: 7009
+        containerPort: 7009
   relay:
     type: ClusterIP
     ports:
       - name: http
-        port: 10002
+        containerPort: 10002
+        port: 443
   rcloudConsoleUI:
     type: ClusterIP
     ports:
       - name: nginx
-        port: 80
+        containerPort: 80
 
 ingress:
   enabled: true
