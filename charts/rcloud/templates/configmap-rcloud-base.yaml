@@ -16,4 +16,5 @@ data:
   {{ if .Values.ingress.enabled -}}
   CORE_RELAY_CONNECTOR_HOST: "*.core-connector.ztka.{{ .Values.ingress.host }}:10002"
   CORE_RELAY_USER_HOST: "*.user.ztka.{{ .Values.ingress.host }}:10002"
+  SENTRY_BOOTSTRAP_ADDR: "console.{{ .Values.ingress.host }}"
   {{ end }}
