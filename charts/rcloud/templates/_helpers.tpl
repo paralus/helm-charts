@@ -39,9 +39,13 @@ Create the name of the service account to use
 Get Kratos public address.
 */}}
 {{- define "rcloud.kratos.publicAddr" -}}
-  {{- if .Values.deploy.kratos.enable -}}
-http://{{.Release.Name}}-kratos-public
+{{- if .Values.deploy.kratos.enable -}}
+  {{- if .Values.ingress.tls -}}
+https://{{.Release.Name}}-kratos-public
   {{- else -}}
+http://{{.Release.Name}}-kratos-public
+  {{- end -}}
+{{- else -}}
 {{ required "A valid .Values.deploy.kratos.publicAddr entry required!" .Values.deploy.kratos.publicAddr }}
   {{- end -}}
 {{- end }}
@@ -50,9 +54,13 @@ http://{{.Release.Name}}-kratos-public
 Get Kratos admin address.
 */}}
 {{- define "rcloud.kratos.adminAddr" -}}
-  {{- if .Values.deploy.kratos.enable -}}
-http://{{.Release.Name}}-kratos-admin
+{{- if .Values.deploy.kratos.enable -}}
+  {{- if .Values.ingress.tls -}}
+https://{{.Release.Name}}-kratos-admin
   {{- else -}}
+http://{{.Release.Name}}-kratos-admin
+  {{- end -}}
+{{- else -}}
 {{ required "A valid .Values.deploy.kratos.adminAddr entry required!" .Values.deploy.kratos.adminAddr }}
   {{- end -}}
 {{- end }}
@@ -129,8 +137,14 @@ postgres://{{ $username }}:{{ $.password }}@{{ $address }}:5432/{{ $database }}?
 
 
 {{/*
+Get console full-qualified domain.
+*/}}
+{{- define "rcloud.consoleFQDN" -}}
+{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
+{{- end -}}
+
+{{/*
 Get console full-qualified domain with scheme.
-TODO: Domain name when ingress disabled.
 */}}
 {{- define "rcloud.consoleFQDNWithScheme" -}}
 {{- if .Values.ingress.tls -}}
@@ -141,10 +155,14 @@ http://{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
 {{- end -}}
 
 {{/*
-Get console full-qualified domain.
+Get console full-qualified domain with port.
 */}}
-{{- define "rcloud.consoleFQDN" -}}
-{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
+{{- define "rcloud.consoleFQDNWithPort" -}}
+{{- if .Values.ingress.tls -}}
+{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}:443
+{{- else -}}
+{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}:80
+{{- end -}}
 {{- end -}}
 
 {{/*
