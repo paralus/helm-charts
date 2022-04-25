@@ -8,4 +8,5 @@ metadata:
 data:
   DEV: "false"
   SENTRY_ADDR: rcloud-base:10000
-  KRATOS_ADDR: {{ include "rcloud.kratos.adminAddr" . }}
+  KRATOS_ADDR: {{ include "rcloud.kratos.adminAddr" . | quote }}
+  KRATOS_PUB_ADDR: {{ include "rcloud.kratos.publicAddr" . | quote }}

@@ -8,7 +8,7 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: {{.Release.Name}}-{{.Chart.Name}}
+  name: console
   labels:
     {{- include "rcloud.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
@@ -30,7 +30,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    - host: "console.{{ .Values.ingress.host }}"
+    - host: {{ include "rcloud.consoleFQDN" . | quote }}
       http:
         paths:
           - path: /auth
@@ -82,24 +82,4 @@ spec:
                 name: {{.Release.Name}}-kratos-public
                 port:
                   number: 80
-    - host: "*.core-connector.ztka.{{ .Values.ingress.host }}"
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: relay-server
-                port:
-                  number: 10002
-    - host: "*.user.ztka.{{ .Values.ingress.host}}"
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: relay-server
-                port:
-                  number: 10002
 {{- end }}

@@ -39,9 +39,13 @@ Create the name of the service account to use
 Get Kratos public address.
 */}}
 {{- define "rcloud.kratos.publicAddr" -}}
-  {{- if .Values.deploy.kratos.enable -}}
-http://{{.Release.Name}}-kratos-public
+{{- if .Values.deploy.kratos.enable -}}
+  {{- if .Values.ingress.tls -}}
+https://{{.Release.Name}}-kratos-public
   {{- else -}}
+http://{{.Release.Name}}-kratos-public
+  {{- end -}}
+{{- else -}}
 {{ required "A valid .Values.deploy.kratos.publicAddr entry required!" .Values.deploy.kratos.publicAddr }}
   {{- end -}}
 {{- end }}
@@ -50,9 +54,13 @@ http://{{.Release.Name}}-kratos-public
 Get Kratos admin address.
 */}}
 {{- define "rcloud.kratos.adminAddr" -}}
-  {{- if .Values.deploy.kratos.enable -}}
-http://{{.Release.Name}}-kratos-admin
+{{- if .Values.deploy.kratos.enable -}}
+  {{- if .Values.ingress.tls -}}
+https://{{.Release.Name}}-kratos-admin
   {{- else -}}
+http://{{.Release.Name}}-kratos-admin
+  {{- end -}}
+{{- else -}}
 {{ required "A valid .Values.deploy.kratos.adminAddr entry required!" .Values.deploy.kratos.adminAddr }}
   {{- end -}}
 {{- end }}
@@ -80,6 +88,39 @@ Get DB Address.
 {{- end }}
 
 {{/*
+Get DB Username.
+*/}}
+{{- define "rcloud.dbUser" -}}
+  {{- if .Values.deploy.postgresql.enable -}}
+{{.Values.postgresql.auth.username}}
+  {{- else -}}
+{{ required "A valid .Values.deploy.postgresql.username entry required!" .Values.deploy.postgresql.username }}
+  {{- end -}}
+{{- end }}
+
+{{/*
+Get DB Password.
+*/}}
+{{- define "rcloud.dbPassword" -}}
+  {{- if .Values.deploy.postgresql.enable -}}
+{{.Values.postgresql.auth.password}}
+  {{- else -}}
+{{ required "A valid .Values.deploy.postgresql.password entry required!" .Values.deploy.postgresql.password }}
+  {{- end -}}
+{{- end }}
+
+{{/*
+Get DB Name.
+*/}}
+{{- define "rcloud.dbName" -}}
+  {{- if .Values.deploy.postgresql.enable -}}
+{{.Values.postgresql.auth.database}}
+  {{- else -}}
+{{ required "A valid .Values.deploy.postgresql.database entry required!" .Values.deploy.postgresql.database }}
+  {{- end -}}
+{{- end }}
+
+{{/*
 Get DSN
 */}}
 {{- define "rcloud.dsn" -}}
@@ -96,13 +137,44 @@ postgres://{{ $username }}:{{ $.password }}@{{ $address }}:5432/{{ $database }}?
 
 
 {{/*
-Get application domain name.
-TODO: domain when no ingress?
+Get console full-qualified domain.
 */}}
-{{- define "rcloud.app.domain" -}}
-  {{- if .Values.ingress.tls -}}
-https://console.{{.Values.ingress.host}}
-  {{- else -}}
-http://console.{{.Values.ingress.host}}
-  {{- end -}}
-{{- end }}
+{{- define "rcloud.consoleFQDN" -}}
+{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
+{{- end -}}
+
+{{/*
+Get console full-qualified domain with scheme.
+*/}}
+{{- define "rcloud.consoleFQDNWithScheme" -}}
+{{- if .Values.ingress.tls -}}
+https://{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
+{{- else -}}
+http://{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get console full-qualified domain with port.
+*/}}
+{{- define "rcloud.consoleFQDNWithPort" -}}
+{{- if .Values.ingress.tls -}}
+{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}:443
+{{- else -}}
+{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}:80
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get core-connector full-qualified domain.
+*/}}
+{{- define "rcloud.coreConnectorFQDN" -}}
+{{.Values.ingress.coreConnectorSubdomain}}.{{.Values.ingress.host}}
+{{- end -}}
+
+{{/*
+Get user full-qualified domain.
+*/}}
+{{- define "rcloud.userFQDN" -}}
+{{.Values.ingress.userSubdomain}}.{{.Values.ingress.host}}
+{{- end -}}

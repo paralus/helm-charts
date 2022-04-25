@@ -11,7 +11,7 @@ spec:
     {{- range .Values.services.rcloudBase.ports }}
     - name: {{ .name }}
       protocol: TCP
-      port: {{ .port }}
+      port: {{ .port | default .containerPort }}
       targetPort: {{ .name }}
     {{- end }}
   selector:
