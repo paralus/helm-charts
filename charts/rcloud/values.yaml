@@ -204,6 +204,7 @@ kratos:
     enabled: false
     nameOverride: "rcloud-kratos"
   kratos:
+    development: false
     config:
       serve:
         public:
