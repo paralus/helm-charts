@@ -241,6 +241,15 @@ kratos:
             privileged_session_max_age: 15m
           recovery:
             enabled: true
+          registration:
+            lifespan: 10m
+            after:
+              password:
+                hooks:
+                  - hook: session
+              oidc:
+                hooks:
+                  - hook: session
       identity:
         default_schema_url: file:///etc/config/identity.default.schema.json
 
@@ -328,6 +337,11 @@ kratos:
           configMapKeyRef:
             name: rcloud-kratos-config
             key: selfservice_flows_recovery_ui_url
+      - name: SELFSERVICE_FLOWS_REGISTRATION_UI_URL
+        valueFrom:
+          configMapKeyRef:
+            name: rcloud-kratos-config
+            key: selfservice_flows_registration_ui_url
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
         - name: synchronizer

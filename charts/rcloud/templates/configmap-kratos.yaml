@@ -10,4 +10,5 @@ data:
   default_browser_return_url: {{ include "rcloud.consoleFQDNWithScheme" . }}
   selfservice_flows_settings_ui_url: {{ include "rcloud.consoleFQDNWithScheme" . }}/ksettings
   selfservice_flows_recovery_ui_url: {{ include "rcloud.consoleFQDNWithScheme" . }}/ksettings
+  selfservice_flows_registration_ui_url: {{ include "rcloud.consoleFQDNWithScheme" .}}/registeroidc
 {{- end }}
