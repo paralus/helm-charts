@@ -31,6 +31,8 @@ spec:
       volumes:
         - name: kubectl
           emptyDir: {}
+        - name: rcloud-prompt-audit-logs
+          emptyDir: {}
       initContainers:
         - name: install-kubectl
           image: busybox:latest
@@ -39,6 +41,15 @@ spec:
               mountPath: /data
           command: ['sh', '-c', 'wget -q "https://dl.k8s.io/release/$(wget -qO- https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -O /data/kubectl && chmod +x /data/kubectl']
       containers:
+        - name: {{ .Chart.Name }}-prompt-tail
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "busybox:latest"
+          command: ["tail", "-F", "/audit-logs/audit.log"]  # should the path be configurable?
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          volumeMounts:
+            - name: rcloud-prompt-audit-logs
+              mountPath: /audit-logs
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -58,6 +69,8 @@ spec:
             - name: kubectl
               subPath: kubectl
               mountPath: /usr/local/bin/kubectl
+            - name: rcloud-prompt-audit-logs
+              mountPath: /audit-logs
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

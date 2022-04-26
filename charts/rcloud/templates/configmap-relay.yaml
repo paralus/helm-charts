@@ -8,3 +8,4 @@ metadata:
 data:
   RAFAY_RELAY_PEERSERVICE: https://rcloud-base:10001
   SENTRY_ADDR: rcloud-base:10000
+  AUDIT_PATH: "/audit-logs"

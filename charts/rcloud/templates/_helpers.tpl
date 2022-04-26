@@ -70,7 +70,7 @@ Get Elasticsearch Address.
 */}}
 {{- define "rcloud.esAddr" -}}
   {{- if .Values.deploy.elasticsearch.enable -}}
-elasticsearch-master
+http://elasticsearch-master:9200
   {{- else -}}
 {{ required "A valid .Values.deploy.elasticsearch.address entry required!" .Values.deploy.elasticsearch.address }}
   {{- end -}}

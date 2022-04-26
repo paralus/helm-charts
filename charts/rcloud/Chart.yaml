@@ -15,6 +15,10 @@ dependencies:
     version: 11.1.9
     repository: https://charts.bitnami.com/bitnami
     condition: deploy.postgresql.enable
+  - name: filebeat
+    version: 7.17.1
+    repository: https://helm.elastic.co
+    condition: deploy.filebeat.enable
 maintainers:
   - name: Rafay
 version: 0.1.0

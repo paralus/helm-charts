@@ -198,6 +198,16 @@ deploy:
     # is false.
     database: ""
 
+  filebeat:
+    # Filebeat is used to collect audit logs into the system. You can
+    # disable this if you don't want audit logs.
+    enable: true
+    # You can use this to config the index prefixes for elasticsearch.
+    # This has to match with your filebeat config in
+    # `filebeat.daemonset.filebeatConfig.filebeat.yml`
+    # TODO: can we somehow template it in filebeat.yml?
+    indexPrefix: "ralog"
+
 # Kratos subchart values overwrite.
 kratos:
   secret:
@@ -368,3 +378,96 @@ postgresql:
     username: "admindbuser"
     password: "admindbpassword"
     database: "admindb"
+
+# Filebeat subchart values overwrite
+filebeat:
+  daemonset:
+    filebeatConfig:
+      filebeat.yml: |
+        setup.ilm.enabled: false
+        filebeat.module: {}
+        filebeat.inputs: {}
+        filebeat.autodiscover:
+          providers:
+            - type: kubernetes
+              templates:
+                - condition:
+                    equals:
+                      kubernetes.container.name: rcloud-tail
+                  config:
+                    - type: container
+                      json.add_error_key: true
+                      json.expand_keys: true
+                      fields:
+                        rcloud.component: system
+                      processors:
+                        - timestamp:
+                            field: json.timestamp
+                            layouts:
+                              - "2006-01-02T15:04:05.999999999Z"
+                            test:
+                              - "2022-04-21T11:14:13.538105978Z"
+                      paths:
+                        - /var/log/containers/*-${data.kubernetes.container.id}.log
+                - condition:
+                    equals:
+                      kubernetes.container.name: rcloud-prompt-tail
+                  config:
+                    - type: container
+                      json.add_error_key: true
+                      json.expand_keys: true
+                      fields:
+                        rcloud.component: prompt
+                      processors:
+                        - timestamp:
+                            field: json.timestamp
+                            layouts:
+                              - "2006-01-02T15:04:05.999999999Z"
+                            test:
+                              - "2022-04-21T11:14:13.538105978Z"
+                      paths:
+                        - /var/log/containers/*-${data.kubernetes.container.id}.log
+                - condition:
+                    equals:
+                      kubernetes.container.name: rcloud-relay-tail
+                  config:
+                    - type: container
+                      json.add_error_key: true
+                      json.expand_keys: true
+                      fields:
+                        rcloud.component: relay
+                      processors:
+                        - timestamp:
+                            field: json.ts
+                            layouts:
+                              - "2006-01-02T15:04:05.999999999Z"
+                            test:
+                              - "2022-04-21T11:14:13.538105978Z"
+                      paths:
+                        - /var/log/containers/*-${data.kubernetes.container.id}.log
+
+        processors:
+          - add_cloud_metadata: ~
+          - add_kubernetes_metadata:
+              in_cluster: false
+
+        output.file:
+          enabled: false
+
+        output.elasticsearch:
+          index: "ralog-%{[fields.rcloud.component]}-%{+yyyy.MM.dd}"
+          hosts: ['${ELASTICSEARCH_HOST:elasticsearch-master}:${ELASTICSEARCH_PORT:9200}']
+          # username: ${ELASTICSEARCH_USERNAME:""}
+          # password: ${ELASTICSEARCH_PASSWORD}
+
+        setup:
+          template:
+            name: ralog-template
+            overwrite: true
+            pattern: ralog-*
+            append_fields:
+              - name: json.timestamp
+                type: date
+              - name: json.ts
+                type: date
+

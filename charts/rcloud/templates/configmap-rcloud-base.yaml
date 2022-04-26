@@ -7,6 +7,10 @@ metadata:
     {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudBase "release" $.Release) | nindent 4 }}
 data:
   DEV: "false"
+  AUDIT_LOG_FILE: "/audit-logs/audit.log"
+  ES_INDEX_PREFIX: "{{ .Values.deploy.filebeat.indexPrefix }}-system"
+  RELAY_AUDITS_ES_INDEX_PREFIX: "{{ .Values.deploy.filebeat.indexPrefix }}-relay"
+  RELAY_COMMANDS_ES_INDEX_PREFIX: "{{ .Values.deploy.filebeat.indexPrefix }}-prompt"
   ES_END_POINT: {{ include "rcloud.esAddr" . | quote }}
   KRATOS_ADDR: {{ include "rcloud.kratos.adminAddr" . | quote }}
   KRATOS_PUB_ADDR: {{ include "rcloud.kratos.publicAddr" . | quote }}
