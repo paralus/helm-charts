@@ -45,7 +45,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "busybox:latest"
-          command: ["tail", "-F", "/audit-logs/audit.log"]  # should the path be configurable?
+          command: ['sh', '-c' ,'tail -F /audit-logs/audit.log 2>/tmp/tail-err']
           imagePullPolicy: {{ .Values.images.pullPolicy }}
           volumeMounts:
             - name: rcloud-prompt-audit-logs

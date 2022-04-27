@@ -457,8 +457,8 @@ filebeat:
         output.elasticsearch:
           index: "ralog-%{[fields.rcloud.component]}-%{+yyyy.MM.dd}"
           hosts: ['${ELASTICSEARCH_HOST:elasticsearch-master}:${ELASTICSEARCH_PORT:9200}']
-          # username: ${ELASTICSEARCH_USERNAME:""}
-          # password: ${ELASTICSEARCH_PASSWORD}
+          # username: ${ELASTICSEARCH_USERNAME} # uncomment this for username
+          # password: ${ELASTICSEARCH_PASSWORD} # uncomment this for password
 
         setup:
           template:
