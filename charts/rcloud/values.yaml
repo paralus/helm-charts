@@ -96,7 +96,7 @@ ingress:
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  host: chart-example.com
+  host: rafay.local
   # consoleSubdomain is subdomain used to display console UI.
   consoleSubdomain: "console"
   tls: []
