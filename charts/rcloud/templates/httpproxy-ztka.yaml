@@ -1,0 +1,29 @@
+{{- if .Values.deploy.contour.enable -}}
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: ztka-core-connector
+spec:
+  virtualhost:
+    fqdn: {{ include "rcloud.coreConnectorFQDN" . | quote }}
+    tls:
+      passthrough: true
+  tcpproxy:
+    services:
+    - name: relay-server
+      port: 443
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: ztka-user
+spec:
+  virtualhost:
+    fqdn: {{ include "rcloud.userFQDN" . | quote }}
+    tls:
+      passthrough: true
+  tcpproxy:
+    services:
+    - name: relay-server
+      port: 443
+{{- end -}}
