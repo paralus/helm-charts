@@ -208,6 +208,14 @@ deploy:
     # TODO: can we somehow template it in filebeat.yml?
     indexPrefix: "ralog"
 
+  contour:
+    # Enable or disable to install contour Ingress controller.
+    enable: false
+
+    # TLS properties of the virtual host.
+    tls: {}
+    # secretName: chart-example-tls
+
 # Kratos subchart values overwrite.
 kratos:
   secret:
@@ -485,3 +493,12 @@ filebeat:
               - name: json.ts
                 type: date
 
+# Contour subchart values overwrite.
+contour:
+  contour:
+    # HTTPProxy CR installation failed when CRDs are not present. To
+    # install CRDs before chart installation we manage contour CRDs in
+    # 'crds/' folder as a workaround, till we find better solution to
+    # solve this.
+    # https://github.com/RafayLabs/rcloud-helm/issues/13
+    manageCRDs: false
