@@ -32,6 +32,6 @@ entries:
     name: rcloud
     type: application
     urls:
-    - https://github.com/RafayLabs/rcloud-helm/releases/download/rcloud-0.0.1-alpha/rcloud-0.0.1-alpha.tgz
+    - https://rafaylabs.github.io/rcloud-helm/rcloud-0.0.1-alpha.tgz
     version: 0.0.1-alpha
 generated: "2022-04-28T13:04:42.334388134Z"
