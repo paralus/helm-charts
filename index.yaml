@@ -34,4 +34,37 @@ entries:
     urls:
     - https://rafaylabs.github.io/rcloud-helm/rcloud-0.0.1-alpha.tgz
     version: 0.0.1-alpha
-generated: "2022-04-28T13:04:42.334388134Z"
+  - apiVersion: v2
+    appVersion: v0.0.1
+    created: "2022-04-29T12:49:32.879794641Z"
+    dependencies:
+    - condition: deploy.kratos.enable
+      name: kratos
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.22.2
+    - condition: deploy.elasticsearch.enable
+      name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 7.17.1
+    - condition: deploy.postgresql.enable
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.9
+    - condition: deploy.filebeat.enable
+      name: filebeat
+      repository: https://helm.elastic.co
+      version: 7.17.1
+    - condition: deploy.contour.enable
+      name: contour
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.8.0
+    description: A Helm chart for Rcloud.
+    digest: 39540f5714def3f50fedcc3cef2a1cf31a597d97f5719b0c4ad056d6b0db921b
+    maintainers:
+    - name: Rafay
+    name: rcloud
+    type: application
+    urls:
+    - https://github.com/RafayLabs/rcloud-helm/releases/download/rcloud-0.0.1-alpha/rcloud-0.0.1-alpha.tgz
+    version: 0.0.1-alpha
+generated: "2022-04-29T12:49:32.879808541Z"
