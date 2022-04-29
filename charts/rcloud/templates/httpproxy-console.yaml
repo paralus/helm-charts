@@ -43,7 +43,7 @@ spec:
       conditions:
       - prefix: /
     - services:
-      - name: myrelease-kratos-public
+      - name: {{.Release.Name}}-kratos-public
         port: 80
       conditions:
       - prefix: /self-service
