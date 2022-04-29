@@ -70,8 +70,10 @@ Since we are mapping the ingress to a domain by default, you will have to add th
 You can get the kind control plane ip using the following command:
 
 ```shell
-docker container inspect kind-control-plane --format '{{ .NetworkSettings.Networks.kind.IPAddress }}'
+docker container inspect <cluster-name>-control-plane --format '{{ .NetworkSettings.Networks.kind.IPAddress }}'
 ```
+
+> `<cluster-name>` would be the name that you gave to your kind cluster
 
 You have to add this ip into you `/etc/hosts` file by adding something like the following:
 
