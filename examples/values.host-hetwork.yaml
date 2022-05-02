@@ -1,0 +1,23 @@
+## This is an example values used to overwrite default values.yaml for
+## allowing contour/envoy service on host network.
+
+ingress:
+  enabled: false
+
+deploy:
+  elasticsearch:
+    enable: true
+  postgresql:
+    enable: true
+  contour:
+    enable: true
+
+contour:
+  envoy:
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    containerPorts:
+      http: 80
+      https: 443
+    containerSecurityContext:
+      runAsUser: 0

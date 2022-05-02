@@ -1,0 +1,21 @@
+## This is an example values used to overwrite default values.yaml
+## for deploying chart on AWS EKS cluster.
+##
+## contour on AWS with NLB: https://projectcontour.io/guides/deploy-aws-nlb/
+
+ingress:
+  enabled: false
+
+deploy:
+  elasticsearch:
+    enable: true
+  postgresql:
+    enable: true
+  contour:
+    enable: true
+
+contour:
+  envoy:
+    service:
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-type: nlb

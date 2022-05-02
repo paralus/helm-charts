@@ -1,6 +1,17 @@
 1. Access the application URL by running these commands:
 {{- if .Values.ingress.enabled }}
   Open {{ include "rcloud.consoleFQDNWithScheme" . }} in browser.
+{{- else if .Values.deploy.contour.enable }}
+  {{- if (eq (index .Values.contour.envoy.service.annotations "service.beta.kubernetes.io/aws-load-balancer-type" | toString ) "nlb") }}
+  Get load balancer address via:
+  kubectl get service envoy --namespace {{ .Release.Namespace }} -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+
+  Add DNS records of following domains such that it resolves to above address:
+  - {{ include "rcloud.consoleFQDN" . }}
+  - {{ include "rcloud.coreConnectorFQDN" . }}
+  - {{ include "rcloud.userFQDN" . }}
+  {{- end }}
+  Open {{ include "rcloud.consoleFQDNWithScheme" . }} in browser.
 {{- else if contains "NodePort" .Values.services.rcloudConsoleUI.type }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services rcloud-console-ui)
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
