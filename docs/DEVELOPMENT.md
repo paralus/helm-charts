@@ -11,7 +11,6 @@ file to make it working locally.
 
 - Switch kratos to development mode by setting `kratos.kratos.development` to `true`
 - Enable postgresql and elasticsearch by setting `deploy.postgres.enable` and `deploy.elasticsearch.enable` to `true`
-- [OPTIONAL] Change the host under `ingress.host` to use a different hostname
 - [OPTIONAL] Change the images under `images` to a custom image if you want to try with your custom images
 
 ## Setup a kind cluster
@@ -71,19 +70,21 @@ Since we are mapping the ingress to a domain by default, you will have to add th
 You can get the kind control plane ip using the following command:
 
 ```shell
-docker container inspect kind-control-plane --format '{{ .NetworkSettings.Networks.kind.IPAddress }}'
+docker container inspect <cluster-name>-control-plane --format '{{ .NetworkSettings.Networks.kind.IPAddress }}'
 ```
+
+> `<cluster-name>` would be the name that you gave to your kind cluster
 
 You have to add this ip into you `/etc/hosts` file by adding something like the following:
 
 ```
-172.18.0.2 console.ingress.local
+172.18.0.2 console.rafay.local
 ```
 
-`ingress.local` can be replaced with the hostname you provided in the
+*When running locally use `rafay.local` as your host. This is what
+will be set by default for the value of `ingress.host` in your
 [`values.yaml`](https://github.com/RafayLabs/rcloud-helm/blob/main/charts/rcloud/values.yaml)
-file under `ingress.host`. For example, if you have
-`chart-example.com`, it would be `console.chart-example.com`.
+file. If you want to change, make sure you update the host in all the places where we mention `rafay.local`.*
 
 ## Run helm install
 
@@ -94,3 +95,38 @@ helm upgrade --install <name> .
 ```
 
 *You should now be able to access the web ui in the hsot you specified under `ingress.host`.*
+
+## Resetting admin user's password
+
+You can get the recoverly link for the admin user by running the following.
+
+``` shell
+export RELEASE_NAME="myrelease"
+export RUSER="foo@example.com"
+kubectl exec -it "$RELEASE_NAME-postgresql-0" -- bash \
+  -c "PGPASSWORD=admindbpassword psql -h localhost -U admindbuser admindb \
+-c \"select id from identities where traits->>'email' = '$RUSER' limit 1;\" -tA \
+| xargs -I{} curl -X POST http://$RELEASE_NAME-kratos-admin/recovery/link \
+-H 'Content-Type: application/json' -d '{\"expires_in\":\"10m\",\"identity_id\":\"{}\"}'"
+```
+
+When run, you will get something like:
+
+``` json
+{"recovery_link":"http://console.rafay.local/self-service/recovery?flow=83a66af9-600a-44cc-905e-819298bfa07a&token=EiZ9EpWekGYBPqHHtF87M6Jq61YthdUG","expires_at":"2022-04-27T10:19:28.695433325Z"}
+```
+
+You can go to that link and reset the password for your admin user.
+
+## Importing a cluster
+
+**These steps will be obsolete soon**
+
+Firstly, go through the UI flow to create a new cluster and download the bootstrap yaml.
+
+- Update your ingress controlle arg list and add `--enable-ssl-passthrough=true` in the values
+- Update your ingress hosts to point to specific cluster id, for example instead if your cluster id is `abdc123` update the ingresses to `abcd123.core-connector.rafay.local` and `abcd123.user.rafay.local` instead of wildcard versions of the same
+- Add the above hosts to tls section of ingress as well (don't add a tls secret)
+- Add `abcd123.core-connector.rafay.local` and `abcd123.user.rafay.local` to /etc/hosts pointing to the same ip
+
+Now you can apply your bootstrap and have the system able to connect to the target cluster.
