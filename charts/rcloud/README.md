@@ -70,7 +70,7 @@ A Helm chart for Rcloud.
 | ingress.consoleSubdomain | string | `"console"` | subdomain used to display console UI |
 | ingress.coreConnectorSubdomain | string | `"*.core-connector"` | a wildcard subdomain used for relay connection from target clusters |
 | ingress.enabled | bool | `true` |  |
-| ingress.host | string | `"chart-example.com"` | Host |
+| ingress.host | string | `"rafay.local"` | Host |
 | ingress.tls | list | `[]` | Ingress TLS for console |
 | ingress.userSubdomain | string | `"*.user"` | a wildcard subdomain used for relay connection from end user |
 | kratos | object | kratos subchart overwrite | the chart will overwrite some values of kratos subchart. |
