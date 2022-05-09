@@ -1,6 +1,6 @@
 # rcloud
 
-![Version: 0.0.1-alpha](https://img.shields.io/badge/Version-0.0.1--alpha-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.1](https://img.shields.io/badge/AppVersion-v0.0.1-informational?style=flat-square)
+![Version: 0.0.1-alpha.1](https://img.shields.io/badge/Version-0.0.1--alpha.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.1](https://img.shields.io/badge/AppVersion-v0.0.1-informational?style=flat-square)
 
 A Helm chart for Rcloud.
 
@@ -30,6 +30,7 @@ A Helm chart for Rcloud.
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | contour | object | contour subchart overwrite | the chart will overwrite some values of contour subchart. |
+| contour.envoy.service.annotations | object | `{}` | Annotations for Envoy service. |
 | deploy.contour.enable | bool | `false` | install contour ingress controller when true and also setup HTTPProxy resources. |
 | deploy.contour.tls | object | `{}` | TLS properties of the virtual host |
 | deploy.elasticsearch.address | string | `""` | Elasticsearch address. Required when `deploy.elasticsearch.enable` is unset. |
