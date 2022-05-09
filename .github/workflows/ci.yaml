@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  helm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run helm-docs
+        run: |
+          GOBIN=$PWD GO111MODULE=on go install github.com/norwoodj/helm-docs/cmd/helm-docs@v1.9.1
+          ./helm-docs --chart-search-root=${GITHUB_WORKSPACE}/charts
+          DIFF=$(git diff ${GITHUB_WORKSPACE}/charts/rcloud/README.md)
+          if [ ! -z "$DIFF" ]; then
+            echo "Please use helm-docs in your clone, of your fork, of the project, and commit a updated README.md for the chart. https://github.com/norwoodj/helm-docs"
+          fi
+          rm -f ./helm-docs
+          git diff --exit-code
