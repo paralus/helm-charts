@@ -517,3 +517,8 @@ contour:
     # solve this.
     # https://github.com/RafayLabs/rcloud-helm/issues/13
     manageCRDs: false
+
+  envoy:
+    service:
+      # -- Annotations for Envoy service.
+      annotations: {}

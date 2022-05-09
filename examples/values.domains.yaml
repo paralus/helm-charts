@@ -1,0 +1,5 @@
+ingress:
+  host: rafay.local
+  consoleSubdomain: "console"
+  coreConnectorSubdomain: "*.core-connector"
+  userSubdomain: "*.user"
