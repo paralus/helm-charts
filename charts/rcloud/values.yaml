@@ -150,7 +150,7 @@ affinity: {}
 
 rcloudBase:
   # -- Enable rcloud-base migrations
-  automigrnate: true
+  automigrate: true
   initialize:
     # -- Initial partner name
     partner: "example"

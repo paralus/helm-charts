@@ -80,7 +80,7 @@ A Helm chart for Rcloud.
 | podSecurityContext | object | `{}` |  |
 | postgresql.auth | object | `{"database":"admindb","enablePostgresUser":false,"existingSecret":"rcloud-postgresql","password":"admindbpassword","username":"admindbuser"}` | When `deploy.postgresql.enable` is true postgres instance is created with this credentials. |
 | postgresql.dbAddr | string | `""` |  |
-| rcloudBase.automigrnate | bool | `true` | Enable rcloud-base migrations |
+| rcloudBase.automigrate | bool | `true` | Enable rcloud-base migrations |
 | rcloudBase.initialize.adminEmail | string | `"foo@example.com"` | Admin email address |
 | rcloudBase.initialize.adminFirstName | string | `"Foo"` | Admin first name |
 | rcloudBase.initialize.adminLastName | string | `"Bar"` | Admin last name |
