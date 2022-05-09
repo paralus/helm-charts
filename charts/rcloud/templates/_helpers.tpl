@@ -147,22 +147,40 @@ Get console full-qualified domain.
 Get console full-qualified domain with scheme.
 */}}
 {{- define "rcloud.consoleFQDNWithScheme" -}}
-{{- if .Values.ingress.tls -}}
-https://{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
-{{- else -}}
-http://{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
-{{- end -}}
+{{- $url := printf "%s.%s" .Values.ingress.consoleSubdomain .Values.ingress.host -}}
+  {{- if .Values.deploy.contour.enable -}}
+    {{- if .Values.deploy.contour.tls -}}
+https://{{$url}}
+    {{- else -}}
+http://{{$url}}
+    {{- end -}}
+  {{- else if .Values.ingress.enabled -}}
+    {{- if .Values.ingress.tls -}}
+https://{{$url}}
+    {{- else -}}
+http://{{$url}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
 
 {{/*
 Get console full-qualified domain with port.
 */}}
 {{- define "rcloud.consoleFQDNWithPort" -}}
-{{- if .Values.ingress.tls -}}
-{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}:443
-{{- else -}}
-{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}:80
-{{- end -}}
+{{- $url := printf "%s.%s" .Values.ingress.consoleSubdomain .Values.ingress.host -}}
+  {{- if .Values.deploy.contour.enable -}}
+    {{- if .Values.deploy.contour.tls -}}
+{{$url}}:443
+    {{- else -}}
+{{$url}}:80
+    {{- end -}}
+  {{- else if .Values.ingress.enabled -}}
+    {{- if .Values.ingress.tls -}}
+{{$url}}:443
+    {{- else -}}
+{{$url}}:80
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
 
 {{/*
