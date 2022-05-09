@@ -3,7 +3,7 @@ entries:
   rcloud:
   - apiVersion: v2
     appVersion: v0.0.1
-    created: "2022-05-09T18:01:25.934367582+05:30"
+    created: "2022-05-09T18:51:53.885245624+05:30"
     dependencies:
     - condition: deploy.kratos.enable
       name: kratos
@@ -26,46 +26,13 @@ entries:
       repository: https://charts.bitnami.com/bitnami
       version: 7.8.0
     description: A Helm chart for Rcloud.
-    digest: ebc783b38740485dc53c9fca1913502edb6d23a9bdb7ec164557b8fda9980e79
+    digest: 250847faf22b021b901fbd2d3cdf58fe9a5ec0ea6e42898a7e91c3e787565d18
     maintainers:
     - name: Rafay
     name: rcloud
     type: application
     urls:
     - https://rafaylabs.github.io/rcloud-helm/rcloud-0.0.1-alpha.1.tgz
-    version: 0.0.1-alpha.1
-  - apiVersion: v2
-    appVersion: v0.0.1
-    created: "2022-05-09T13:18:59.949340494Z"
-    dependencies:
-    - condition: deploy.kratos.enable
-      name: kratos
-      repository: https://k8s.ory.sh/helm/charts
-      version: 0.22.2
-    - condition: deploy.elasticsearch.enable
-      name: elasticsearch
-      repository: https://helm.elastic.co
-      version: 7.17.1
-    - condition: deploy.postgresql.enable
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 11.1.9
-    - condition: deploy.filebeat.enable
-      name: filebeat
-      repository: https://helm.elastic.co
-      version: 7.17.1
-    - condition: deploy.contour.enable
-      name: contour
-      repository: https://charts.bitnami.com/bitnami
-      version: 7.8.0
-    description: A Helm chart for Rcloud.
-    digest: afe076422ff2c7bdaf89da017000750a0210f08eeaed3ae09057e053e8314221
-    maintainers:
-    - name: Rafay
-    name: rcloud
-    type: application
-    urls:
-    - https://github.com/RafayLabs/rcloud-helm/releases/download/rcloud-0.0.1-alpha.1/rcloud-0.0.1-alpha.1.tgz
     version: 0.0.1-alpha.1
   - apiVersion: v2
     appVersion: v0.0.1
@@ -100,4 +67,4 @@ entries:
     urls:
     - https://rafaylabs.github.io/rcloud-helm/rcloud-0.0.1-alpha.tgz
     version: 0.0.1-alpha
-generated: "2022-05-09T13:18:59.949359094Z"
+generated: "2022-05-09T18:51:53.857173589+05:30"
