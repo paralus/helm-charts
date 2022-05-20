@@ -156,22 +156,22 @@ rcloudBase:
   # -- Enable rcloud-base migrations
   automigrate: true
   initialize:
-    # -- Initial partner name
-    partner: "example"
-    # -- Initial partner description
-    partnerDesc: "Partner description"
-    # -- Initial partner host
-    partnerHost: "example.com"
-    # -- Initial organization name
-    org: "exampleorg"
-    # -- Initial organization description
-    orgDesc: "Org description"
+    # -- Partner name
+    partner: "DefaultPartner"
+    # -- Partner description
+    partnerDesc: "Default Partner"
+    # -- Partner host
+    partnerHost: "rafay.local"
+    # -- Organization name
+    org: "DefaultOrg"
+    # -- Organization description
+    orgDesc: "Default Organization"
     # -- Admin email address
-    adminEmail: "foo@example.com"
+    adminEmail: "admin@rafay.local"
     # -- Admin first name
-    adminFirstName: "Foo"
+    adminFirstName: "Admin"
     # -- Admin last name
-    adminLastName: "Bar"
+    adminLastName: "User"
 
 deploy:
   kratos:
