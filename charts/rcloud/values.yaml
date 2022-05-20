@@ -319,6 +319,13 @@ kratos:
                       "via": "email"
                     }
                   }
+                },
+                "idp_groups": {
+                  "title": "IDP groups",
+                  "type": "array",
+                  "items": {
+                      "type": "string"
+                  }
                 }
               },
               "required": [
