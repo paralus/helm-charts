@@ -225,8 +225,7 @@ deploy:
     # TODO: can we somehow template it in filebeat.yml?
 
   contour:
-    # -- install contour ingress controller when true and also setup
-    # HTTPProxy resources.
+    # -- auto install contour ingress controller
     enable: true
 
     # -- TLS properties of the virtual host

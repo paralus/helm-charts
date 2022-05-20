@@ -31,7 +31,7 @@ A Helm chart for Rcloud.
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | contour | object | contour subchart overwrite | the chart will overwrite some values of contour subchart. |
 | contour.envoy.service.annotations | object | `{}` | Annotations for Envoy service. |
-| deploy.contour.enable | bool | `false` | install contour ingress controller when true and also setup HTTPProxy resources. |
+| deploy.contour.enable | bool | `true` | auto install contour ingress controller |
 | deploy.contour.tls | object | `{}` | TLS properties of the virtual host |
 | deploy.elasticsearch.address | string | `""` | Elasticsearch address. Required when `deploy.elasticsearch.enable` is unset. |
 | deploy.elasticsearch.enable | bool | `false` | Elasticsearch instance is auto deployed and managed by Helm release when true. |
@@ -46,6 +46,10 @@ A Helm chart for Rcloud.
 | deploy.postgresql.enable | bool | `false` | Postgresql db is auto deployed and managed by Helm release when true. (It is recommended to manage your own DB instance separately or use DB services like Amazon RDS in production) |
 | deploy.postgresql.password | string | `""` | Postgresql password. Required when `deploy.postgresql.enable` is unset. |
 | deploy.postgresql.username | string | `""` | Postgresql username. Required when `deploy.postgresql.enable` is unset. |
+| domain.consoleSubdomain | string | `"console"` | subdomain used for the console UI |
+| domain.coreConnectorSubdomain | string | `"*.core-connector"` | cluster communication |
+| domain.host | string | `"rafay.local"` | Host |
+| domain.userSubdomain | string | `"*.user"` | communication |
 | elasticsearch.minimumMasterNodes | int | `1` |  |
 | elasticsearch.replicas | int | `1` |  |
 | filebeat | object | filebeat subchart overwrite | the chart will overwrite some values of filebear subchart. |
@@ -68,12 +72,8 @@ A Helm chart for Rcloud.
 | images.relay.tag | string | `""` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
-| ingress.consoleSubdomain | string | `"console"` | subdomain used to display console UI |
-| ingress.coreConnectorSubdomain | string | `"*.core-connector"` | a wildcard subdomain used for relay connection from target clusters |
-| ingress.enabled | bool | `true` |  |
-| ingress.host | string | `"rafay.local"` | Host |
+| ingress.enabled | bool | `false` |  |
 | ingress.tls | list | `[]` | Ingress TLS for console |
-| ingress.userSubdomain | string | `"*.user"` | a wildcard subdomain used for relay connection from end user |
 | kratos | object | kratos subchart overwrite | the chart will overwrite some values of kratos subchart. |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` | Annotations for the all deployed pods |
@@ -81,14 +81,14 @@ A Helm chart for Rcloud.
 | postgresql.auth | object | `{"database":"admindb","enablePostgresUser":false,"existingSecret":"rcloud-postgresql","password":"admindbpassword","username":"admindbuser"}` | When `deploy.postgresql.enable` is true postgres instance is created with this credentials. |
 | postgresql.dbAddr | string | `""` |  |
 | rcloudBase.automigrate | bool | `true` | Enable rcloud-base migrations |
-| rcloudBase.initialize.adminEmail | string | `"foo@example.com"` | Admin email address |
-| rcloudBase.initialize.adminFirstName | string | `"Foo"` | Admin first name |
-| rcloudBase.initialize.adminLastName | string | `"Bar"` | Admin last name |
-| rcloudBase.initialize.org | string | `"exampleorg"` | Initial organization name |
-| rcloudBase.initialize.orgDesc | string | `"Org description"` | Initial organization description |
-| rcloudBase.initialize.partner | string | `"example"` | Initial partner name |
-| rcloudBase.initialize.partnerDesc | string | `"Partner description"` | Initial partner description |
-| rcloudBase.initialize.partnerHost | string | `"example.com"` | Initial partner host |
+| rcloudBase.initialize.adminEmail | string | `"admin@rafay.local"` | Admin email address |
+| rcloudBase.initialize.adminFirstName | string | `"Admin"` | Admin first name |
+| rcloudBase.initialize.adminLastName | string | `"User"` | Admin last name |
+| rcloudBase.initialize.org | string | `"DefaultOrg"` | Organization name |
+| rcloudBase.initialize.orgDesc | string | `"Default Organization"` | Organization description |
+| rcloudBase.initialize.partner | string | `"DefaultPartner"` | Partner name |
+| rcloudBase.initialize.partnerDesc | string | `"Default Partner"` | Partner description |
+| rcloudBase.initialize.partnerHost | string | `"rafay.local"` | Partner host |
 | replicaCount | int | `1` | Number of replicas in deployment |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
