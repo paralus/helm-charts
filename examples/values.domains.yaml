@@ -1,4 +1,4 @@
-ingress:
+domain:
   host: rafay.local
   consoleSubdomain: "console"
   coreConnectorSubdomain: "*.core-connector"

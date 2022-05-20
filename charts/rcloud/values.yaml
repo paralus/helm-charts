@@ -108,21 +108,11 @@ ingress:
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  # -- Host
-  host: rafay.local
-  # -- subdomain used to display console UI
-  consoleSubdomain: "console"
   # -- Ingress TLS for console
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.com
-
-  # -- a wildcard subdomain used for relay connection from target
-  # clusters
-  coreConnectorSubdomain: "*.core-connector"
-  # -- a wildcard subdomain used for relay connection from end user
-  userSubdomain: "*.user"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -149,6 +139,18 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+domain:
+  # -- Host
+  host: rafay.local
+  # -- subdomain used for the console UI
+  consoleSubdomain: "console"
+  # -- a wildcard subdomain used for controller cluster to target
+  # -- cluster communication
+  coreConnectorSubdomain: "*.core-connector"
+  # -- a wildcard subdomain used for controller cluster to end user
+  # -- communication
+  userSubdomain: "*.user"
 
 rcloudBase:
   # -- Enable rcloud-base migrations
@@ -526,6 +528,10 @@ contour:
     # solve this.
     # https://github.com/RafayLabs/rcloud-helm/issues/13
     manageCRDs: false
+    # Do not create IngressClass resource. We setup HTTPProxy
+    # resources instead.
+    ingressClass:
+      create: false
 
   envoy:
     service:
