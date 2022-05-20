@@ -100,9 +100,11 @@ services:
         containerPort: 80
 
 ingress:
-  enabled: true
+  # - install ingress resources.
+  enabled: false
   className: ""
-  # - Annotation for ingress resources
+  # - Annotation for ingress resources. The ssl-passthrough annotation
+  # - is mandatory for ZTKA ingress.
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
@@ -223,7 +225,7 @@ deploy:
   contour:
     # -- install contour ingress controller when true and also setup
     # HTTPProxy resources.
-    enable: false
+    enable: true
 
     # -- TLS properties of the virtual host
     tls: {}
