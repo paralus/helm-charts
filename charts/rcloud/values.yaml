@@ -296,11 +296,6 @@ kratos:
                   "type": "string",
                   "pattern": "^.*$"
                 },
-                "description": {
-                  "title": "Description",
-                  "type": "string",
-                  "pattern": "^.*$"
-                },
                 "email": {
                   "type": "string",
                   "format": "email",
@@ -324,7 +319,6 @@ kratos:
               "required": [
                 "first_name",
                 "last_name",
-                "description",
                 "email"
               ],
               "additionalProperties": false
