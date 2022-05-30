@@ -12,7 +12,6 @@ metadata:
   labels:
     {{- include "rcloud.labels" . | nindent 4 }}
   annotations:
-    # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
   {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}

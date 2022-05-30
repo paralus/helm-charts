@@ -4,7 +4,7 @@
 {{- else if .Values.deploy.contour.enable }}
   {{- if (eq (index .Values.contour.envoy.service.annotations "service.beta.kubernetes.io/aws-load-balancer-type" | toString ) "nlb") }}
   Get load balancer address via:
-  kubectl get service envoy --namespace {{ .Release.Namespace }} -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+  kubectl get service {{ .Release.Name }}-contour-envoy --namespace {{ .Release.Namespace }} -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 
   Add DNS records of following domains such that it resolves to above address:
   - {{ include "rcloud.consoleFQDN" . }}

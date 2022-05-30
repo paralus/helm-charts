@@ -140,14 +140,14 @@ postgres://{{ $username }}:{{ $.password }}@{{ $address }}:5432/{{ $database }}?
 Get console full-qualified domain.
 */}}
 {{- define "rcloud.consoleFQDN" -}}
-{{.Values.ingress.consoleSubdomain}}.{{.Values.ingress.host}}
+{{.Values.domain.consoleSubdomain}}.{{.Values.domain.host}}
 {{- end -}}
 
 {{/*
 Get console full-qualified domain with scheme.
 */}}
 {{- define "rcloud.consoleFQDNWithScheme" -}}
-{{- $url := printf "%s.%s" .Values.ingress.consoleSubdomain .Values.ingress.host -}}
+{{- $url := printf "%s.%s" .Values.domain.consoleSubdomain .Values.domain.host -}}
   {{- if .Values.deploy.contour.enable -}}
     {{- if .Values.deploy.contour.tls -}}
 https://{{$url}}
@@ -167,7 +167,7 @@ http://{{$url}}
 Get console full-qualified domain with port.
 */}}
 {{- define "rcloud.consoleFQDNWithPort" -}}
-{{- $url := printf "%s.%s" .Values.ingress.consoleSubdomain .Values.ingress.host -}}
+{{- $url := printf "%s.%s" .Values.domain.consoleSubdomain .Values.domain.host -}}
   {{- if .Values.deploy.contour.enable -}}
     {{- if .Values.deploy.contour.tls -}}
 {{$url}}:443
@@ -187,12 +187,12 @@ Get console full-qualified domain with port.
 Get core-connector full-qualified domain.
 */}}
 {{- define "rcloud.coreConnectorFQDN" -}}
-{{.Values.ingress.coreConnectorSubdomain}}.{{.Values.ingress.host}}
+{{.Values.domain.coreConnectorSubdomain}}.{{.Values.domain.host}}
 {{- end -}}
 
 {{/*
 Get user full-qualified domain.
 */}}
 {{- define "rcloud.userFQDN" -}}
-{{.Values.ingress.userSubdomain}}.{{.Values.ingress.host}}
+{{.Values.domain.userSubdomain}}.{{.Values.domain.host}}
 {{- end -}}

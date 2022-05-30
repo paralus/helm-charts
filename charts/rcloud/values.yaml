@@ -100,27 +100,19 @@ services:
         containerPort: 80
 
 ingress:
-  enabled: true
+  # - install ingress resources.
+  enabled: false
   className: ""
-  # - Annotation for ingress resources
+  # - Annotation for ingress resources. The ssl-passthrough annotation
+  # - is mandatory for ZTKA ingress.
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  # -- Host
-  host: rafay.local
-  # -- subdomain used to display console UI
-  consoleSubdomain: "console"
   # -- Ingress TLS for console
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.com
-
-  # -- a wildcard subdomain used for relay connection from target
-  # clusters
-  coreConnectorSubdomain: "*.core-connector"
-  # -- a wildcard subdomain used for relay connection from end user
-  userSubdomain: "*.user"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -148,26 +140,38 @@ tolerations: []
 
 affinity: {}
 
+domain:
+  # -- Host
+  host: rafay.local
+  # -- subdomain used for the console UI
+  consoleSubdomain: "console"
+  # -- a wildcard subdomain used for controller cluster to target
+  # -- cluster communication
+  coreConnectorSubdomain: "*.core-connector"
+  # -- a wildcard subdomain used for controller cluster to end user
+  # -- communication
+  userSubdomain: "*.user"
+
 rcloudBase:
   # -- Enable rcloud-base migrations
   automigrate: true
   initialize:
-    # -- Initial partner name
-    partner: "example"
-    # -- Initial partner description
-    partnerDesc: "Partner description"
-    # -- Initial partner host
-    partnerHost: "example.com"
-    # -- Initial organization name
-    org: "exampleorg"
-    # -- Initial organization description
-    orgDesc: "Org description"
+    # -- Partner name
+    partner: "DefaultPartner"
+    # -- Partner description
+    partnerDesc: "Default Partner"
+    # -- Partner host
+    partnerHost: "rafay.local"
+    # -- Organization name
+    org: "DefaultOrg"
+    # -- Organization description
+    orgDesc: "Default Organization"
     # -- Admin email address
-    adminEmail: "foo@example.com"
+    adminEmail: "admin@rafay.local"
     # -- Admin first name
-    adminFirstName: "Foo"
+    adminFirstName: "Admin"
     # -- Admin last name
-    adminLastName: "Bar"
+    adminLastName: "User"
 
 deploy:
   kratos:
@@ -221,9 +225,8 @@ deploy:
     # TODO: can we somehow template it in filebeat.yml?
 
   contour:
-    # -- install contour ingress controller when true and also setup
-    # HTTPProxy resources.
-    enable: false
+    # -- auto install contour ingress controller
+    enable: true
 
     # -- TLS properties of the virtual host
     tls: {}
@@ -313,6 +316,13 @@ kratos:
                     "recovery": {
                       "via": "email"
                     }
+                  }
+                },
+                "idp_groups": {
+                  "title": "IDP groups",
+                  "type": "array",
+                  "items": {
+                      "type": "string"
                   }
                 }
               },
@@ -511,6 +521,10 @@ contour:
     # solve this.
     # https://github.com/RafayLabs/rcloud-helm/issues/13
     manageCRDs: false
+    # Do not create IngressClass resource. We setup HTTPProxy
+    # resources instead.
+    ingressClass:
+      create: false
 
   envoy:
     service:

@@ -1,15 +1,10 @@
 ## This is an example values used to overwrite default values.yaml
 ## for deploying chart on a Kind cluster.
 
-ingress:
-  enabled: false
-
 deploy:
   elasticsearch:
     enable: true
   postgresql:
-    enable: true
-  contour:
     enable: true
 
 kratos:
