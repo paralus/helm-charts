@@ -1,6 +1,6 @@
 # rcloud
 
-![Version: 0.0.1-alpha.2](https://img.shields.io/badge/Version-0.0.1--alpha.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.1](https://img.shields.io/badge/AppVersion-v0.0.1-informational?style=flat-square)
+![Version: 0.0.1-alpha.3](https://img.shields.io/badge/Version-0.0.1--alpha.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.1](https://img.shields.io/badge/AppVersion-v0.0.1-informational?style=flat-square)
 
 A Helm chart for Rcloud.
 
@@ -55,21 +55,21 @@ A Helm chart for Rcloud.
 | filebeat | object | filebeat subchart overwrite | the chart will overwrite some values of filebear subchart. |
 | imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository |
 | images.prompt.name | string | `"prompt"` |  |
-| images.prompt.repository | string | `"registry.dev.rafay-edge.net/akshay196/prompt"` | prompt image |
-| images.prompt.tag | string | `""` |  |
+| images.prompt.repository | string | `"registry.dev.rafay-edge.net/rafaylabs/prompt"` | prompt image |
+| images.prompt.tag | string | `"main"` |  |
 | images.pullPolicy | string | `"IfNotPresent"` | If defined, a imagePullPolicy applied to all deployments |
 | images.rcloudBase.name | string | `"rcloud-base"` |  |
-| images.rcloudBase.repository | string | `"registry.dev.rafay-edge.net/akshay196/rcloud-base"` | rcloud base image |
-| images.rcloudBase.tag | string | `""` |  |
+| images.rcloudBase.repository | string | `"registry.dev.rafay-edge.net/rafaylabs/rcloud-base"` | rcloud base image |
+| images.rcloudBase.tag | string | `"main"` |  |
 | images.rcloudBaseInit.name | string | `"rcloud-base-init"` |  |
-| images.rcloudBaseInit.repository | string | `"registry.dev.rafay-edge.net/akshay196-temp/rcloud-base-init"` | rcloud base initialize image |
-| images.rcloudBaseInit.tag | string | `""` |  |
+| images.rcloudBaseInit.repository | string | `"registry.dev.rafay-edge.net/rafaylabs/rcloud-base-init"` | rcloud base initialize image |
+| images.rcloudBaseInit.tag | string | `"main"` |  |
 | images.rcloudConsoleUI.name | string | `"rcloud-console-ui"` |  |
-| images.rcloudConsoleUI.repository | string | `"registry.dev.rafay-edge.net/akshay196-temp/rcloud-console-ui"` | rcloud console ui image |
-| images.rcloudConsoleUI.tag | string | `""` |  |
+| images.rcloudConsoleUI.repository | string | `"registry.dev.rafay-edge.net/rafaylabs/rcloud-console-ui"` | rcloud console ui image |
+| images.rcloudConsoleUI.tag | string | `"main"` |  |
 | images.relay.name | string | `"relay"` |  |
-| images.relay.repository | string | `"registry.dev.rafay-edge.net/akshay196/relay"` | relay image |
-| images.relay.tag | string | `""` |  |
+| images.relay.repository | string | `"registry.dev.rafay-edge.net/rafaylabs/relay"` | relay image |
+| images.relay.tag | string | `"main"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
 | ingress.enabled | bool | `false` |  |

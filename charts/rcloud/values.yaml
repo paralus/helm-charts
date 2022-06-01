@@ -11,28 +11,28 @@ images:
   rcloudBase:
     name: rcloud-base
     # -- rcloud base image
-    repository: registry.dev.rafay-edge.net/akshay196/rcloud-base
-    tag: ""
+    repository: registry.dev.rafay-edge.net/rafaylabs/rcloud-base
+    tag: "main"
   rcloudBaseInit:
     name: rcloud-base-init
     # -- rcloud base initialize image
-    repository: registry.dev.rafay-edge.net/akshay196-temp/rcloud-base-init
-    tag: ""
+    repository: registry.dev.rafay-edge.net/rafaylabs/rcloud-base-init
+    tag: "main"
   relay:
     name: relay
     # -- relay image
-    repository: registry.dev.rafay-edge.net/akshay196/relay
-    tag: ""
+    repository: registry.dev.rafay-edge.net/rafaylabs/relay
+    tag: "main"
   prompt:
     name: prompt
     # -- prompt image
-    repository: registry.dev.rafay-edge.net/akshay196/prompt
-    tag: ""
+    repository: registry.dev.rafay-edge.net/rafaylabs/prompt
+    tag: "main"
   rcloudConsoleUI:
     name: rcloud-console-ui
     # -- rcloud console ui image
-    repository: registry.dev.rafay-edge.net/akshay196-temp/rcloud-console-ui
-    tag: ""
+    repository: registry.dev.rafay-edge.net/rafaylabs/rcloud-console-ui
+    tag: "main"
 
   # -- If defined, a imagePullPolicy applied to all deployments
   pullPolicy: IfNotPresent
@@ -371,7 +371,7 @@ kratos:
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
         - name: synchronizer
-          image: "registry.dev.rafay-edge.net/akshay196-temp/kratos-synchronizer:v0.0.1"
+          image: "registry.dev.rafay-edge.net/rafaylabs/kratos-synchronizer:main"
           volumeMounts:
             - name: other-configs
               mountPath: /etc/kratos
