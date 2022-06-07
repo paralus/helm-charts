@@ -3,15 +3,15 @@ kind: Deployment
 metadata:
   name: relay-server
   labels:
-    {{- include "rcloud.labels" . | nindent 4 }}
-    {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 4 }}
+    {{- include "ztka.labels" . | nindent 4 }}
+    {{- include "ztka.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 6 }}
+      {{- include "ztka.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,27 +19,27 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 8 }}
+        {{- include "ztka.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "rcloud.serviceAccountName" . }}
+      serviceAccountName: {{ include "ztka.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       volumes:
-        - name: rcloud-relay-audit-logs
+        - name: relay-audit-logs
           emptyDir: {}
       containers:
-        - name: {{ .Chart.Name }}-relay-tail
+        - name: relay-tail
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.images.relay.repository }}:{{ .Values.images.relay.tag | default .Chart.AppVersion }}"
           args: ["--mode", "tail"]
           imagePullPolicy: {{ .Values.images.pullPolicy }}
           volumeMounts:
-            - name: rcloud-relay-audit-logs
+            - name: relay-audit-logs
               mountPath: /audit-logs
           env:
             - name: POD_NAME
@@ -53,14 +53,14 @@ spec:
           envFrom:
           - configMapRef:
               name: relay-server-config
-        - name: {{ .Chart.Name }}
+        - name: relay-server
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.images.relay.repository }}:{{ .Values.images.relay.tag | default .Chart.AppVersion }}"
           args: ["--mode", "server", "--log-level", "3"]
           imagePullPolicy: {{ .Values.images.pullPolicy }}
           volumeMounts:
-            - name: rcloud-relay-audit-logs
+            - name: relay-audit-logs
               mountPath: /audit-logs
           env:
             - name: POD_NAME

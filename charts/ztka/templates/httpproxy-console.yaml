@@ -5,29 +5,29 @@ metadata:
   name: console
 spec:
   virtualhost:
-    fqdn: {{ include "rcloud.consoleFQDN" . | quote }}
+    fqdn: {{ include "ztka.consoleFQDN" . | quote }}
     {{- with .Values.deploy.contour.tls }}
     tls:
       {{- toYaml . | nindent 6 }}
     {{- end }}
   routes:
     - services:
-      - name: rcloud-base
+      - name: paralus
         port: 11000
       conditions:
       - prefix: /auth
     - services:
-      - name: rcloud-base
+      - name: paralus
         port: 11000
       conditions:
       - prefix: /event
     - services:
-      - name: rcloud-base
+      - name: paralus
         port: 11000
       conditions:
       - prefix: /infra
     - services:
-      - name: rcloud-base
+      - name: paralus
         port: 11000
       conditions:
       - prefix: /v2/sentry
@@ -38,7 +38,7 @@ spec:
       - prefix: /v2/debug/prompt
       enableWebsockets: true
     - services:
-      - name: rcloud-console-ui
+      - name: dashboard
         port: 80
       conditions:
       - prefix: /

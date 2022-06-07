@@ -5,7 +5,7 @@ metadata:
   name: ztka-core-connector
 spec:
   virtualhost:
-    fqdn: {{ include "rcloud.coreConnectorFQDN" . | quote }}
+    fqdn: {{ include "ztka.coreConnectorFQDN" . | quote }}
     tls:
       passthrough: true
   tcpproxy:
@@ -19,7 +19,7 @@ metadata:
   name: ztka-user
 spec:
   virtualhost:
-    fqdn: {{ include "rcloud.userFQDN" . | quote }}
+    fqdn: {{ include "ztka.userFQDN" . | quote }}
     tls:
       passthrough: true
   tcpproxy:

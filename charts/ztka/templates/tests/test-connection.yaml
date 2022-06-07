@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: rcloud-base-test-connection
+  name: paralus-test-connection
   labels:
-    {{- include "rcloud.labels" . | nindent 4 }}
+    {{- include "ztka.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['rcloud-base:11000']
+      args: ['paralus:11000']
   restartPolicy: Never

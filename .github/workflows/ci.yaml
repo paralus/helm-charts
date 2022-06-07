@@ -17,7 +17,7 @@ jobs:
         run: |
           GOBIN=$PWD GO111MODULE=on go install github.com/norwoodj/helm-docs/cmd/helm-docs@v1.9.1
           ./helm-docs --chart-search-root=${GITHUB_WORKSPACE}/charts
-          DIFF=$(git diff ${GITHUB_WORKSPACE}/charts/rcloud/README.md)
+          DIFF=$(git diff ${GITHUB_WORKSPACE}/charts/ztka/README.md)
           if [ ! -z "$DIFF" ]; then
             echo "Please use helm-docs in your clone, of your fork, of the project, and commit a updated README.md for the chart. https://github.com/norwoodj/helm-docs"
           fi

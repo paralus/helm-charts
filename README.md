@@ -1,7 +1,7 @@
-# Rcloud Charts
+# Paralus Charts
 
-Rcloud Helm is a collection of charts for rcloud projects. The charts can be added using following command:
+Paralus helm-charts is a collection of charts for paralus projects. The charts can be added using following command:
 
 ```
-helm repo add rafaylabs https://rafaylabs.github.io/rcloud-helm
+helm repo add paralus https://paralus.github.io/helm-charts
 ```

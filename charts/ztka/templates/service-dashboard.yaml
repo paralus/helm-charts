@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard
+  labels:
+    {{- include "ztka.labels" . | nindent 4 }}
+    {{- include "ztka.selectorLabels" (dict "image" $.Values.images.dashboard "release" $.Release) | nindent 4 }}
+spec:
+  type: {{ .Values.services.dashboard.type }}
+  ports:
+    {{- range .Values.services.dashboard.ports }}
+    - name: {{ .name }}
+      protocol: TCP
+      port: {{ .port | default .containerPort }}
+      targetPort: {{ .name }}
+    {{- end }}
+  selector:
+    {{- include "ztka.selectorLabels" (dict "image" $.Values.images.dashboard "release" $.Release) | nindent 4 }}
