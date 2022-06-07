@@ -318,12 +318,9 @@ kratos:
                     }
                   }
                 },
-                "idp_groups": {
-                  "title": "IDP groups",
-                  "type": "array",
-                  "items": {
-                      "type": "string"
-                  }
+                "idp_group": {
+                  "title": "IDP group",
+                  "type": "string",
                 }
               },
               "required": [
