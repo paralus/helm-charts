@@ -320,7 +320,7 @@ kratos:
                 },
                 "idp_group": {
                   "title": "IDP group",
-                  "type": "string",
+                  "type": "string"
                 }
               },
               "required": [
