@@ -29,14 +29,12 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       volumes:
-        - name: admindb-migration
-          emptyDir: {}
         - name: audit-logs
           emptyDir: {}
       initContainers:
         {{- if .Values.deploy.kratos.enable }}
         - name: kratos-automigrate
-          image: "{{ .Values.kratos.image.repository }}:{{ .Values.kratos.image.tag }}"
+          image: "{{ .Values.images.paralusInit.repository }}:{{ .Values.images.paralusInit.tag | default .Chart.AppVersion }}"
           command: ["kratos"]
           args: ["migrate", "sql", "-e", "--yes"]
           env:
@@ -45,31 +43,24 @@ spec:
                 secretKeyRef:
                   name: paralus-db
                   key: DSN
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
         {{- end }}
         {{- if .Values.paralus.automigrate }}
-        - name: copy-migrations-files
-          image: "{{ .Values.images.paralus.repository }}:{{ .Values.images.paralus.tag | default .Chart.AppVersion }}"
-          volumeMounts:
-            - name: admindb-migration
-              mountPath: /migrations
-          command: ['sh', '-c', 'cp -rf /data/migrations/admindb /migrations/admindb']
-          imagePullPolicy: {{ .Values.images.pullPolicy }}
         - name: migrate-admindb
-          image: migrate/migrate:v4.15.1
-          command: ['sh', '-c', 'migrate -path=/migrations/admindb -database $DSN up']
-          volumeMounts:
-            - name: admindb-migration
-              subPath: admindb
-              mountPath: /migrations/admindb
+          image: "{{ .Values.images.paralusInit.repository }}:{{ .Values.images.paralusInit.tag | default .Chart.AppVersion }}"
+          command: ["migrate"]
+          args: ["-path=/data/migrations/admindb", "-database", "$DSN", "up"]
           env:
             - name: DSN
               valueFrom:
                 secretKeyRef:
                   name: paralus-db
                   key: DSN
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
         {{- end }}
         - name: initialize
           image: "{{ .Values.images.paralusInit.repository }}:{{ .Values.images.paralusInit.tag | default .Chart.AppVersion }}"
+          command: ["paralus-init"]
           args: [
             "-partner", {{.Values.paralus.initialize.partner|quote}},
             "-partner-desc", {{.Values.paralus.initialize.partnerDesc|quote}},
