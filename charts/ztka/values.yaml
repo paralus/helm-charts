@@ -11,27 +11,27 @@ images:
   paralus:
     name: paralus
     # -- Paralus paralus image
-    repository: registry.dev.rafay-edge.net/paralus/paralus
+    repository: paralusio/paralus
     tag: "main"
   paralusInit:
     name: paralus-init
     # -- Paralus paralus initialize image
-    repository: registry.dev.rafay-edge.net/paralus/paralus-init
+    repository: paralusio/paralus-init
     tag: "main"
   relay:
     name: relay
     # -- relay image
-    repository: registry.dev.rafay-edge.net/paralus/relay
+    repository: paralusio/relay
     tag: "main"
   prompt:
     name: prompt
     # -- prompt image
-    repository: registry.dev.rafay-edge.net/paralus/prompt
+    repository: paralusio/prompt
     tag: "main"
   dashboard:
     name: dashboard
     # -- Paralus dashboard image
-    repository: registry.dev.rafay-edge.net/paralus/dashboard
+    repository: paralusio/dashboard
     tag: "main"
 
   # -- If defined, a imagePullPolicy applied to all deployments
@@ -368,7 +368,7 @@ kratos:
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
         - name: synchronizer
-          image: "registry.dev.rafay-edge.net/paralus/kratos-synchronizer:main"
+          image: "paralusio/kratos-synchronizer:main"
           volumeMounts:
             - name: other-configs
               mountPath: /etc/kratos

@@ -55,20 +55,20 @@ A Helm chart for Paralus ZTKA.
 | filebeat | object | filebeat subchart overwrite | the chart will overwrite some values of filebear subchart. |
 | imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository |
 | images.dashboard.name | string | `"dashboard"` |  |
-| images.dashboard.repository | string | `"registry.dev.rafay-edge.net/paralus/dashboard"` | Paralus dashboard image |
+| images.dashboard.repository | string | `"paralusio/dashboard"` | Paralus dashboard image |
 | images.dashboard.tag | string | `"main"` |  |
 | images.paralus.name | string | `"paralus"` |  |
-| images.paralus.repository | string | `"registry.dev.rafay-edge.net/paralus/paralus"` | Paralus paralus image |
+| images.paralus.repository | string | `"paralusio/paralus"` | Paralus paralus image |
 | images.paralus.tag | string | `"main"` |  |
 | images.paralusInit.name | string | `"paralus-init"` |  |
-| images.paralusInit.repository | string | `"registry.dev.rafay-edge.net/paralus/paralus-init"` | Paralus paralus initialize image |
+| images.paralusInit.repository | string | `"paralusio/paralus-init"` | Paralus paralus initialize image |
 | images.paralusInit.tag | string | `"main"` |  |
 | images.prompt.name | string | `"prompt"` |  |
-| images.prompt.repository | string | `"registry.dev.rafay-edge.net/paralus/prompt"` | prompt image |
+| images.prompt.repository | string | `"paralusio/prompt"` | prompt image |
 | images.prompt.tag | string | `"main"` |  |
 | images.pullPolicy | string | `"IfNotPresent"` | If defined, a imagePullPolicy applied to all deployments |
 | images.relay.name | string | `"relay"` |  |
-| images.relay.repository | string | `"registry.dev.rafay-edge.net/paralus/relay"` | relay image |
+| images.relay.repository | string | `"paralusio/relay"` | relay image |
 | images.relay.tag | string | `"main"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
