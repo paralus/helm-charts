@@ -266,6 +266,7 @@ entries:
     name: ztka
     type: application
     urls:
+    - https://paralus.github.io/helm-charts/ztka-0.0.1-alpha.5.tgz
     - https://github.com/paralus/helm-charts/releases/download/ztka-0.0.1-alpha.5/ztka-0.0.1-alpha.5.tgz
     version: 0.0.1-alpha.5
 generated: "2022-06-14T07:48:30.422448547Z"
