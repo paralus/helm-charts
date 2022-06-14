@@ -49,7 +49,7 @@ spec:
         - name: migrate-admindb
           image: "{{ .Values.images.paralusInit.repository }}:{{ .Values.images.paralusInit.tag | default .Chart.AppVersion }}"
           command: ["migrate"]
-          args: ["-path=/data/migrations/admindb", "-database", "$DSN", "up"]
+          args: ["-path=/data/migrations/admindb", "-database", "$(DSN)", "up"]
           env:
             - name: DSN
               valueFrom:
