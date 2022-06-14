@@ -1,14 +1,14 @@
-# rcloud
+# ztka
 
-![Version: 0.0.1-alpha.4](https://img.shields.io/badge/Version-0.0.1--alpha.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.1](https://img.shields.io/badge/AppVersion-v0.0.1-informational?style=flat-square)
+![Version: 0.0.1-alpha.5](https://img.shields.io/badge/Version-0.0.1--alpha.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.1](https://img.shields.io/badge/AppVersion-v0.0.1-informational?style=flat-square)
 
-A Helm chart for Rcloud.
+A Helm chart for Paralus ZTKA.
 
 ## Maintainers
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Rafay |  |  |
+| Paralus Team |  |  |
 
 ## Requirements
 
@@ -46,29 +46,29 @@ A Helm chart for Rcloud.
 | deploy.postgresql.enable | bool | `false` | Postgresql db is auto deployed and managed by Helm release when true. (It is recommended to manage your own DB instance separately or use DB services like Amazon RDS in production) |
 | deploy.postgresql.password | string | `""` | Postgresql password. Required when `deploy.postgresql.enable` is unset. |
 | deploy.postgresql.username | string | `""` | Postgresql username. Required when `deploy.postgresql.enable` is unset. |
-| domain.consoleSubdomain | string | `"console"` | subdomain used for the console UI |
+| domain.consoleSubdomain | string | `"console"` | subdomain used for viewing dashboard |
 | domain.coreConnectorSubdomain | string | `"*.core-connector"` | cluster communication |
-| domain.host | string | `"rafay.local"` | Host |
+| domain.host | string | `"paralus.local"` | Host |
 | domain.userSubdomain | string | `"*.user"` | communication |
 | elasticsearch.minimumMasterNodes | int | `1` |  |
 | elasticsearch.replicas | int | `1` |  |
 | filebeat | object | filebeat subchart overwrite | the chart will overwrite some values of filebear subchart. |
 | imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository |
+| images.dashboard.name | string | `"dashboard"` |  |
+| images.dashboard.repository | string | `"paralusio/dashboard"` | Paralus dashboard image |
+| images.dashboard.tag | string | `"main"` |  |
+| images.paralus.name | string | `"paralus"` |  |
+| images.paralus.repository | string | `"paralusio/paralus"` | Paralus paralus image |
+| images.paralus.tag | string | `"main"` |  |
+| images.paralusInit.name | string | `"paralus-init"` |  |
+| images.paralusInit.repository | string | `"paralusio/paralus-init"` | Paralus paralus initialize image |
+| images.paralusInit.tag | string | `"main"` |  |
 | images.prompt.name | string | `"prompt"` |  |
-| images.prompt.repository | string | `"registry.dev.rafay-edge.net/rafaylabs/prompt"` | prompt image |
+| images.prompt.repository | string | `"paralusio/prompt"` | prompt image |
 | images.prompt.tag | string | `"main"` |  |
 | images.pullPolicy | string | `"IfNotPresent"` | If defined, a imagePullPolicy applied to all deployments |
-| images.rcloudBase.name | string | `"rcloud-base"` |  |
-| images.rcloudBase.repository | string | `"registry.dev.rafay-edge.net/rafaylabs/rcloud-base"` | rcloud base image |
-| images.rcloudBase.tag | string | `"main"` |  |
-| images.rcloudBaseInit.name | string | `"rcloud-base-init"` |  |
-| images.rcloudBaseInit.repository | string | `"registry.dev.rafay-edge.net/rafaylabs/rcloud-base-init"` | rcloud base initialize image |
-| images.rcloudBaseInit.tag | string | `"main"` |  |
-| images.rcloudConsoleUI.name | string | `"rcloud-console-ui"` |  |
-| images.rcloudConsoleUI.repository | string | `"registry.dev.rafay-edge.net/rafaylabs/rcloud-console-ui"` | rcloud console ui image |
-| images.rcloudConsoleUI.tag | string | `"main"` |  |
 | images.relay.name | string | `"relay"` |  |
-| images.relay.repository | string | `"registry.dev.rafay-edge.net/rafaylabs/relay"` | relay image |
+| images.relay.repository | string | `"paralusio/relay"` | relay image |
 | images.relay.tag | string | `"main"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
@@ -76,28 +76,28 @@ A Helm chart for Rcloud.
 | ingress.tls | list | `[]` | Ingress TLS for console |
 | kratos | object | kratos subchart overwrite | the chart will overwrite some values of kratos subchart. |
 | nodeSelector | object | `{}` |  |
+| paralus.automigrate | bool | `true` | Enable paralus migrations |
+| paralus.initialize.adminEmail | string | `"admin@paralus.local"` | Admin email address |
+| paralus.initialize.adminFirstName | string | `"Admin"` | Admin first name |
+| paralus.initialize.adminLastName | string | `"User"` | Admin last name |
+| paralus.initialize.org | string | `"DefaultOrg"` | Organization name |
+| paralus.initialize.orgDesc | string | `"Default Organization"` | Organization description |
+| paralus.initialize.partner | string | `"DefaultPartner"` | Partner name |
+| paralus.initialize.partnerDesc | string | `"Default Partner"` | Partner description |
+| paralus.initialize.partnerHost | string | `"paralus.local"` | Partner host |
 | podAnnotations | object | `{}` | Annotations for the all deployed pods |
 | podSecurityContext | object | `{}` |  |
-| postgresql.auth | object | `{"database":"admindb","enablePostgresUser":false,"existingSecret":"rcloud-postgresql","password":"admindbpassword","username":"admindbuser"}` | When `deploy.postgresql.enable` is true postgres instance is created with this credentials. |
+| postgresql.auth | object | `{"database":"admindb","enablePostgresUser":false,"existingSecret":"postgresql","password":"admindbpassword","username":"admindbuser"}` | When `deploy.postgresql.enable` is true postgres instance is created with this credentials. |
 | postgresql.dbAddr | string | `""` |  |
-| rcloudBase.automigrate | bool | `true` | Enable rcloud-base migrations |
-| rcloudBase.initialize.adminEmail | string | `"admin@rafay.local"` | Admin email address |
-| rcloudBase.initialize.adminFirstName | string | `"Admin"` | Admin first name |
-| rcloudBase.initialize.adminLastName | string | `"User"` | Admin last name |
-| rcloudBase.initialize.org | string | `"DefaultOrg"` | Organization name |
-| rcloudBase.initialize.orgDesc | string | `"Default Organization"` | Organization description |
-| rcloudBase.initialize.partner | string | `"DefaultPartner"` | Partner name |
-| rcloudBase.initialize.partnerDesc | string | `"Default Partner"` | Partner description |
-| rcloudBase.initialize.partnerHost | string | `"rafay.local"` | Partner host |
 | replicaCount | int | `1` | Number of replicas in deployment |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
+| services.dashboard | object | `{"ports":[{"containerPort":80,"name":"nginx"}],"type":"ClusterIP"}` | dashboard service config |
+| services.paralus | object | `{"ports":[{"containerPort":11000,"name":"http"},{"containerPort":10000,"name":"rpc"},{"containerPort":10001,"name":"relay-peering"}],"type":"ClusterIP"}` | paralus service config |
 | services.prompt | object | `{"ports":[{"containerPort":7009,"name":"http"}],"type":"ClusterIP"}` | prompt service config |
-| services.rcloudBase | object | `{"ports":[{"containerPort":11000,"name":"http"},{"containerPort":10000,"name":"rpc"},{"containerPort":10001,"name":"relay-peering"}],"type":"ClusterIP"}` | rcloud base service config |
-| services.rcloudConsoleUI | object | `{"ports":[{"containerPort":80,"name":"nginx"}],"type":"ClusterIP"}` | rcloud console service config |
 | services.relay | object | `{"ports":[{"containerPort":443,"name":"https"}],"type":"ClusterIP"}` | relay service config |
 | tolerations | list | `[]` |  |
 

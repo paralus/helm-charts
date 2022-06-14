@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rcloud-console-ui
+  name: dashboard
   labels:
-    {{- include "rcloud.labels" . | nindent 4 }}
-    {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudConsoleUI "release" $.Release) | nindent 4 }}
+    {{- include "ztka.labels" . | nindent 4 }}
+    {{- include "ztka.selectorLabels" (dict "image" $.Values.images.dashboard "release" $.Release) | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudConsoleUI "release" $.Release) | nindent 6 }}
+      {{- include "ztka.selectorLabels" (dict "image" $.Values.images.dashboard "release" $.Release) | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,23 +19,23 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudConsoleUI "release" $.Release) | nindent 8 }}
+        {{- include "ztka.selectorLabels" (dict "image" $.Values.images.dashboard "release" $.Release) | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "rcloud.serviceAccountName" . }}
+      serviceAccountName: {{ include "ztka.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: dashboard
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.images.rcloudConsoleUI.repository }}:{{ .Values.images.rcloudConsoleUI.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.images.dashboard.repository }}:{{ .Values.images.dashboard.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.images.pullPolicy }}
           ports:
-            {{- range .Values.services.rcloudConsoleUI.ports }}
+            {{- range .Values.services.dashboard.ports }}
             - name: {{ .name }}
               containerPort: {{ .containerPort }}
             {{- end }}

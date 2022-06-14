@@ -1,6 +1,6 @@
 apiVersion: v2
-name: rcloud
-description: A Helm chart for Rcloud.
+name: ztka
+description: A Helm chart for Paralus ZTKA.
 type: application
 dependencies:
   - name: kratos
@@ -24,6 +24,6 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: deploy.contour.enable
 maintainers:
-  - name: Rafay
-version: 0.0.1-alpha.4
+  - name: Paralus Team
+version: 0.0.1-alpha.5
 appVersion: "v0.0.1"

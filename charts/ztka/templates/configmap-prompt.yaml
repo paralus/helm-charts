@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prompt-config
+  labels:
+    {{- include "ztka.labels" . | nindent 4 }}
+    {{- include "ztka.selectorLabels" (dict "image" $.Values.images.prompt "release" $.Release) | nindent 4 }}
+data:
+  DEV: "false"
+  AUDIT_LOG_FILE: "/audit-logs/audit.log"
+  SENTRY_ADDR: paralus:10000
+  KRATOS_ADDR: {{ include "ztka.kratos.adminAddr" . | quote }}
+  KRATOS_PUB_ADDR: {{ include "ztka.kratos.publicAddr" . | quote }}

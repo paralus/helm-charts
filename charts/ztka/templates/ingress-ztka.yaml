@@ -10,7 +10,7 @@ kind: Ingress
 metadata:
   name: ztka
   labels:
-    {{- include "rcloud.labels" . | nindent 4 }}
+    {{- include "ztka.labels" . | nindent 4 }}
   annotations:
   {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
@@ -20,7 +20,7 @@ spec:
   ingressClassName: {{ .Values.ingress.className }}
   {{- end }}
   rules:
-    - host: {{ include "rcloud.coreConnectorFQDN" . | quote }}
+    - host: {{ include "ztka.coreConnectorFQDN" . | quote }}
       http:
         paths:
           - path: /
@@ -30,7 +30,7 @@ spec:
                 name: relay-server
                 port:
                   number: 443
-    - host: {{ include "rcloud.userFQDN" . | quote }}
+    - host: {{ include "ztka.userFQDN" . | quote }}
       http:
         paths:
           - path: /

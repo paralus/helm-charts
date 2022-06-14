@@ -1,0 +1,14 @@
+{{- if .Values.deploy.kratos.enable }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kratos-config
+  labels:
+    {{- include "ztka.labels" . | nindent 4 }}
+data:
+  serve_public_base_url: {{ include "ztka.consoleFQDNWithScheme" . }}
+  default_browser_return_url: {{ include "ztka.consoleFQDNWithScheme" . }}
+  selfservice_flows_settings_ui_url: {{ include "ztka.consoleFQDNWithScheme" . }}/ksettings
+  selfservice_flows_recovery_ui_url: {{ include "ztka.consoleFQDNWithScheme" . }}/ksettings
+  selfservice_flows_registration_ui_url: {{ include "ztka.consoleFQDNWithScheme" .}}/registeroidc
+{{- end }}

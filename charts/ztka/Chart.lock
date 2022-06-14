@@ -1,0 +1,18 @@
+dependencies:
+- name: kratos
+  repository: https://k8s.ory.sh/helm/charts
+  version: 0.22.2
+- name: elasticsearch
+  repository: https://helm.elastic.co
+  version: 7.17.1
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 11.1.9
+- name: filebeat
+  repository: https://helm.elastic.co
+  version: 7.17.1
+- name: contour
+  repository: https://charts.bitnami.com/bitnami
+  version: 7.8.0
+digest: sha256:8a01a5d27e740a1f03d576f579ab0e28c5d7be6c3bf9678af1d5949d6ae728ee
+generated: "2022-06-07T15:35:02.157974022+05:30"

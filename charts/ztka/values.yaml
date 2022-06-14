@@ -1,4 +1,4 @@
-# Default values for rcloud.
+# Default values for Paralus ZTKA.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -8,30 +8,30 @@ replicaCount: 1
 # List of images to be deployed along with its tag. Specifying image
 # tag overrides deault value which is chart appVersion.
 images:
-  rcloudBase:
-    name: rcloud-base
-    # -- rcloud base image
-    repository: registry.dev.rafay-edge.net/rafaylabs/rcloud-base
+  paralus:
+    name: paralus
+    # -- Paralus paralus image
+    repository: paralusio/paralus
     tag: "main"
-  rcloudBaseInit:
-    name: rcloud-base-init
-    # -- rcloud base initialize image
-    repository: registry.dev.rafay-edge.net/rafaylabs/rcloud-base-init
+  paralusInit:
+    name: paralus-init
+    # -- Paralus paralus initialize image
+    repository: paralusio/paralus-init
     tag: "main"
   relay:
     name: relay
     # -- relay image
-    repository: registry.dev.rafay-edge.net/rafaylabs/relay
+    repository: paralusio/relay
     tag: "main"
   prompt:
     name: prompt
     # -- prompt image
-    repository: registry.dev.rafay-edge.net/rafaylabs/prompt
+    repository: paralusio/prompt
     tag: "main"
-  rcloudConsoleUI:
-    name: rcloud-console-ui
-    # -- rcloud console ui image
-    repository: registry.dev.rafay-edge.net/rafaylabs/rcloud-console-ui
+  dashboard:
+    name: dashboard
+    # -- Paralus dashboard image
+    repository: paralusio/dashboard
     tag: "main"
 
   # -- If defined, a imagePullPolicy applied to all deployments
@@ -70,8 +70,8 @@ securityContext: {}
 # specificed in "services.<name>.ports" list then service exposes on
 # containerPort instead.
 services:
-  # -- rcloud base service config
-  rcloudBase:
+  # -- paralus service config
+  paralus:
     type: ClusterIP
     ports:
       - name: http
@@ -92,8 +92,8 @@ services:
     ports:
       - name: https
         containerPort: 443
-  # -- rcloud console service config
-  rcloudConsoleUI:
+  # -- dashboard service config
+  dashboard:
     type: ClusterIP
     ports:
       - name: nginx
@@ -126,7 +126,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-# Autoscale rcloud-base deployment resource
+# Autoscale paralus deployment resource
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -142,8 +142,8 @@ affinity: {}
 
 domain:
   # -- Host
-  host: rafay.local
-  # -- subdomain used for the console UI
+  host: paralus.local
+  # -- subdomain used for viewing dashboard
   consoleSubdomain: "console"
   # -- a wildcard subdomain used for controller cluster to target
   # -- cluster communication
@@ -152,8 +152,8 @@ domain:
   # -- communication
   userSubdomain: "*.user"
 
-rcloudBase:
-  # -- Enable rcloud-base migrations
+paralus:
+  # -- Enable paralus migrations
   automigrate: true
   initialize:
     # -- Partner name
@@ -161,13 +161,13 @@ rcloudBase:
     # -- Partner description
     partnerDesc: "Default Partner"
     # -- Partner host
-    partnerHost: "rafay.local"
+    partnerHost: "paralus.local"
     # -- Organization name
     org: "DefaultOrg"
     # -- Organization description
     orgDesc: "Default Organization"
     # -- Admin email address
-    adminEmail: "admin@rafay.local"
+    adminEmail: "admin@paralus.local"
     # -- Admin first name
     adminFirstName: "Admin"
     # -- Admin last name
@@ -237,7 +237,7 @@ deploy:
 kratos:
   secret:
     enabled: false
-    nameOverride: "rcloud-kratos"
+    nameOverride: "kratos"
   kratos:
     development: false
     config:
@@ -338,37 +338,37 @@ kratos:
       - name: SERVE_PUBLIC_BASE_URL
         valueFrom:
           configMapKeyRef:
-            name: rcloud-kratos-config
+            name: kratos-config
             key: serve_public_base_url
       - name: SELFSERVICE_DEFAULT_BROWSER_RETURN_URL
         valueFrom:
           configMapKeyRef:
-            name: rcloud-kratos-config
+            name: kratos-config
             key: default_browser_return_url
       - name: SELFSERVICE_WHITELISTED_RETURN_URLS
         valueFrom:
           configMapKeyRef:
-            name: rcloud-kratos-config
+            name: kratos-config
             key: default_browser_return_url
       - name: SELFSERVICE_FLOWS_SETTINGS_UI_URL
         valueFrom:
           configMapKeyRef:
-            name: rcloud-kratos-config
+            name: kratos-config
             key: selfservice_flows_settings_ui_url
       - name: SELFSERVICE_FLOWS_RECOVERY_UI_URL
         valueFrom:
           configMapKeyRef:
-            name: rcloud-kratos-config
+            name: kratos-config
             key: selfservice_flows_recovery_ui_url
       - name: SELFSERVICE_FLOWS_REGISTRATION_UI_URL
         valueFrom:
           configMapKeyRef:
-            name: rcloud-kratos-config
+            name: kratos-config
             key: selfservice_flows_registration_ui_url
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
         - name: synchronizer
-          image: "registry.dev.rafay-edge.net/rafaylabs/kratos-synchronizer:main"
+          image: "paralusio/kratos-synchronizer:main"
           volumeMounts:
             - name: other-configs
               mountPath: /etc/kratos
@@ -376,7 +376,7 @@ kratos:
             - name: DSN
               valueFrom:
                 secretKeyRef:
-                  name: rcloud-db
+                  name: paralus-db
                   key: DSN
             - name: KRATOS_PROVIDER_CFG
               value: "/etc/kratos/providers.yaml"
@@ -409,7 +409,7 @@ postgresql:
   # -- When `deploy.postgresql.enable` is true postgres instance is
   # created with this credentials.
   auth:
-    existingSecret: rcloud-postgresql
+    existingSecret: postgresql
     enablePostgresUser: false
     username: "admindbuser"
     password: "admindbpassword"
@@ -430,13 +430,13 @@ filebeat:
               templates:
                 - condition:
                     equals:
-                      kubernetes.container.name: rcloud-tail
+                      kubernetes.container.name: paralus-tail
                   config:
                     - type: container
                       json.add_error_key: true
                       json.expand_keys: true
                       fields:
-                        rcloud.component: system
+                        paralus.component: system
                       processors:
                         - timestamp:
                             field: json.timestamp
@@ -448,13 +448,13 @@ filebeat:
                         - /var/log/containers/*-${data.kubernetes.container.id}.log
                 - condition:
                     equals:
-                      kubernetes.container.name: rcloud-prompt-tail
+                      kubernetes.container.name: prompt-tail
                   config:
                     - type: container
                       json.add_error_key: true
                       json.expand_keys: true
                       fields:
-                        rcloud.component: prompt
+                        paralus.component: prompt
                       processors:
                         - timestamp:
                             field: json.timestamp
@@ -466,13 +466,13 @@ filebeat:
                         - /var/log/containers/*-${data.kubernetes.container.id}.log
                 - condition:
                     equals:
-                      kubernetes.container.name: rcloud-relay-tail
+                      kubernetes.container.name: relay-tail
                   config:
                     - type: container
                       json.add_error_key: true
                       json.expand_keys: true
                       fields:
-                        rcloud.component: relay
+                        paralus.component: relay
                       processors:
                         - timestamp:
                             field: json.ts
@@ -492,7 +492,7 @@ filebeat:
           enabled: false
 
         output.elasticsearch:
-          index: "ralog-%{[fields.rcloud.component]}-%{+yyyy.MM.dd}"
+          index: "ralog-%{[fields.paralus.component]}-%{+yyyy.MM.dd}"
           hosts: ['${ELASTICSEARCH_HOST:elasticsearch-master}:${ELASTICSEARCH_PORT:9200}']
           # username: ${ELASTICSEARCH_USERNAME} # uncomment this for username
           # password: ${ELASTICSEARCH_PASSWORD} # uncomment this for password
@@ -516,7 +516,7 @@ contour:
     # install CRDs before chart installation we manage contour CRDs in
     # 'crds/' folder as a workaround, till we find better solution to
     # solve this.
-    # https://github.com/RafayLabs/rcloud-helm/issues/13
+    # https://github.com/paralus/helm-charts/issues/13
     manageCRDs: false
     # Do not create IngressClass resource. We setup HTTPProxy
     # resources instead.

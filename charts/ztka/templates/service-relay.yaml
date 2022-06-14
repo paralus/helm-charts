@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: relay-server
   labels:
-    {{- include "rcloud.labels" . | nindent 4 }}
-    {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 4 }}
+    {{- include "ztka.labels" . | nindent 4 }}
+    {{- include "ztka.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 4 }}
 spec:
   type: {{ .Values.services.relay.type }}
   ports:
@@ -15,4 +15,4 @@ spec:
       targetPort: {{ .name }}
     {{- end }}
   selector:
-    {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 4 }}
+    {{- include "ztka.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 4 }}

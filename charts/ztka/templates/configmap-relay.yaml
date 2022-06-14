@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: relay-server-config
+  labels:
+    {{- include "ztka.labels" . | nindent 4 }}
+    {{- include "ztka.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 4 }}
+data:
+  PARALUS_RELAY_PEERSERVICE: https://paralus:10001
+  SENTRY_ADDR: paralus:10000
+  AUDIT_PATH: "/audit-logs"

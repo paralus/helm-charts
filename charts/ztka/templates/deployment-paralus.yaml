@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rcloud-base
+  name: paralus
   labels:
-    {{- include "rcloud.labels" . | nindent 4 }}
-    {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudBase "release" $.Release) | nindent 4 }}
+    {{- include "ztka.labels" . | nindent 4 }}
+    {{- include "ztka.selectorLabels" (dict "image" $.Values.images.paralus "release" $.Release) | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudBase "release" $.Release) | nindent 6 }}
+      {{- include "ztka.selectorLabels" (dict "image" $.Values.images.paralus "release" $.Release) | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,23 +19,23 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "rcloud.selectorLabels" (dict "image" $.Values.images.rcloudBase "release" $.Release) | nindent 8 }}
+        {{- include "ztka.selectorLabels" (dict "image" $.Values.images.paralus "release" $.Release) | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "rcloud.serviceAccountName" . }}
+      serviceAccountName: {{ include "ztka.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       volumes:
         - name: admindb-migration
           emptyDir: {}
-        - name: rcloud-audit-logs
+        - name: audit-logs
           emptyDir: {}
       initContainers:
         {{- if .Values.deploy.kratos.enable }}
-        - name: {{ .Chart.Name }}-kratos-automigrate
+        - name: kratos-automigrate
           image: "{{ .Values.kratos.image.repository }}:{{ .Values.kratos.image.tag }}"
           command: ["kratos"]
           args: ["migrate", "sql", "-e", "--yes"]
@@ -43,12 +43,12 @@ spec:
             - name: DSN
               valueFrom:
                 secretKeyRef:
-                  name: rcloud-db
+                  name: paralus-db
                   key: DSN
         {{- end }}
-        {{- if .Values.rcloudBase.automigrate }}
+        {{- if .Values.paralus.automigrate }}
         - name: copy-migrations-files
-          image: "{{ .Values.images.rcloudBase.repository }}:{{ .Values.images.rcloudBase.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.images.paralus.repository }}:{{ .Values.images.paralus.tag | default .Chart.AppVersion }}"
           volumeMounts:
             - name: admindb-migration
               mountPath: /migrations
@@ -65,53 +65,53 @@ spec:
             - name: DSN
               valueFrom:
                 secretKeyRef:
-                  name: rcloud-db
+                  name: paralus-db
                   key: DSN
         {{- end }}
-        - name: initialize-rcloud-base
-          image: "{{ .Values.images.rcloudBaseInit.repository }}:{{ .Values.images.rcloudBaseInit.tag | default .Chart.AppVersion }}"
+        - name: initialize
+          image: "{{ .Values.images.paralusInit.repository }}:{{ .Values.images.paralusInit.tag | default .Chart.AppVersion }}"
           args: [
-            "-partner", {{.Values.rcloudBase.initialize.partner|quote}},
-            "-partner-desc", {{.Values.rcloudBase.initialize.partnerDesc|quote}},
-            "-partner-host", {{.Values.rcloudBase.initialize.partnerHost|quote}},
-            "-org", {{.Values.rcloudBase.initialize.org|quote}},
-            "-org-desc", {{.Values.rcloudBase.initialize.orgDesc|quote}},
-            "-admin-email", {{.Values.rcloudBase.initialize.adminEmail|quote}},
-            "-admin-first-name", {{.Values.rcloudBase.initialize.adminFirstName|quote}},
-            "-admin-last-name", {{.Values.rcloudBase.initialize.adminLastName|quote}},
+            "-partner", {{.Values.paralus.initialize.partner|quote}},
+            "-partner-desc", {{.Values.paralus.initialize.partnerDesc|quote}},
+            "-partner-host", {{.Values.paralus.initialize.partnerHost|quote}},
+            "-org", {{.Values.paralus.initialize.org|quote}},
+            "-org-desc", {{.Values.paralus.initialize.orgDesc|quote}},
+            "-admin-email", {{.Values.paralus.initialize.adminEmail|quote}},
+            "-admin-first-name", {{.Values.paralus.initialize.adminFirstName|quote}},
+            "-admin-last-name", {{.Values.paralus.initialize.adminLastName|quote}},
              ]
           envFrom:
           - configMapRef:
-              name: rcloud-base-config
+              name: paralus-config
           - secretRef:
-              name: rcloud-db
+              name: paralus-db
           imagePullPolicy: {{ .Values.images.pullPolicy }}
       containers:
-        - name: {{ .Chart.Name }}-tail
+        - name: paralus-tail
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "busybox:latest"
           command: ['sh', '-c' ,'tail -F /audit-logs/audit.log 2>/tmp/tail-err']
           imagePullPolicy: {{ .Values.images.pullPolicy }}
           volumeMounts:
-            - name: rcloud-audit-logs
+            - name: audit-logs
               mountPath: /audit-logs
-        - name: {{ .Chart.Name }}
+        - name: paralus
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.images.rcloudBase.repository }}:{{ .Values.images.rcloudBase.tag | default .Chart.AppVersion }}"
-          command: ["./rcloud-base"]
+          image: "{{ .Values.images.paralus.repository }}:{{ .Values.images.paralus.tag | default .Chart.AppVersion }}"
+          command: ["./paralus"]
           imagePullPolicy: {{ .Values.images.pullPolicy }}
           volumeMounts:
-            - name: rcloud-audit-logs
+            - name: audit-logs
               mountPath: /audit-logs
           envFrom:
           - configMapRef:
-              name: rcloud-base-config
+              name: paralus-config
           - secretRef:
-              name: rcloud-db
+              name: paralus-db
           ports:
-            {{- range .Values.services.rcloudBase.ports }}
+            {{- range .Values.services.paralus.ports }}
             - name: {{ .name }}
               containerPort: {{ .containerPort }}
             {{- end }}

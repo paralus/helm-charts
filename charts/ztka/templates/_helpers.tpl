@@ -1,15 +1,15 @@
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "rcloud.chart" -}}
+{{- define "ztka.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels.
 */}}
-{{- define "rcloud.labels" -}}
-helm.sh/chart: {{ include "rcloud.chart" . }}
+{{- define "ztka.labels" -}}
+helm.sh/chart: {{ include "ztka.chart" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -19,7 +19,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels.
 */}}
-{{- define "rcloud.selectorLabels" -}}
+{{- define "ztka.selectorLabels" -}}
 app.kubernetes.io/name: {{ .image.name }}
 app.kubernetes.io/instance: {{ .release.Name }}
 {{- end }}
@@ -27,7 +27,7 @@ app.kubernetes.io/instance: {{ .release.Name }}
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "rcloud.serviceAccountName" -}}
+{{- define "ztka.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
 {{- default (printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-") .Values.serviceAccount.name }}
 {{- else }}
@@ -38,7 +38,7 @@ Create the name of the service account to use
 {{/*
 Get Kratos public address.
 */}}
-{{- define "rcloud.kratos.publicAddr" -}}
+{{- define "ztka.kratos.publicAddr" -}}
 {{- if .Values.deploy.kratos.enable -}}
   {{- if .Values.ingress.tls -}}
 https://{{.Release.Name}}-kratos-public
@@ -53,7 +53,7 @@ http://{{.Release.Name}}-kratos-public
 {{/*
 Get Kratos admin address.
 */}}
-{{- define "rcloud.kratos.adminAddr" -}}
+{{- define "ztka.kratos.adminAddr" -}}
 {{- if .Values.deploy.kratos.enable -}}
   {{- if .Values.ingress.tls -}}
 https://{{.Release.Name}}-kratos-admin
@@ -68,7 +68,7 @@ http://{{.Release.Name}}-kratos-admin
 {{/*
 Get Elasticsearch Address.
 */}}
-{{- define "rcloud.esAddr" -}}
+{{- define "ztka.esAddr" -}}
   {{- if .Values.deploy.elasticsearch.enable -}}
 http://elasticsearch-master:9200
   {{- else -}}
@@ -79,7 +79,7 @@ http://elasticsearch-master:9200
 {{/*
 Get DB Address.
 */}}
-{{- define "rcloud.dbAddr" -}}
+{{- define "ztka.dbAddr" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local
   {{- else -}}
@@ -90,7 +90,7 @@ Get DB Address.
 {{/*
 Get DB Username.
 */}}
-{{- define "rcloud.dbUser" -}}
+{{- define "ztka.dbUser" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Values.postgresql.auth.username}}
   {{- else -}}
@@ -101,7 +101,7 @@ Get DB Username.
 {{/*
 Get DB Password.
 */}}
-{{- define "rcloud.dbPassword" -}}
+{{- define "ztka.dbPassword" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Values.postgresql.auth.password}}
   {{- else -}}
@@ -112,7 +112,7 @@ Get DB Password.
 {{/*
 Get DB Name.
 */}}
-{{- define "rcloud.dbName" -}}
+{{- define "ztka.dbName" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Values.postgresql.auth.database}}
   {{- else -}}
@@ -123,7 +123,7 @@ Get DB Name.
 {{/*
 Get DSN
 */}}
-{{- define "rcloud.dsn" -}}
+{{- define "ztka.dsn" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable
   {{- else -}}
@@ -139,14 +139,14 @@ postgres://{{ $username }}:{{ $.password }}@{{ $address }}:5432/{{ $database }}?
 {{/*
 Get console full-qualified domain.
 */}}
-{{- define "rcloud.consoleFQDN" -}}
+{{- define "ztka.consoleFQDN" -}}
 {{.Values.domain.consoleSubdomain}}.{{.Values.domain.host}}
 {{- end -}}
 
 {{/*
 Get console full-qualified domain with scheme.
 */}}
-{{- define "rcloud.consoleFQDNWithScheme" -}}
+{{- define "ztka.consoleFQDNWithScheme" -}}
 {{- $url := printf "%s.%s" .Values.domain.consoleSubdomain .Values.domain.host -}}
   {{- if .Values.deploy.contour.enable -}}
     {{- if .Values.deploy.contour.tls -}}
@@ -166,7 +166,7 @@ http://{{$url}}
 {{/*
 Get console full-qualified domain with port.
 */}}
-{{- define "rcloud.consoleFQDNWithPort" -}}
+{{- define "ztka.consoleFQDNWithPort" -}}
 {{- $url := printf "%s.%s" .Values.domain.consoleSubdomain .Values.domain.host -}}
   {{- if .Values.deploy.contour.enable -}}
     {{- if .Values.deploy.contour.tls -}}
@@ -186,13 +186,13 @@ Get console full-qualified domain with port.
 {{/*
 Get core-connector full-qualified domain.
 */}}
-{{- define "rcloud.coreConnectorFQDN" -}}
+{{- define "ztka.coreConnectorFQDN" -}}
 {{.Values.domain.coreConnectorSubdomain}}.{{.Values.domain.host}}
 {{- end -}}
 
 {{/*
 Get user full-qualified domain.
 */}}
-{{- define "rcloud.userFQDN" -}}
+{{- define "ztka.userFQDN" -}}
 {{.Values.domain.userSubdomain}}.{{.Values.domain.host}}
 {{- end -}}

@@ -1,4 +1,4 @@
-# Developing `rcloud` helm chart
+# Developing `ztka` helm chart
 
 This document outlines steps to create a development setup locally using a `kind` cluster.
 The steps will be similar to using on a external cluster, but with some changes to get it working locally.
@@ -6,7 +6,7 @@ The steps will be similar to using on a external cluster, but with some changes 
 ## `values.yaml` file updates
 
 You might have to modify the following values in
-[`values.yaml`](https://github.com/RafayLabs/rcloud-helm/blob/main/charts/rcloud/values.yaml)
+[`values.yaml`](https://github.com/paralus/helm-charts/blob/main/charts/ztka/values.yaml)
 file to make it working locally.
 
 - Switch kratos to development mode by setting `kratos.kratos.development` to `true`
@@ -78,13 +78,13 @@ docker container inspect <cluster-name>-control-plane --format '{{ .NetworkSetti
 You have to add this ip into you `/etc/hosts` file by adding something like the following:
 
 ```
-172.18.0.2 console.rafay.local
+172.18.0.2 console.paralus.local
 ```
 
-*When running locally use `rafay.local` as your host. This is what
-will be set by default for the value of `ingress.host` in your
-[`values.yaml`](https://github.com/RafayLabs/rcloud-helm/blob/main/charts/rcloud/values.yaml)
-file. If you want to change, make sure you update the host in all the places where we mention `rafay.local`.*
+*When running locally use `paralus.local` as your host. This is what
+will be set by default for the value of `domain.host` in your
+[`values.yaml`](https://github.com/paralus/helm-charts/blob/main/charts/ztka/values.yaml)
+file. If you want to change, make sure you update the host in all the places where we mention `paralus.local`.*
 
 ## Run helm install
 
@@ -94,15 +94,15 @@ Now that you have everything up and ready, just run helm install command using:
 helm upgrade --install <name> .
 ```
 
-*You should now be able to access the web ui in the hsot you specified under `ingress.host`.*
+*You should now be able to access the web ui in the host you specified under `domain.host`.*
 
 ## Resetting admin user's password
 
 You can get the recoverly link for the admin user by running the following.
 
 ``` shell
-export RELEASE_NAME="myrelease"
-export RUSER="foo@example.com"
+export RELEASE_NAME="my-release"
+export RUSER="admin@paralus.local"
 kubectl exec -it "$RELEASE_NAME-postgresql-0" -- bash \
   -c "PGPASSWORD=admindbpassword psql -h localhost -U admindbuser admindb \
 -c \"select id from identities where traits->>'email' = '$RUSER' limit 1;\" -tA \
@@ -113,7 +113,7 @@ kubectl exec -it "$RELEASE_NAME-postgresql-0" -- bash \
 When run, you will get something like:
 
 ``` json
-{"recovery_link":"http://console.rafay.local/self-service/recovery?flow=83a66af9-600a-44cc-905e-819298bfa07a&token=EiZ9EpWekGYBPqHHtF87M6Jq61YthdUG","expires_at":"2022-04-27T10:19:28.695433325Z"}
+{"recovery_link":"http://console.paralus.local/self-service/recovery?flow=83a66af9-600a-44cc-905e-819298bfa07a&token=EiZ9EpWekGYBPqHHtF87M6Jq61YthdUG","expires_at":"2022-04-27T10:19:28.695433325Z"}
 ```
 
 You can go to that link and reset the password for your admin user.
@@ -125,8 +125,8 @@ You can go to that link and reset the password for your admin user.
 Firstly, go through the UI flow to create a new cluster and download the bootstrap yaml.
 
 - Update your ingress controlle arg list and add `--enable-ssl-passthrough=true` in the values
-- Update your ingress hosts to point to specific cluster id, for example instead if your cluster id is `abdc123` update the ingresses to `abcd123.core-connector.rafay.local` and `abcd123.user.rafay.local` instead of wildcard versions of the same
+- Update your ingress hosts to point to specific cluster id, for example instead if your cluster id is `abdc123` update the ingresses to `abcd123.core-connector.paralus.local` and `abcd123.user.paralus.local` instead of wildcard versions of the same
 - Add the above hosts to tls section of ingress as well (don't add a tls secret)
-- Add `abcd123.core-connector.rafay.local` and `abcd123.user.rafay.local` to /etc/hosts pointing to the same ip
+- Add `abcd123.core-connector.paralus.local` and `abcd123.user.paralus.local` to /etc/hosts pointing to the same ip
 
 Now you can apply your bootstrap and have the system able to connect to the target cluster.

@@ -1,5 +1,5 @@
 domain:
-  host: rafay.local
+  host: paralus.local
   consoleSubdomain: "console"
   coreConnectorSubdomain: "*.core-connector"
   userSubdomain: "*.user"
