@@ -25,6 +25,14 @@ jobs:
         with:
           version: v3.8.1
 
+      - name: Add dependencies
+        run: |
+            helm repo add kratos https://k8s.ory.sh/helm/charts
+            helm repo add elasticsearch https://helm.elastic.co
+            helm repo add postgresql https://charts.bitnami.com/bitnami
+            helm repo add filebeat https://helm.elastic.co
+            helm repo add contour https://charts.bitnami.com/bitnami
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@a3454e46a6f5ac4811069a381e646961dda2e1bf
         env:
