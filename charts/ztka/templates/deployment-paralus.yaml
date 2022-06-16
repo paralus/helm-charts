@@ -108,6 +108,12 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        {{- if .Values.analytics.enable }}
+        - name: paralus-analytics
+          image: registry.dev.rafay-edge.net/rafaylabs/alpinecurl
+          command: ["curl", "-i", "-H", "Content-Type: application/x-www-form-urlencoded", "-H", "User-Agent: ga-tracker/1.0", "-XPOST", "https://www.google-analytics.com/collect",
+          "-d", "cid={{ uuidv4 }}&ea==helm-install&ec=paralus-use&el={{ .Chart.Name }}-{{ .Chart.Version }}&t=event&tid={{ .Values.analytics.gaTrackingID }}&v=1"]
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

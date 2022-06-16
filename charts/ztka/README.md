@@ -25,6 +25,8 @@ A Helm chart for Paralus ZTKA.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
+| analytics.enable | bool | `true` |  |
+| analytics.gaTrackingID | string | `"UA-230674306-1"` |  |
 | autoscaling.enabled | bool | `false` |  |
 | autoscaling.maxReplicas | int | `100` |  |
 | autoscaling.minReplicas | int | `1` |  |
