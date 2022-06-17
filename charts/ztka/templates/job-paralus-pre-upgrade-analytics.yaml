@@ -1,0 +1,35 @@
+{{- if .Values.analytics.enable }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: paralus-pre-upgrade-analytics
+  labels:
+    {{- include "ztka.labels" . | nindent 4 }}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      restartPolicy: Never
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: pre-upgrade-job
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          image: curlimages/curl
+          command: ["curl", "-i", "-H", "Content-Type: application/x-www-form-urlencoded", "-H", "User-Agent: ga-tracker/1.0", "-XPOST", "https://www.google-analytics.com/collect",
+          "-d", "cid={{ uuidv4 }}&ea=helm-pre-upgrade&ec=paralus-use&el={{ .Chart.Name }}-{{ .Chart.Version }}&t=event&tid={{ .Values.analytics.gaTrackingID }}&v=1"]
+      serviceAccountName: {{ include "ztka.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+{{- end }}

@@ -173,6 +173,10 @@ paralus:
     # -- Admin last name
     adminLastName: "User"
 
+analytics:
+  enable: true
+  gaTrackingID: "UA-230674306-1"
+
 deploy:
   kratos:
     # -- Kratos instance is auto deployed and managed by Helm release
