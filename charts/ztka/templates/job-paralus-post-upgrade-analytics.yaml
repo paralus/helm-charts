@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: paralus-post-upgrade-job
+  name: paralus-post-upgrade-analytics
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
   annotations:
