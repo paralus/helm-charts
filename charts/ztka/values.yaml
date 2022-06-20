@@ -369,6 +369,11 @@ kratos:
           configMapKeyRef:
             name: kratos-config
             key: selfservice_flows_registration_ui_url
+      - name: SELFSERVICE_FLOWS_ERROR_UI_URL
+        valueFrom:
+          configMapKeyRef:
+            name: kratos-config
+            key: selfservice_flows_error_ui_url
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
         - name: synchronizer

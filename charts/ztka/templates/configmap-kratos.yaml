@@ -11,4 +11,5 @@ data:
   selfservice_flows_settings_ui_url: {{ include "ztka.consoleFQDNWithScheme" . }}/ksettings
   selfservice_flows_recovery_ui_url: {{ include "ztka.consoleFQDNWithScheme" . }}/ksettings
   selfservice_flows_registration_ui_url: {{ include "ztka.consoleFQDNWithScheme" .}}/registeroidc
+  selfservice_flows_error_ui_url: {{ include "ztka.consoleFQDNWithScheme" .}}/error-page
 {{- end }}
