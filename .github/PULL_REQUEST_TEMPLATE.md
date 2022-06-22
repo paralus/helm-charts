@@ -11,7 +11,6 @@
 I confirm, that I have...
 
 - [ ] Read and followed the contributing guide in `CONTRIBUTING.md`
-- [ ] Added tests for this PR
-- [ ] Formatted the code using `go fmt` (if applicable)
 - [ ] Updated [documentation on the Paralus docs site](https://github.com/paralus/website/blob/main/docs) (if applicable)
 - [ ] Updated `CHANGELOG.md`
+- [ ] Ran [`helm-docs`](https://github.com/norwoodj/helm-docs) to update docs for chart (if values.yaml file was changed)
