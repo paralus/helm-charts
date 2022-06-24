@@ -48,13 +48,13 @@ A Helm chart for Paralus ZTKA.
 | deploy.postgresql.enable | bool | `false` | Postgresql db is auto deployed and managed by Helm release when true. (It is recommended to manage your own DB instance separately or use DB services like Amazon RDS in production) |
 | deploy.postgresql.password | string | `""` | Postgresql password. Required when `deploy.postgresql.enable` is unset. |
 | deploy.postgresql.username | string | `""` | Postgresql username. Required when `deploy.postgresql.enable` is unset. |
-| domain.consoleSubdomain | string | `"console"` | subdomain used for viewing dashboard |
-| domain.coreConnectorSubdomain | string | `"*.core-connector"` | cluster communication |
-| domain.host | string | `"paralus.local"` | Host |
-| domain.userSubdomain | string | `"*.user"` | communication |
 | elasticsearch.minimumMasterNodes | int | `1` |  |
 | elasticsearch.replicas | int | `1` |  |
 | filebeat | object | filebeat subchart overwrite | the chart will overwrite some values of filebear subchart. |
+| fqdn.coreConnectorSubdomain | string | `"*.core-connector"` | cluster communication |
+| fqdn.domain | string | `"paralus.local"` | Root domain |
+| fqdn.hostname | string | `"console"` | subdomain used for viewing dashboard |
+| fqdn.userSubdomain | string | `"*.user"` | communication |
 | imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository |
 | images.dashboard.name | string | `"dashboard"` |  |
 | images.dashboard.repository | string | `"paralusio/dashboard"` | Paralus dashboard image |

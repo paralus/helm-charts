@@ -140,11 +140,11 @@ tolerations: []
 
 affinity: {}
 
-domain:
-  # -- Host
-  host: paralus.local
+fqdn:
+  # -- Root domain
+  domain: paralus.local
   # -- subdomain used for viewing dashboard
-  consoleSubdomain: "console"
+  hostname: "console"
   # -- a wildcard subdomain used for controller cluster to target
   # -- cluster communication
   coreConnectorSubdomain: "*.core-connector"

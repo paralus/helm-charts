@@ -140,14 +140,14 @@ postgres://{{ $username }}:{{ $.password }}@{{ $address }}:5432/{{ $database }}?
 Get console full-qualified domain.
 */}}
 {{- define "ztka.consoleFQDN" -}}
-{{.Values.domain.consoleSubdomain}}.{{.Values.domain.host}}
+{{.Values.fqdn.hostname}}.{{.Values.fqdn.domain}}
 {{- end -}}
 
 {{/*
 Get console full-qualified domain with scheme.
 */}}
 {{- define "ztka.consoleFQDNWithScheme" -}}
-{{- $url := printf "%s.%s" .Values.domain.consoleSubdomain .Values.domain.host -}}
+{{- $url := printf "%s.%s" .Values.fqdn.hostname .Values.fqdn.domain -}}
   {{- if .Values.deploy.contour.enable -}}
     {{- if .Values.deploy.contour.tls -}}
 https://{{$url}}
@@ -167,7 +167,7 @@ http://{{$url}}
 Get console full-qualified domain with port.
 */}}
 {{- define "ztka.consoleFQDNWithPort" -}}
-{{- $url := printf "%s.%s" .Values.domain.consoleSubdomain .Values.domain.host -}}
+{{- $url := printf "%s.%s" .Values.fqdn.hostname .Values.fqdn.domain -}}
   {{- if .Values.deploy.contour.enable -}}
     {{- if .Values.deploy.contour.tls -}}
 {{$url}}:443
@@ -187,12 +187,12 @@ Get console full-qualified domain with port.
 Get core-connector full-qualified domain.
 */}}
 {{- define "ztka.coreConnectorFQDN" -}}
-{{.Values.domain.coreConnectorSubdomain}}.{{.Values.domain.host}}
+{{.Values.fqdn.coreConnectorSubdomain}}.{{.Values.fqdn.domain}}
 {{- end -}}
 
 {{/*
 Get user full-qualified domain.
 */}}
 {{- define "ztka.userFQDN" -}}
-{{.Values.domain.userSubdomain}}.{{.Values.domain.host}}
+{{.Values.fqdn.userSubdomain}}.{{.Values.fqdn.domain}}
 {{- end -}}

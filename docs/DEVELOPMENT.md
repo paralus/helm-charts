@@ -82,7 +82,7 @@ You have to add this ip into you `/etc/hosts` file by adding something like the 
 ```
 
 *When running locally use `paralus.local` as your host. This is what
-will be set by default for the value of `domain.host` in your
+will be set by default for the value of `fqdn.domain` in your
 [`values.yaml`](https://github.com/paralus/helm-charts/blob/main/charts/ztka/values.yaml)
 file. If you want to change, make sure you update the host in all the places where we mention `paralus.local`.*
 
@@ -94,7 +94,7 @@ Now that you have everything up and ready, just run helm install command using:
 helm upgrade --install <name> .
 ```
 
-*You should now be able to access the web ui in the host you specified under `domain.host`.*
+*You should now be able to access the web ui in the host you specified under `fqdn.domain`.*
 
 ## Resetting admin user's password
 
