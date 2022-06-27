@@ -1,6 +1,6 @@
 # ztka
 
-![Version: 0.0.1-alpha.6](https://img.shields.io/badge/Version-0.0.1--alpha.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.1](https://img.shields.io/badge/AppVersion-v0.0.1-informational?style=flat-square)
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 A Helm chart for Paralus ZTKA.
 
@@ -58,20 +58,20 @@ A Helm chart for Paralus ZTKA.
 | imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository |
 | images.dashboard.name | string | `"dashboard"` |  |
 | images.dashboard.repository | string | `"paralusio/dashboard"` | Paralus dashboard image |
-| images.dashboard.tag | string | `"main"` |  |
+| images.dashboard.tag | string | `"v0.1.0"` |  |
 | images.paralus.name | string | `"paralus"` |  |
 | images.paralus.repository | string | `"paralusio/paralus"` | Paralus paralus image |
-| images.paralus.tag | string | `"main"` |  |
+| images.paralus.tag | string | `"v0.1.0"` |  |
 | images.paralusInit.name | string | `"paralus-init"` |  |
 | images.paralusInit.repository | string | `"paralusio/paralus-init"` | Paralus paralus initialize image |
-| images.paralusInit.tag | string | `"main"` |  |
+| images.paralusInit.tag | string | `"v0.1.0"` |  |
 | images.prompt.name | string | `"prompt"` |  |
 | images.prompt.repository | string | `"paralusio/prompt"` | prompt image |
-| images.prompt.tag | string | `"main"` |  |
+| images.prompt.tag | string | `"v0.1.0"` |  |
 | images.pullPolicy | string | `"IfNotPresent"` | If defined, a imagePullPolicy applied to all deployments |
 | images.relay.name | string | `"relay"` |  |
 | images.relay.repository | string | `"paralusio/relay"` | relay image |
-| images.relay.tag | string | `"main"` |  |
+| images.relay.tag | string | `"v0.1.0"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
 | ingress.enabled | bool | `false` |  |
