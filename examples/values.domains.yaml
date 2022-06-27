@@ -1,5 +1,5 @@
-domain:
-  host: paralus.local
-  consoleSubdomain: "console"
+fqdn:
+  domain: paralus.local
+  hostname: "console"
   coreConnectorSubdomain: "*.core-connector"
   userSubdomain: "*.user"
