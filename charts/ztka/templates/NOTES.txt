@@ -2,16 +2,18 @@
 {{- if .Values.ingress.enabled }}
   Open {{ include "ztka.consoleFQDNWithScheme" . }} in browser.
 {{- else if .Values.deploy.contour.enable }}
-  {{- if (eq (index .Values.contour.envoy.service.annotations "service.beta.kubernetes.io/aws-load-balancer-type" | toString ) "nlb") }}
-  Get load balancer address via:
-  kubectl get service {{ .Release.Name }}-contour-envoy --namespace {{ .Release.Namespace }} -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+  Get the EXTERNAL-IP value using following command:
+  kubectl get service {{ .Release.Name }}-contour-envoy -n {{ .Release.Namespace }}
 
-  Add DNS records of following domains such that it resolves to above address:
+  Add DNS records of following domains such that it resolves to above <EXTERNAL-IP> value:
   - {{ include "ztka.consoleFQDN" . }}
   - {{ include "ztka.coreConnectorFQDN" . }}
   - {{ include "ztka.userFQDN" . }}
-  {{- end }}
+
   Open {{ include "ztka.consoleFQDNWithScheme" . }} in browser.
+
+  Note: If you are using a cluster with no load-balancer, then the address will be "<pending>".
+        If it is Kind or Minikube cluster, check out respective docs to get the external address.
 {{- else if contains "NodePort" .Values.services.dashboard.type }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services dashboard)
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
