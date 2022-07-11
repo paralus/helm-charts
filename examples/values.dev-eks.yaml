@@ -3,11 +3,17 @@
 ##
 ## contour on AWS with NLB: https://projectcontour.io/guides/deploy-aws-nlb/
 
+## NOTE: Use along with `values.dev.yaml` if you are setting up a dev cluster
+
 deploy:
   elasticsearch:
     enable: true
   postgresql:
     enable: true
+
+kratos:
+  kratos:
+    development: true
 
 contour:
   envoy:
