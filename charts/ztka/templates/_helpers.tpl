@@ -126,12 +126,14 @@ Get DSN
 {{- define "ztka.dsn" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable
-  {{- else -}}
+  {{- else if empty .Values.deploy.dsn -}}
 {{- $username := required "A valid .Values.deploy.postgresql.username entry required!" .Values.deploy.postgresql.username -}}
 {{- $password := required "A valid .Values.deploy.postgresql.password entry required!" .Values.deploy.postgresql.password -}}
 {{- $address := required "A valid .Values.deploy.postgresql.address entry required!" .Values.deploy.postgresql.address -}}
 {{- $database := required "A valid .Values.deploy.postgresql.database entry required!" .Values.deploy.postgresql.database -}}
 postgres://{{ $username }}:{{ $.password }}@{{ $address }}:5432/{{ $database }}?sslmode=disable
+  {{- else -}}
+{{ .Values.deploy.dsn }}
   {{- end -}}
 {{- end }}
 
