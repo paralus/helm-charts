@@ -1,0 +1,62 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: kratos-restart
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/hook: post-upgrade,post-rollback
+    helm.sh/hook-weight: "-2"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kratos-restart
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/hook: post-upgrade,post-rollback
+    helm.sh/hook-weight: "-2"
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    resourceNames: ["{{ .Release.Name }}-kratos"]
+    verbs: ["get", "patch", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kratos-restart
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/hook: post-upgrade,post-rollback
+    helm.sh/hook-weight: "-1"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kratos-restart
+subjects:
+  - kind: ServiceAccount
+    name: kratos-restart
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kratos-restart
+  annotations:
+    helm.sh/hook: post-upgrade,post-rollback
+    helm.sh/hook-weight: "0"
+spec:
+  backoffLimit: 2
+  activeDeadlineSeconds: 600
+  template:
+    spec:
+      serviceAccountName: kratos-restart
+      restartPolicy: Never
+      containers:
+        - name: kubectl
+          image: bitnami/kubectl
+          command:
+            - 'kubectl'
+            - 'rollout'
+            - 'restart'
+            - 'deployment/{{ .Release.Name }}-kratos'

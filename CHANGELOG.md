@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 ### Added
+- Helm upgrade & rollback hook to restart Kratos from [akshay196](https://github.com/akshay196)
 ### Changed
 ### Fixed
 
