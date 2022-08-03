@@ -483,6 +483,9 @@ filebeat:
                       fields:
                         paralus.component: relay
                       processors:
+                        - drop_event:
+                            when:
+                              has_fields: ['json.caller']  # these will be application logs
                         - timestamp:
                             field: json.ts
                             layouts:
