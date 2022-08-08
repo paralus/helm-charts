@@ -82,7 +82,7 @@ Get DB Address.
 {{- define "ztka.dbAddr" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local
-  {{- else -}}
+  {{- else if empty .Values.deploy.postgresql.dsn -}}
 {{ required "A valid .Values.deploy.postgresql.address entry required!" .Values.deploy.postgresql.address }}
   {{- end -}}
 {{- end }}
@@ -93,7 +93,7 @@ Get DB Username.
 {{- define "ztka.dbUser" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Values.postgresql.auth.username}}
-  {{- else -}}
+  {{- else if empty .Values.deploy.postgresql.dsn -}}
 {{ required "A valid .Values.deploy.postgresql.username entry required!" .Values.deploy.postgresql.username }}
   {{- end -}}
 {{- end }}
@@ -104,7 +104,7 @@ Get DB Password.
 {{- define "ztka.dbPassword" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Values.postgresql.auth.password}}
-  {{- else -}}
+  {{- else if empty .Values.deploy.postgresql.dsn -}}
 {{ required "A valid .Values.deploy.postgresql.password entry required!" .Values.deploy.postgresql.password }}
   {{- end -}}
 {{- end }}
@@ -115,7 +115,7 @@ Get DB Name.
 {{- define "ztka.dbName" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Values.postgresql.auth.database}}
-  {{- else -}}
+  {{- else if empty .Values.deploy.postgresql.dsn -}}
 {{ required "A valid .Values.deploy.postgresql.database entry required!" .Values.deploy.postgresql.database }}
   {{- end -}}
 {{- end }}
@@ -126,14 +126,14 @@ Get DSN
 {{- define "ztka.dsn" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable
-  {{- else if empty .Values.deploy.postgresql.dsn -}}
+  {{- else if .Values.deploy.postgresql.dsn -}}
+{{ .Values.deploy.postgresql.dsn }}
+  {{- else -}}
 {{- $username := required "A valid .Values.deploy.postgresql.username entry required!" .Values.deploy.postgresql.username -}}
 {{- $password := required "A valid .Values.deploy.postgresql.password entry required!" .Values.deploy.postgresql.password -}}
 {{- $address := required "A valid .Values.deploy.postgresql.address entry required!" .Values.deploy.postgresql.address -}}
 {{- $database := required "A valid .Values.deploy.postgresql.database entry required!" .Values.deploy.postgresql.database -}}
 postgres://{{ $username }}:{{ $password }}@{{ $address }}:5432/{{ $database }}?sslmode=disable
-  {{- else -}}
-{{ .Values.deploy.postgresql.dsn }}
   {{- end -}}
 {{- end }}
 

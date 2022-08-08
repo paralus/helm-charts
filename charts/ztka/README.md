@@ -43,11 +43,12 @@ A Helm chart for Paralus ZTKA.
 | deploy.kratos.enable | bool | `true` | Kratos instance is auto deployed and managed by Helm release when true. |
 | deploy.kratos.publicAddr | string | `""` | Kratos public address. Required when `deploy.kratos.enable` is unset |
 | deploy.kratos.smtpConnectionURI | string | `"smtps://test:test@mypost:1025/?skip_ssl_verify=true"` | SMTP connection URI that used by auto-deployed kratos for sending mails for example, account recovery etc. |
-| deploy.postgresql.address | string | `""` | Postgresql address for example, "localhost:5432". Required when `deploy.postgresql.enable` is unset |
-| deploy.postgresql.database | string | `""` | Postgresql database name. Required when `deploy.postgresql.enable` is unset. |
+| deploy.postgresql.address | string | `""` | Postgresql address for example, "localhost:5432". Required when `deploy.postgresql.enable` is unset and dsn is not specified. |
+| deploy.postgresql.database | string | `""` | Postgresql database name. Required when `deploy.postgresql.enable` is unset and dsn is not specified. |
+| deploy.postgresql.dsn | string | `""` | Postgresql DSN for example, "postgres://user:password@host:5432/db". Required when `deploy.postgresql.enable` is unset and individual components are not specified. Overrides individual components (address, username, password, database) |
 | deploy.postgresql.enable | bool | `false` | Postgresql db is auto deployed and managed by Helm release when true. (It is recommended to manage your own DB instance separately or use DB services like Amazon RDS in production) |
-| deploy.postgresql.password | string | `""` | Postgresql password. Required when `deploy.postgresql.enable` is unset. |
-| deploy.postgresql.username | string | `""` | Postgresql username. Required when `deploy.postgresql.enable` is unset. |
+| deploy.postgresql.password | string | `""` | Postgresql password. Required when `deploy.postgresql.enable` is unset and dsn is not specified. |
+| deploy.postgresql.username | string | `""` | Postgresql username. Required when `deploy.postgresql.enable` is unset and dsn is not specified. |
 | elasticsearch.minimumMasterNodes | int | `1` |  |
 | elasticsearch.replicas | int | `1` |  |
 | filebeat | object | filebeat subchart overwrite | the chart will overwrite some values of filebear subchart. |

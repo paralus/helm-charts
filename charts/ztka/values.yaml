@@ -205,17 +205,21 @@ deploy:
     # when true. (It is recommended to manage your own DB instance
     # separately or use DB services like Amazon RDS in production)
     enable: false
+    # -- Postgresql DSN for example, "postgres://user:password@host:5432/db". Required
+    # when `deploy.postgresql.enable` is unset and individual components are not specified.
+    # Overrides individual components (address, username, password, database)
+    dsn: ""
     # -- Postgresql address for example, "localhost:5432". Required
-    # when `deploy.postgresql.enable` is unset
+    # when `deploy.postgresql.enable` is unset and dsn is not specified.
     address: ""
     # -- Postgresql username. Required when `deploy.postgresql.enable`
-    # is unset.
+    # is unset and dsn is not specified.
     username: ""
     # -- Postgresql password. Required when `deploy.postgresql.enable`
-    # is unset.
+    # is unset and dsn is not specified.
     password: ""
     # -- Postgresql database name. Required when
-    # `deploy.postgresql.enable` is unset.
+    # `deploy.postgresql.enable` is unset and dsn is not specified.
     database: ""
 
   filebeat:
