@@ -1,6 +1,6 @@
 # ztka
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.1](https://img.shields.io/badge/AppVersion-v0.1.1-informational?style=flat-square)
 
 A Helm chart for Paralus ZTKA.
 
@@ -62,10 +62,10 @@ A Helm chart for Paralus ZTKA.
 | images.dashboard.tag | string | `"v0.1.0"` |  |
 | images.paralus.name | string | `"paralus"` |  |
 | images.paralus.repository | string | `"paralusio/paralus"` | Paralus paralus image |
-| images.paralus.tag | string | `"v0.1.0"` |  |
+| images.paralus.tag | string | `"v0.1.1"` |  |
 | images.paralusInit.name | string | `"paralus-init"` |  |
 | images.paralusInit.repository | string | `"paralusio/paralus-init"` | Paralus paralus initialize image |
-| images.paralusInit.tag | string | `"v0.1.0"` |  |
+| images.paralusInit.tag | string | `"v0.1.1"` |  |
 | images.prompt.name | string | `"prompt"` |  |
 | images.prompt.repository | string | `"paralusio/prompt"` | prompt image |
 | images.prompt.tag | string | `"v0.1.0"` |  |
