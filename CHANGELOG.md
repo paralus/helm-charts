@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+
+## [0.1.1] - 2022-08-09
 ### Added
 - Helm upgrade & rollback hook to restart Kratos from [akshay196](https://github.com/akshay196)
 ### Changed
@@ -16,5 +18,6 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/paralus/helm-charts/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/paralus/helm-charts/releases/tag/v0.1.0
+[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.1.1...HEAD
+[0.1.1]: https://github.com/paralus/helm-charts/compare/ztka-0.1.0...ztka-0.1.1
+[0.1.0]: https://github.com/paralus/helm-charts/releases/tag/ztka-0.1.0
