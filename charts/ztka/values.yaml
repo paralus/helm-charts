@@ -32,7 +32,7 @@ images:
     name: dashboard
     # -- Paralus dashboard image
     repository: paralusio/dashboard
-    tag: "v0.1.0"
+    tag: "v0.1.1"
 
   # -- If defined, a imagePullPolicy applied to all deployments
   pullPolicy: IfNotPresent
@@ -381,7 +381,7 @@ kratos:
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
         - name: synchronizer
-          image: "paralusio/kratos-synchronizer:v0.1.0"
+          image: "paralusio/kratos-synchronizer:v0.1.1"
           volumeMounts:
             - name: other-configs
               mountPath: /etc/kratos
