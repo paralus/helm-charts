@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [0.1.2] - 2022-08-12
+### Changed
+- Bumped paralus/paralus to 0.1.2 from [meain](https://github.com/meain)
+
 ## [0.1.1] - 2022-08-09
 ### Added
 - Helm upgrade & rollback hook to restart Kratos from [akshay196](https://github.com/akshay196)
@@ -18,6 +22,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.1.1...HEAD
+[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.1.2...HEAD
+[0.1.2]: https://github.com/paralus/helm-charts/compare/ztka-0.1.1...ztka-0.1.2
 [0.1.1]: https://github.com/paralus/helm-charts/compare/ztka-0.1.0...ztka-0.1.1
 [0.1.0]: https://github.com/paralus/helm-charts/releases/tag/ztka-0.1.0
