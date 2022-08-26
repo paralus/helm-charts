@@ -52,7 +52,7 @@ You should now have `paralus` deployed. You can check out our blog post to [setu
 
 From here you should be able to edit the files and repeat these steps to test it out.
 
-## Docuemntation
+## Documentation
 
 The documentation for each chart is done with [helm-docs](https://github.com/norwoodj/helm-docs). This way we can ensure that values are consistent with the chart documentation.
 
