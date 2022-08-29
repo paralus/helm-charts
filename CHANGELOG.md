@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [0.1.3] - 2022-08-26
+### Changed
+- Bumped paralus/paralus to 0.1.3 from [niravparikh05](https://github.com/niravparikh05)
+- Bumped paralus/relay to 0.1.1 from [niravparikh05](https://github.com/niravparikh05)
+- Bumped paralus/prompt to 0.1.1 from [niravparikh05](https://github.com/niravparikh05)
+
 ## [0.1.2] - 2022-08-12
 ### Changed
 - Bumped paralus/paralus to 0.1.2 from [meain](https://github.com/meain)
@@ -22,7 +28,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.1.2...HEAD
+[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.1.3...HEAD
+[0.1.3]: https://github.com/paralus/helm-charts/compare/ztka-0.1.2...ztka-0.1.3
 [0.1.2]: https://github.com/paralus/helm-charts/compare/ztka-0.1.1...ztka-0.1.2
 [0.1.1]: https://github.com/paralus/helm-charts/compare/ztka-0.1.0...ztka-0.1.1
 [0.1.0]: https://github.com/paralus/helm-charts/releases/tag/ztka-0.1.0
