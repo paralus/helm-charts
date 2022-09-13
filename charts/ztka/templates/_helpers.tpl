@@ -36,6 +36,19 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
+Validate storage options
+*/}}
+{{- define "ztka.auditlogStorage" -}}
+  {{- if eq .Values.auditLogs.storage "postgres" -}}
+postgres
+  {{- else if eq .Values.auditLogs.storage "elasticsearch" -}}
+elasticsearch
+  {{- else -}}
+{{ required "A valid .Values.auditLogs.storage entry required!" .Values.auditLogs.storage }}
+  {{- end -}}
+{{- end}}
+
+{{/*
 Get Kratos public address.
 */}}
 {{- define "ztka.kratos.publicAddr" -}}
@@ -69,10 +82,12 @@ http://{{.Release.Name}}-kratos-admin
 Get Elasticsearch Address.
 */}}
 {{- define "ztka.esAddr" -}}
-  {{- if .Values.deploy.elasticsearch.enable -}}
+  {{- if eq .Values.auditLogs.storage "elasticsearch" -}}
+    {{- if .Values.deploy.elasticsearch.enable -}}
 http://elasticsearch-master:9200
-  {{- else -}}
+    {{- else -}}
 {{ required "A valid .Values.deploy.elasticsearch.address entry required!" .Values.deploy.elasticsearch.address }}
+    {{- end -}}
   {{- end -}}
 {{- end }}
 

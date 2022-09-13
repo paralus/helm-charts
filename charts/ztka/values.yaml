@@ -177,6 +177,11 @@ analytics:
   enable: true
   gaTrackingID: "UA-230674306-1"
 
+auditLogs:
+  # -- postgres or elasticsearch for storing audit logs
+  # -- postgres by default
+  storage: postgres
+
 deploy:
   kratos:
     # -- Kratos instance is auto deployed and managed by Helm release
