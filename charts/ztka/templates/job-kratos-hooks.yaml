@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   annotations:
     helm.sh/hook: post-upgrade,post-rollback
+    helm.sh/hook-delete-policy: hook-succeeded
     helm.sh/hook-weight: "-2"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -14,6 +15,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   annotations:
     helm.sh/hook: post-upgrade,post-rollback
+    helm.sh/hook-delete-policy: hook-succeeded
     helm.sh/hook-weight: "-2"
 rules:
   - apiGroups: ["apps"]
@@ -28,6 +30,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   annotations:
     helm.sh/hook: post-upgrade,post-rollback
+    helm.sh/hook-delete-policy: hook-succeeded
     helm.sh/hook-weight: "-1"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -44,6 +47,7 @@ metadata:
   name: kratos-restart
   annotations:
     helm.sh/hook: post-upgrade,post-rollback
+    helm.sh/hook-delete-policy: hook-succeeded
     helm.sh/hook-weight: "0"
 spec:
   backoffLimit: 2
