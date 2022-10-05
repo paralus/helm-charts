@@ -180,7 +180,7 @@ analytics:
 auditLogs:
   # -- postgres or elasticsearch for storing audit logs
   # -- postgres by default
-  storage: postgres
+  storage: postgres 
 
 deploy:
   kratos:
@@ -209,7 +209,7 @@ deploy:
     # -- Postgresql db is auto deployed and managed by Helm release
     # when true. (It is recommended to manage your own DB instance
     # separately or use DB services like Amazon RDS in production)
-    enable: false
+    enable: true
     # -- Postgresql DSN for example, "postgres://user:password@host:5432/db". Required
     # when `deploy.postgresql.enable` is unset and individual components are not specified.
     # Overrides individual components (address, username, password, database)
@@ -220,7 +220,7 @@ deploy:
     # -- Postgresql username. Required when `deploy.postgresql.enable`
     # is unset and dsn is not specified.
     username: ""
-    # -- Postgresql password. Required when `deploy.postgresql.enable`
+    # -- Postgresql password. Required when `deploy.postgresql.enable`  
     # is unset and dsn is not specified.
     password: ""
     # -- Postgresql database name. Required when
@@ -228,6 +228,16 @@ deploy:
     database: ""
 
   filebeat:
+    # -- Filebeat is used to collect audit logs into the system. You
+    # can disable this if you don't want audit logs.
+    enable: true
+    # -- You can use this to config the index prefixes for
+    # elasticsearch.  This has to match with your filebeat config in
+    # `filebeat.daemonset.filebeatConfig.filebeat.yml`
+    indexPrefix: "ralog"
+    # TODO: can we somehow template it in filebeat.yml?
+
+  fluentbit:
     # -- Filebeat is used to collect audit logs into the system. You
     # can disable this if you don't want audit logs.
     enable: true
@@ -528,6 +538,76 @@ filebeat:
                 type: date
               - name: json.ts
                 type: date
+
+fluentbit :
+  daemonset:
+    fluentbitConfig:
+      fluentbit.yml : |
+        service: |
+          [SERVICE]
+              Daemon Off
+              Flush {{ .Values.flush }}
+              Log_Level {{ .Values.logLevel }}
+              Parsers_File parsers.conf
+              Parsers_File custom_parsers.conf
+              HTTP_Server On
+              HTTP_Listen 0.0.0.0
+              HTTP_Port {{ .Values.metricsPort }}
+              Health_Check On
+
+        ## https://docs.fluentbit.io/manual/pipeline/inputs
+        inputs: |
+          [INPUT]
+              Name tail
+              Tag kube.*
+              Path /var/log/containers/*paralus*paralus-tail*.log
+              Refresh_Interval 5
+              DB /var/log/fluentbit.db
+              DB.Sync Normal
+              Mem_Buf_Limit 5M
+              Skip_Long_Lines On
+              Read_from_Head True
+              Parser json
+
+
+        ## https://docs.fluentbit.io/manual/pipeline/filters
+        filters: |
+          [FILTER]
+              Name kubernetes
+              Match kube.*
+              Kube_URL https://kubernetes.default.svc:443
+              Kube_CA_File /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+              Kube_Token_File /var/run/secrets/kubernetes.io/serviceaccount/token
+              Merge_Log Off
+              K8S-Logging.Parser On
+              K8S-Logging.Exclude On
+              Annotations off
+              Labels off
+
+          [FILTER]
+              Name record_modifier
+              Match *
+              Remove_key kubernetes*
+              Remove_key stdout
+        ## https://docs.fluentbit.io/manual/pipeline/outputs
+        outputs: |
+          [OUTPUT]
+              Name stdout
+              Match kube.*
+              Format json
+              Json_Date_Key timestamp
+              Json_Date_Format iso8601 
+
+          [OUTPUT]
+              Name pgsql
+              Match *
+              Host 10.96.250.27
+              Port 5432
+              User admindbuser
+              Password admindbpassword
+              Database admindb
+              Table paralus
+              Timestamp_Key timestamp
 
 # -- the chart will overwrite some values of contour subchart.
 # @default -- contour subchart overwrite
