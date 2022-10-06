@@ -45,7 +45,7 @@ data:
         Parser json
     [INPUT]
         Name tail
-        Tag paralus
+        Tag prompt
         Path /var/log/containers/*prompt*prompt-tail*.log
         Refresh_Interval 5
         DB /var/log/fluentbit.db
