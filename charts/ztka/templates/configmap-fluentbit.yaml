@@ -23,7 +23,7 @@ data:
         Health_Check On
     [INPUT]
         Name tail
-        Tag paralus
+        Tag system
         Path /var/log/containers/*paralus*paralus-tail*.log
         Refresh_Interval 5
         DB /var/log/fluentbit.db
@@ -34,7 +34,7 @@ data:
         Parser json
     [INPUT]
         Name tail
-        Tag relay
+        Tag kubectl_api
         Path /var/log/containers/*relay-server*relay-tail*.log
         Refresh_Interval 5
         DB /var/log/fluentbit.db
@@ -45,7 +45,7 @@ data:
         Parser json
     [INPUT]
         Name tail
-        Tag prompt
+        Tag kubectl_cmd
         Path /var/log/containers/*prompt*prompt-tail*.log
         Refresh_Interval 5
         DB /var/log/fluentbit.db
