@@ -209,7 +209,7 @@ deploy:
     # -- Postgresql db is auto deployed and managed by Helm release
     # when true. (It is recommended to manage your own DB instance
     # separately or use DB services like Amazon RDS in production)
-    enable: true
+    enable: false
     # -- Postgresql DSN for example, "postgres://user:password@host:5432/db". Required
     # when `deploy.postgresql.enable` is unset and individual components are not specified.
     # Overrides individual components (address, username, password, database)
