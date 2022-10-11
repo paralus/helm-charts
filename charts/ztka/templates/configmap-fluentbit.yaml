@@ -3,13 +3,12 @@ kind: ConfigMap
 metadata:
   name: fluentbit-config
 data:
-  custom_parsers.conf: |
+  custom_parsers.conf: |    
     [PARSER]
-        Name docker_no_time
+        Name docker
         Format json
-        Time_Keep Off
-        Time_Key time
-        Time_Format %Y-%m-%dT%H:%M:%S.%L
+        Time_Key timestamp
+        Time_Format %Y-%m-%dT%H:%M:%S
   fluent-bit.conf: |
     [SERVICE]
         Daemon Off
@@ -31,7 +30,7 @@ data:
         Mem_Buf_Limit 5M
         Skip_Long_Lines On
         Read_from_Head True
-        Parser json
+        Parser docker
     [INPUT]
         Name tail
         Tag kubectl_api
@@ -42,7 +41,7 @@ data:
         Mem_Buf_Limit 5M
         Skip_Long_Lines On
         Read_from_Head True
-        Parser json
+        Parser docker
     [INPUT]
         Name tail
         Tag kubectl_cmd
@@ -53,7 +52,7 @@ data:
         Mem_Buf_Limit 5M
         Skip_Long_Lines On
         Read_from_Head True
-        Parser json
+        Parser docker
     [FILTER]
         Name kubernetes
         Match kube.*
@@ -61,8 +60,6 @@ data:
         Kube_CA_File /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
         Kube_Token_File /var/run/secrets/kubernetes.io/serviceaccount/token
         Merge_Log Off
-        K8S-Logging.Parser On
-        K8S-Logging.Exclude On
         Annotations off
         Labels off
     [FILTER]
@@ -70,13 +67,12 @@ data:
         Match *
         Remove_key kubernetes*
         Remove_key stdout
+        Remove_key date
 
     [OUTPUT]
         Name stdout
-        Match kube.*
+        Match *
         Format json
-        Json_Date_Key timestamp
-        Json_Date_Format iso8601 
 
     [OUTPUT]
         Name pgsql
@@ -86,6 +82,4 @@ data:
         User {{ include "ztka.dbUser" . | }}
         Password {{ include "ztka.dbPassword" . | }}
         Database {{ include "ztka.dbName" . | }}
-        Table paralus
-        Timestamp_Key timestamp
-
+        Table audit_logs
