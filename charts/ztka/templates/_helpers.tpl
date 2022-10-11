@@ -39,7 +39,7 @@ Create the name of the service account to use
 Validate storage options
 */}}
 {{- define "ztka.auditlogStorage" -}}
-  {{- if eq .Val .Values.auditLogs.storage "postgres" -}}
+  {{- if eq .Values.auditLogs.storage "postgres" -}}
 postgres
   {{- else if eq .Values.auditLogs.storage "elasticsearch" -}}
 elasticsearch
