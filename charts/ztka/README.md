@@ -59,13 +59,13 @@ A Helm chart for Paralus ZTKA.
 | imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository |
 | images.dashboard.name | string | `"dashboard"` |  |
 | images.dashboard.repository | string | `"paralusio/dashboard"` | Paralus dashboard image |
-| images.dashboard.tag | string | `"v0.1.3"` |  |
+| images.dashboard.tag | string | `"v0.1.4"` |  |
 | images.paralus.name | string | `"paralus"` |  |
 | images.paralus.repository | string | `"paralusio/paralus"` | Paralus paralus image |
-| images.paralus.tag | string | `"v0.1.5"` |  |
+| images.paralus.tag | string | `"v0.1.6"` |  |
 | images.paralusInit.name | string | `"paralus-init"` |  |
 | images.paralusInit.repository | string | `"paralusio/paralus-init"` | Paralus paralus initialize image |
-| images.paralusInit.tag | string | `"v0.1.5"` |  |
+| images.paralusInit.tag | string | `"v0.1.6"` |  |
 | images.prompt.name | string | `"prompt"` |  |
 | images.prompt.repository | string | `"paralusio/prompt"` | prompt image |
 | images.prompt.tag | string | `"v0.1.1"` |  |
