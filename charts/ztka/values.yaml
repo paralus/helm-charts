@@ -178,9 +178,9 @@ analytics:
   gaTrackingID: "UA-230674306-1"
 
 auditLogs:
-  # -- postgres or elasticsearch for storing audit logs
-  # -- postgres by default
-  storage: postgres  
+  # -- database or elasticsearch for storing audit logs
+  # -- database(postgres) by default
+  storage: "database"  
 
 deploy:
   kratos:
@@ -228,7 +228,7 @@ deploy:
     database: ""
 
   filebeat:
-    # -- Filebeat is used to collect audit logs into the system. You
+    # -- Filebeat is used to collect audit logs into the system via elasticsearch. You
     # can disable this if you don't want audit logs.
     enable: true
     # -- You can use this to config the index prefixes for
@@ -238,8 +238,7 @@ deploy:
     # TODO: can we somehow template it in filebeat.yml?
 
   fluentbit:
-    # -- Filebeat is used to collect audit logs into the system. You
-    # can disable this if you don't want audit logs.
+    # -- Fluentbit is used to collect audit logs into the system via a database
     enable: true
 
   contour:

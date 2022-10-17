@@ -5,10 +5,11 @@ metadata:
 data:
   custom_parsers.conf: |    
     [PARSER]
-        Name docker
-        Format json
+        Name crio
+        Format regex
+        Regex ^(?<time>[^ ]+) (?<stream>stdout|stderr) (?<logtag>[^ ]*) (?<log>.*)$
         Time_Key timestamp
-        Time_Format %Y-%m-%dT%H:%M:%S
+        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
   fluent-bit.conf: |
     [SERVICE]
         Daemon Off
@@ -30,7 +31,7 @@ data:
         Mem_Buf_Limit 5M
         Skip_Long_Lines On
         Read_from_Head True
-        Parser docker
+        Parser crio
     [INPUT]
         Name tail
         Tag kubectl_api
@@ -41,7 +42,7 @@ data:
         Mem_Buf_Limit 5M
         Skip_Long_Lines On
         Read_from_Head True
-        Parser docker
+        Parser crio
     [INPUT]
         Name tail
         Tag kubectl_cmd
@@ -52,7 +53,7 @@ data:
         Mem_Buf_Limit 5M
         Skip_Long_Lines On
         Read_from_Head True
-        Parser docker
+        Parser crio
     [FILTER]
         Name kubernetes
         Match kube.*
@@ -66,8 +67,22 @@ data:
         Name record_modifier
         Match *
         Remove_key kubernetes*
-        Remove_key stdout
+        Remove_key time
         Remove_key date
+        Remove_key stream
+        Remove_key logtag
+
+    [FILTER]
+        Name parser
+        Match *
+        Key_Name log
+        Parser json
+
+    [FILTER]
+        Name grep
+        Match *
+        Exclude caller .* 
+        
 
     [OUTPUT]
         Name stdout
@@ -83,3 +98,4 @@ data:
         Password {{ include "ztka.dbPassword" . | }}
         Database {{ include "ztka.dbName" . | }}
         Table audit_logs
+        Timestamp_Key time
