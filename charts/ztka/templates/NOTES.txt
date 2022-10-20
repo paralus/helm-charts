@@ -33,5 +33,14 @@
 {{- end }}
 
 You can view the recovery link for admin user by running the following command once all the pods are running:
+{{- if .Release.IsInstall }}
 
 kubectl logs -f --namespace {{ .Release.Namespace }} $(kubectl get pods --namespace {{ .Release.Namespace }} -l app.kubernetes.io/name='paralus' -o jsonpath='{ .items[0].metadata.name }') initialize | grep 'Org Admin signup URL:'
+{{- else if .Values.deploy.postgresql.enable }}
+
+kubectl exec -it "{{ .Release.Name }}-postgresql-0" --namespace {{ .Release.Namespace }} -- bash \
+  -c "PGPASSWORD={{ include "ztka.dbPassword" . }} psql -h {{ include "ztka.dbAddr" . }} -U {{ include "ztka.dbUser" . }} {{ include "ztka.dbName" . }} \
+-c \"select id from identities where traits->>'email' = '{{.Values.paralus.initialize.adminEmail}}' limit 1;\" -tA \
+| xargs -I{} curl -X POST http://{{ .Release.Name }}-kratos-admin/recovery/link \
+-H 'Content-Type: application/json' -d '{\"expires_in\":\"10m\",\"identity_id\":\"{}\"}'"
+{{- end }}
