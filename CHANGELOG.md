@@ -3,8 +3,12 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+
 ### Changed
 - Restart the paralus pod after helm upgrade from [akshay196](https://github.com/akshay196)
+
+### Fixed
+- Fixed the NOTES.txt for helm upgrade from [akshay196](https://github.com/akshay196)
 
 ## [0.1.7] - 2022-10-14
 ### Changed
