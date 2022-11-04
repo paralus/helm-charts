@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [0.1.8] - 2022-11-04
+
 ### Changed
 - Restart the paralus pod after helm upgrade from [akshay196](https://github.com/akshay196)
 
@@ -50,7 +52,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.1.7...HEAD
+[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.1.8...HEAD
+[0.1.8]: https://github.com/paralus/helm-charts/compare/ztka-0.1.7...ztka-0.1.8
 [0.1.7]: https://github.com/paralus/helm-charts/compare/ztka-0.1.6...ztka-0.1.7
 [0.1.6]: https://github.com/paralus/helm-charts/compare/ztka-0.1.5...ztka-0.1.6
 [0.1.5]: https://github.com/paralus/helm-charts/compare/ztka-0.1.4...ztka-0.1.5
