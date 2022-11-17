@@ -3,13 +3,17 @@ kind: ConfigMap
 metadata:
   name: fluentbit-config
 data:
-  custom_parsers.conf: |    
+  custom_parsers.conf: |
     [PARSER]
-        Name crio
-        Format regex
-        Regex ^(?<time>[^ ]+) (?<stream>stdout) (?<logtag>[^ ]*) (?<log>.*)$
+        Name json_timestamp
+        Format json
         Time_Key timestamp
-        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
+        Time_Format %Y-%m-%dT%H:%M:%S.%LZ
+    [PARSER]
+        Name json_ts
+        Format json
+        Time_Key ts
+        Time_Format %Y-%m-%dT%H:%M:%S.%LZ
   fluent-bit.conf: |
     [SERVICE]
         Daemon Off
@@ -26,69 +30,48 @@ data:
         Tag system
         Path /var/log/containers/*paralus*paralus-tail*.log
         Refresh_Interval 5
-        DB /var/log/fluentbit.db
-        DB.Sync Normal
         Mem_Buf_Limit 5M
         Skip_Long_Lines On
         Read_from_Head True
-        Parser crio
+        multiline.parser  docker, cri
     [INPUT]
         Name tail
         Tag kubectl_api
         Path /var/log/containers/*relay-server*relay-tail*.log
         Refresh_Interval 5
-        DB /var/log/fluentbit.db
-        DB.Sync Normal
         Mem_Buf_Limit 5M
         Skip_Long_Lines On
         Read_from_Head True
-        Parser crio
+        multiline.parser  docker, cri
     [INPUT]
         Name tail
         Tag kubectl_cmd
         Path /var/log/containers/*prompt*prompt-tail*.log
         Refresh_Interval 5
-        DB /var/log/fluentbit.db
-        DB.Sync Normal
         Mem_Buf_Limit 5M
         Skip_Long_Lines On
         Read_from_Head True
-        Parser crio
-    [FILTER]
-        Name kubernetes
-        Match kube.*
-        Kube_URL https://kubernetes.default.svc:443
-        Kube_CA_File /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-        Kube_Token_File /var/run/secrets/kubernetes.io/serviceaccount/token
-        Merge_Log Off
-        Annotations off
-        Labels off
-    [FILTER]
-        Name record_modifier
-        Match *
-        Remove_key kubernetes*
-        Remove_key time
-        Remove_key date
-        Remove_key stream
-        Remove_key logtag
-
+        multiline.parser  docker, cri
     [FILTER]
         Name parser
-        Match *
+        Match system
         Key_Name log
-        Parser json
-
+        Parser json_timestamp
+    [FILTER]
+        Name parser
+        Match kubectl_cmd
+        Key_Name log
+        Parser json_timestamp
+    [FILTER]
+        Name parser
+        Match kubectl_api
+        Key_Name log
+        Parser json_ts
     [FILTER]
         Name grep
         Match *
-        Exclude caller .* 
-        Exclude log .stderr*
-
-    [OUTPUT]
-        Name stdout
-        Match *
-        Format json
-
+        Exclude caller .*
+        Exclude stream stderr
     [OUTPUT]
         Name pgsql
         Match *
@@ -98,4 +81,3 @@ data:
         Password {{ include "ztka.dbPassword" . | }}
         Database {{ include "ztka.dbName" . | }}
         Table audit_logs
-        Timestamp_Key time

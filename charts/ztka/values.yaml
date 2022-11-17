@@ -228,9 +228,10 @@ deploy:
     database: ""
 
   filebeat:
-    # -- Filebeat is used to collect audit logs into the system via elasticsearch. You
-    # can disable this if you don't want audit logs.
-    enable: true
+    # -- Filebeat is used to collect audit logs into the system via
+    # elasticsearch. You can disable this if you don't want audit logs
+    # or you want to store audit logs into database.
+    enable: false
     # -- You can use this to config the index prefixes for
     # elasticsearch.  This has to match with your filebeat config in
     # `filebeat.daemonset.filebeatConfig.filebeat.yml`
@@ -238,7 +239,9 @@ deploy:
     # TODO: can we somehow template it in filebeat.yml?
 
   fluentbit:
-    # -- Fluentbit is used to collect audit logs into the system via a database
+    # -- Fluentbit is used to collect audit logs into the system via a
+    # -- database. You can disable this if you don't want audit logs
+    # -- of you want to push audit logs to elasticsearch.
     enable: true
 
   contour:
