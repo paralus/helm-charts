@@ -28,7 +28,7 @@ A Helm chart for Paralus ZTKA.
 | affinity | object | `{}` |  |
 | analytics.enable | bool | `true` |  |
 | analytics.gaTrackingID | string | `"UA-230674306-1"` |  |
-| auditLogs.storage | string | `"postgres"` | postgres by default |
+| auditLogs.storage | string | `"database"` | database(postgres) by default |
 | autoscaling.enabled | bool | `false` |  |
 | autoscaling.maxReplicas | int | `100` |  |
 | autoscaling.minReplicas | int | `1` |  |
@@ -39,9 +39,9 @@ A Helm chart for Paralus ZTKA.
 | deploy.contour.tls | object | `{}` | TLS properties of the virtual host |
 | deploy.elasticsearch.address | string | `""` | Elasticsearch address. Required when `deploy.elasticsearch.enable` is unset. |
 | deploy.elasticsearch.enable | bool | `false` | Elasticsearch instance is auto deployed and managed by Helm release when true. |
-| deploy.filebeat.enable | bool | `true` | Filebeat is used to collect audit logs into the system. You can disable this if you don't want audit logs. |
+| deploy.filebeat.enable | bool | `false` | Filebeat is used to collect audit logs into the system via elasticsearch. You can disable this if you don't want audit logs or you want to store audit logs into database. |
 | deploy.filebeat.indexPrefix | string | `"ralog"` | You can use this to config the index prefixes for elasticsearch.  This has to match with your filebeat config in `filebeat.daemonset.filebeatConfig.filebeat.yml` |
-| deploy.fluentbit.enable | bool | `true` | Filebeat is used to collect audit logs into the system. You can disable this if you don't want audit logs. |
+| deploy.fluentbit.enable | bool | `true` | of you want to push audit logs to elasticsearch. |
 | deploy.kratos.adminAddr | string | `""` | Kratos admin address. Required when `deploy.kratos.enable` is unset |
 | deploy.kratos.enable | bool | `true` | Kratos instance is auto deployed and managed by Helm release when true. |
 | deploy.kratos.publicAddr | string | `""` | Kratos public address. Required when `deploy.kratos.enable` is unset |
@@ -107,3 +107,4 @@ A Helm chart for Paralus ZTKA.
 | services.prompt | object | `{"ports":[{"containerPort":7009,"name":"http"}],"type":"ClusterIP"}` | prompt service config |
 | services.relay | object | `{"ports":[{"containerPort":443,"name":"https"}],"type":"ClusterIP"}` | relay service config |
 | tolerations | list | `[]` |  |
+
