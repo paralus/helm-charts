@@ -41,7 +41,7 @@ A Helm chart for Paralus ZTKA.
 | deploy.elasticsearch.enable | bool | `false` | Elasticsearch instance is auto deployed and managed by Helm release when true. |
 | deploy.filebeat.enable | bool | `false` | Filebeat is used to collect audit logs into the system via elasticsearch. You can disable this if you don't want audit logs or you want to store audit logs into database. |
 | deploy.filebeat.indexPrefix | string | `"ralog"` | You can use this to config the index prefixes for elasticsearch.  This has to match with your filebeat config in `filebeat.daemonset.filebeatConfig.filebeat.yml` |
-| deploy.fluentbit.enable | bool | `true` | of you want to push audit logs to elasticsearch. |
+| deploy.fluentbit.enable | bool | `true` | Fluentbit is used to collect audit logs into the system via a database. You can disable this if you don't want audit logs or you want to push audit logs to elasticsearch. |
 | deploy.kratos.adminAddr | string | `""` | Kratos admin address. Required when `deploy.kratos.enable` is unset |
 | deploy.kratos.enable | bool | `true` | Kratos instance is auto deployed and managed by Helm release when true. |
 | deploy.kratos.publicAddr | string | `""` | Kratos public address. Required when `deploy.kratos.enable` is unset |

@@ -240,8 +240,8 @@ deploy:
 
   fluentbit:
     # -- Fluentbit is used to collect audit logs into the system via a
-    # -- database. You can disable this if you don't want audit logs
-    # -- of you want to push audit logs to elasticsearch.
+    # database. You can disable this if you don't want audit logs or
+    # you want to push audit logs to elasticsearch.
     enable: true
 
   contour:
