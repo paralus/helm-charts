@@ -11,8 +11,11 @@ dependencies:
 - name: filebeat
   repository: https://helm.elastic.co
   version: 7.17.1
+- name: fluent-bit
+  repository: https://fluent.github.io/helm-charts
+  version: 0.20.8
 - name: contour
   repository: https://charts.bitnami.com/bitnami
   version: 7.8.0
-digest: sha256:8a01a5d27e740a1f03d576f579ab0e28c5d7be6c3bf9678af1d5949d6ae728ee
-generated: "2022-06-07T15:35:02.157974022+05:30"
+digest: sha256:aeea553a87fb9db162ba72ec63ffc3eba1effa1818015b167e81355c67f4da3d
+generated: "2022-11-17T13:07:50.302906107+05:30"

@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- Support database as a auditlog storage from [vivekhiwarkar](https://github.com/vivekhiwarkar) and [akshay196](https://github.com/akshay196)
+
 ## [0.1.8] - 2022-11-04
 
 ### Changed

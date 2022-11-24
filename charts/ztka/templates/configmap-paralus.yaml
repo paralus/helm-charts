@@ -8,6 +8,7 @@ metadata:
 data:
   DEV: "false"
   AUDIT_LOG_FILE: "/audit-logs/audit.log"
+  AUDIT_LOG_STORAGE: {{ include "ztka.auditlogStorage" . | quote }}
   ES_INDEX_PREFIX: "{{ .Values.deploy.filebeat.indexPrefix }}-system"
   RELAY_AUDITS_ES_INDEX_PREFIX: "{{ .Values.deploy.filebeat.indexPrefix }}-relay"
   RELAY_COMMANDS_ES_INDEX_PREFIX: "{{ .Values.deploy.filebeat.indexPrefix }}-prompt"

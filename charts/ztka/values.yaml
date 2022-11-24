@@ -177,6 +177,11 @@ analytics:
   enable: true
   gaTrackingID: "UA-230674306-1"
 
+auditLogs:
+  # -- database or elasticsearch for storing audit logs
+  # -- database(postgres) by default
+  storage: "database"  
+
 deploy:
   kratos:
     # -- Kratos instance is auto deployed and managed by Helm release
@@ -215,7 +220,7 @@ deploy:
     # -- Postgresql username. Required when `deploy.postgresql.enable`
     # is unset and dsn is not specified.
     username: ""
-    # -- Postgresql password. Required when `deploy.postgresql.enable`
+    # -- Postgresql password. Required when `deploy.postgresql.enable`  
     # is unset and dsn is not specified.
     password: ""
     # -- Postgresql database name. Required when
@@ -223,14 +228,21 @@ deploy:
     database: ""
 
   filebeat:
-    # -- Filebeat is used to collect audit logs into the system. You
-    # can disable this if you don't want audit logs.
-    enable: true
+    # -- Filebeat is used to collect audit logs into the system via
+    # elasticsearch. You can disable this if you don't want audit logs
+    # or you want to store audit logs into database.
+    enable: false
     # -- You can use this to config the index prefixes for
     # elasticsearch.  This has to match with your filebeat config in
     # `filebeat.daemonset.filebeatConfig.filebeat.yml`
     indexPrefix: "ralog"
     # TODO: can we somehow template it in filebeat.yml?
+
+  fluentbit:
+    # -- Fluentbit is used to collect audit logs into the system via a
+    # database. You can disable this if you don't want audit logs or
+    # you want to push audit logs to elasticsearch.
+    enable: true
 
   contour:
     # -- auto install contour ingress controller
@@ -523,6 +535,9 @@ filebeat:
                 type: date
               - name: json.ts
                 type: date
+
+fluent-bit:
+  existingConfigMap: "fluentbit-config"
 
 # -- the chart will overwrite some values of contour subchart.
 # @default -- contour subchart overwrite
