@@ -173,6 +173,7 @@ paralus:
     # -- Admin last name
     adminLastName: "User"
 
+# @ignored
 analytics:
   enable: true
   gaTrackingID: "UA-230674306-1"
