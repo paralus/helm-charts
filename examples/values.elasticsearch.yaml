@@ -1,0 +1,16 @@
+## Following additional values need to be configured to install
+## Paralus chart with Elasticseach enabled.
+
+auditLogs:
+  storage: "elasticsearch"
+
+deploy:
+  elasticsearch:
+    enable: true
+
+  filebeat:
+    enable: true
+
+  fluentbit:
+    enable: false
+
