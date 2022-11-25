@@ -1,14 +1,77 @@
 # ztka
 
-![Version: 0.1.8](https://img.shields.io/badge/Version-0.1.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.7](https://img.shields.io/badge/AppVersion-v0.1.7-informational?style=flat-square)
-
 A Helm chart for Paralus ZTKA.
 
-## Maintainers
+![Version: 0.1.9](https://img.shields.io/badge/Version-0.1.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.8](https://img.shields.io/badge/AppVersion-v0.1.8-informational?style=flat-square)
 
-| Name | Email | Url |
-| ---- | ------ | --- |
-| Paralus Team |  |  |
+This chart bootstraps the Paralus deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+
+## Prerequisites
+
+- Kubernetes v1.18+
+
+## Get Repo Info
+
+```console
+helm repo add paralus https://paralus.github.io/helm-charts
+helm repo update
+```
+
+## Install Chart
+
+**Important:** only helm3 is supported
+
+```console
+helm install [RELEASE_NAME] paralus/ztka -n paralus  \
+--create-namespace \
+--set deploy.postgresql.enable=true
+```
+
+The command deploys Paralus on the Kubernetes cluster in the default configuration.
+
+_See [configuration](#configuration) below._
+
+_See [helm install](https://helm.sh/docs/helm/helm_install/) for command documentation._
+
+## Uninstall Chart
+
+```console
+helm uninstall [RELEASE_NAME] -n paralus
+```
+
+This removes all the Kubernetes components associated with the chart and deletes the release.
+
+_See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command documentation._
+
+## Upgrading Chart
+
+```console
+helm upgrade [RELEASE_NAME] paralus/ztka --install -n paralus --create-namespace
+```
+
+_See [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/) for command documentation._
+
+### Upgrading to chart v0.1.9
+
+The chart `v0.1.9` introduced support for both database and elasticsearch as a back-end for auditlog storage. Defaults to database storage. So upgrading from older version to v0.1.9 may affect the auditing functionality.
+
+It is advised to use below command when upgrade to v0.1.9 without breaking auditlog functionality.
+
+```console
+helm upgrade [RELEASE_NAME] paralus/ztka -n paralus \
+-f https://raw.githubusercontent.com/paralus/helm-charts/main/examples/values.elasticsearch.yaml \
+--version 0.1.9
+```
+
+_It is recommended to keep using either database or elasticsearch for auditing storage to avoid auditlog data loss throughout upgrades._
+
+## Configuration
+
+See [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing). To see all configurable options with detailed comments, visit the chart's [values.yaml](./values.yaml), or run these configuration commands:
+
+```console
+helm show values paralus/ztka
+```
 
 ## Requirements
 
@@ -26,8 +89,6 @@ A Helm chart for Paralus ZTKA.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| analytics.enable | bool | `true` |  |
-| analytics.gaTrackingID | string | `"UA-230674306-1"` |  |
 | auditLogs.storage | string | `"database"` | database(postgres) by default |
 | autoscaling.enabled | bool | `false` |  |
 | autoscaling.maxReplicas | int | `100` |  |
@@ -66,10 +127,10 @@ A Helm chart for Paralus ZTKA.
 | images.dashboard.tag | string | `"v0.1.5"` |  |
 | images.paralus.name | string | `"paralus"` |  |
 | images.paralus.repository | string | `"paralusio/paralus"` | Paralus paralus image |
-| images.paralus.tag | string | `"v0.1.7"` |  |
+| images.paralus.tag | string | `"v0.1.8"` |  |
 | images.paralusInit.name | string | `"paralus-init"` |  |
 | images.paralusInit.repository | string | `"paralusio/paralus-init"` | Paralus paralus initialize image |
-| images.paralusInit.tag | string | `"v0.1.7"` |  |
+| images.paralusInit.tag | string | `"v0.1.8"` |  |
 | images.prompt.name | string | `"prompt"` |  |
 | images.prompt.repository | string | `"paralusio/prompt"` | prompt image |
 | images.prompt.tag | string | `"v0.1.1"` |  |

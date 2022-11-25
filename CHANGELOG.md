@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [0.1.9] - 2022-11-25
+
 ### Added
 - Support database as a auditlog storage from [vivekhiwarkar](https://github.com/vivekhiwarkar) and [akshay196](https://github.com/akshay196)
 
@@ -55,7 +57,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.1.8...HEAD
+[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.1.9...HEAD
+[0.1.9]: https://github.com/paralus/helm-charts/compare/ztka-0.1.8...ztka-0.1.9
 [0.1.8]: https://github.com/paralus/helm-charts/compare/ztka-0.1.7...ztka-0.1.8
 [0.1.7]: https://github.com/paralus/helm-charts/compare/ztka-0.1.6...ztka-0.1.7
 [0.1.6]: https://github.com/paralus/helm-charts/compare/ztka-0.1.5...ztka-0.1.6
