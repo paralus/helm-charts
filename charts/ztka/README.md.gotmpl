@@ -35,7 +35,7 @@ _See [helm install](https://helm.sh/docs/helm/helm_install/) for command documen
 ## Uninstall Chart
 
 ```console
-helm uninstall [RELEASE_NAME]
+helm uninstall [RELEASE_NAME] -n paralus
 ```
 
 This removes all the Kubernetes components associated with the chart and deletes the release.
@@ -45,14 +45,22 @@ _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command doc
 ## Upgrading Chart
 
 ```console
-helm upgrade [RELEASE_NAME] paralus/ztka --install
+helm upgrade [RELEASE_NAME] paralus/ztka --install -n paralus --create-namespace
 ```
 
 _See [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/) for command documentation._
 
 ### Upgrading to chart v0.1.9
 
-The chart `v0.1.9` introduced support for both database and elasticsearch as a back-end for auditlog storage. So upgrading from older version to v0.1.9 may affect the auditing functionality.
+The chart `v0.1.9` introduced support for both database and elasticsearch as a back-end for auditlog storage. Defaults to database storage. So upgrading from older version to v0.1.9 may affect the auditing functionality.
+
+It is advised to use below command when upgrade to v0.1.9 without breaking auditlog functionality.
+
+```console
+helm upgrade [RELEASE_NAME] paralus/ztka -n paralus \
+-f https://raw.githubusercontent.com/paralus/helm-charts/main/examples/values.elasticsearch.yaml \
+--version 0.1.9
+```
 
 _It is recommended to keep using either database or elasticsearch for auditing storage to avoid auditlog data loss throughout upgrades._
 
