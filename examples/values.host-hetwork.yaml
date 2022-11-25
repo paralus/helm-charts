@@ -2,8 +2,6 @@
 ## allowing contour/envoy service on host network.
 
 deploy:
-  elasticsearch:
-    enable: true
   postgresql:
     enable: true
 
