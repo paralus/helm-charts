@@ -1,7 +1,7 @@
 dependencies:
 - name: kratos
   repository: https://k8s.ory.sh/helm/charts
-  version: 0.22.2
+  version: 0.26.3
 - name: elasticsearch
   repository: https://helm.elastic.co
   version: 7.17.1
