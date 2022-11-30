@@ -381,7 +381,7 @@ kratos:
           configMapKeyRef:
             name: kratos-config
             key: default_browser_return_url
-      - name: SELFSERVICE_WHITELISTED_RETURN_URLS
+      - name: SELFSERVICE_ALLOWED_RETURN_URLS
         valueFrom:
           configMapKeyRef:
             name: kratos-config

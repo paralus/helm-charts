@@ -106,7 +106,7 @@ export RUSER="admin@paralus.local"
 kubectl exec -it "$RELEASE_NAME-postgresql-0" -- bash \
   -c "PGPASSWORD=admindbpassword psql -h localhost -U admindbuser admindb \
 -c \"select id from identities where traits->>'email' = '$RUSER' limit 1;\" -tA \
-| xargs -I{} curl -X POST http://$RELEASE_NAME-kratos-admin/recovery/link \
+| xargs -I{} curl -X POST http://$RELEASE_NAME-kratos-admin/admin/recovery/link \
 -H 'Content-Type: application/json' -d '{\"expires_in\":\"10m\",\"identity_id\":\"{}\"}'"
 ```
 
