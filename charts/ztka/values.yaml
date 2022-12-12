@@ -296,6 +296,17 @@ kratos:
               oidc:
                 hooks:
                   - hook: session
+          login:
+            ui_url: http://dashboard:3000/login
+            lifespan: 10m
+            after:
+              password:
+                hooks:
+                  - hook: web_hook
+                    config:
+                      url: http://paralus:11000/auth/v3/user/auditlog
+                      body: file:///etc/kratos/body.jsonnet                                
+                      method: POST
       identity:
         default_schema_url: file:///etc/config/identity.default.schema.json
 
@@ -419,6 +430,12 @@ kratos:
         - name: create-file
           image: "busybox:latest"
           command: ['sh', '-c', 'touch /etc/kratos/providers.yaml']
+          volumeMounts:
+            - name: other-configs
+              mountPath: /etc/kratos
+        - name: create-login-hook-jsonnetfile
+          image: "busybox:latest"
+          command: ['sh', '-c', 'echo "function(ctx) { user_id: ctx.identity.id }" >> /etc/kratos/body.jsonnet']
           volumeMounts:
             - name: other-configs
               mountPath: /etc/kratos
