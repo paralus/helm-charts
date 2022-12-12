@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- Updated kratos with after_login webhook to record event into paralus from [mabhi](https://github.com/mabhi)
 ## [0.1.9] - 2022-11-25
 
 ### Added
