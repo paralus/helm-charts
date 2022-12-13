@@ -298,7 +298,6 @@ kratos:
                   - hook: session
           login:
             ui_url: http://dashboard:3000/login
-            lifespan: 10m
             after:
               password:
                 hooks:
