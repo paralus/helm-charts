@@ -80,7 +80,7 @@ helm show values paralus/ztka
 | https://fluent.github.io/helm-charts | fluent-bit | 0.20.8 |
 | https://helm.elastic.co | elasticsearch | 7.17.1 |
 | https://helm.elastic.co | filebeat | 7.17.1 |
-| https://k8s.ory.sh/helm/charts | kratos | 0.22.2 |
+| https://k8s.ory.sh/helm/charts | kratos | 0.26.3 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | contour | 7.8.0 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | postgresql | 11.1.9 |
 
