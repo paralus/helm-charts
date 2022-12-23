@@ -226,7 +226,7 @@ Get user full-qualified domain.
 Get paralus service with port that is endpoint for kratos after login webhook.
 */}}
 {{- define "ztka.afterLoginWebhookWithPort" -}}
-{{ $url := "http://a.aaa"}}
+{{ $url := "http://localhost:11000"}}
 {{- range .Values.services.paralus.ports -}}
   {{- if eq .name "http" -}}
 {{- $url = printf "http://%s:%.0f"  $.Values.services.paralus.name .containerPort -}}

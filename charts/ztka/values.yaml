@@ -11,8 +11,8 @@ images:
   paralus:
     name: paralus
     # -- Paralus paralus image
-    repository: paralusio/paralus
-    tag: "v0.1.8"
+    repository: mabhi2ic/paralus
+    tag: "v1.0.1"
   paralusInit:
     name: paralus-init
     # -- Paralus paralus initialize image
@@ -300,16 +300,6 @@ kratos:
               oidc:
                 hooks:
                   - hook: session
-          login:
-            after:
-              password:
-                hooks:
-                  - hook: web_hook
-                    config:
-                    # URL needs to be overriden using config files
-                      url: http://test.test
-                      body: file:///etc/kratos/body.jsonnet                                
-                      method: POST
       identity:
         default_schema_url: file:///etc/config/identity.default.schema.json
 
@@ -405,11 +395,6 @@ kratos:
           configMapKeyRef:
             name: kratos-config
             key: selfservice_flows_error_ui_url
-      - name: SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_0_CONFIG_URL
-        valueFrom:
-          configMapKeyRef:
-            name: kratos-config
-            key: selfservice_flows_login_after_password_hooks_0_config_url
       
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
