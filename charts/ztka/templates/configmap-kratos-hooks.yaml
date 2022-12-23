@@ -1,0 +1,25 @@
+{{- if .Values.deploy.kratos.enable }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kratos-config-hooks
+  labels:
+    {{- include "ztka.kratos.hooks.labels" . | nindent 4 }}
+data:
+    kratos-config-hooks.yaml: |
+      selfservice:
+        methods:
+          password:
+            enabled: true
+        flows:
+          login:
+            after:
+              password:
+                hooks:
+                  - hook: web_hook
+                    config:
+                      url: {{ include "ztka.afterLoginWebhookWithPort" .}}/auth/v3/user/auditlog
+                      body: file:///etc/kratos/body.jsonnet                                
+                      method: POST
+  
+{{- end }}

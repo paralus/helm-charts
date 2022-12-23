@@ -12,4 +12,6 @@ data:
   selfservice_flows_recovery_ui_url: {{ include "ztka.consoleFQDNWithScheme" . }}/ksettings
   selfservice_flows_registration_ui_url: {{ include "ztka.consoleFQDNWithScheme" .}}/registeroidc
   selfservice_flows_error_ui_url: {{ include "ztka.consoleFQDNWithScheme" .}}/error-page
+  # for future use in v0.10.0
+  selfservice_flows_login_after_password_hooks_0_config_url: {{ include "ztka.afterLoginWebhookWithPort" .}}/auth/v3/user/auditlog
 {{- end }}

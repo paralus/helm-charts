@@ -72,6 +72,7 @@ securityContext: {}
 services:
   # -- paralus service config
   paralus:
+    name: paralus
     type: ClusterIP
     ports:
       - name: http
@@ -83,18 +84,21 @@ services:
   # -- prompt service config
   prompt:
     type: ClusterIP
+    name: prompt
     ports:
       - name: http
         containerPort: 7009
   # -- relay service config
   relay:
     type: ClusterIP
+    name: relay
     ports:
       - name: https
         containerPort: 443
   # -- dashboard service config
   dashboard:
     type: ClusterIP
+    name: dashboard
     ports:
       - name: nginx
         containerPort: 80
@@ -297,13 +301,13 @@ kratos:
                 hooks:
                   - hook: session
           login:
-            ui_url: http://dashboard:3000/login
             after:
               password:
                 hooks:
                   - hook: web_hook
                     config:
-                      url: http://paralus:11000/auth/v3/user/auditlog
+                    # URL needs to be overriden using config files
+                      url: http://test.test
                       body: file:///etc/kratos/body.jsonnet                                
                       method: POST
       identity:
@@ -401,6 +405,12 @@ kratos:
           configMapKeyRef:
             name: kratos-config
             key: selfservice_flows_error_ui_url
+      - name: SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_0_CONFIG_URL
+        valueFrom:
+          configMapKeyRef:
+            name: kratos-config
+            key: selfservice_flows_login_after_password_hooks_0_config_url
+      
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
         - name: synchronizer
@@ -419,12 +429,24 @@ kratos:
     extraArgs:
       - --config
       - /etc/kratos/providers.yaml
+      # this loads the extra config to override hook configuration
+      - --config
+      - /etc/kratos/hooks/kratos-config-hooks.yaml
     extraVolumes:
       - name: other-configs
         emptyDir: {}
+      # loading volume from kratos config hook configmap
+      - name: kratos-config-hooks
+        configMap:
+            name: kratos-config-hooks
+            defaultMode: 420
     extraVolumeMounts:
       - name: other-configs
         mountPath: /etc/kratos
+      # content of the hook config map data
+      - name: kratos-config-hooks
+        mountPath: /etc/kratos/hooks/kratos-config-hooks.yaml
+        subPath: kratos-config-hooks.yaml
     extraInitContainers: |
         - name: create-file
           image: "busybox:latest"
@@ -434,7 +456,7 @@ kratos:
               mountPath: /etc/kratos
         - name: create-login-hook-jsonnetfile
           image: "busybox:latest"
-          command: ['sh', '-c', 'echo "function(ctx) { user_id: ctx.identity.id }" >> /etc/kratos/body.jsonnet']
+          command: ['sh', '-c', 'echo "function(ctx) { user_id: ctx.identity.id }" > /etc/kratos/body.jsonnet']
           volumeMounts:
             - name: other-configs
               mountPath: /etc/kratos
