@@ -126,8 +126,8 @@ helm show values paralus/ztka
 | images.dashboard.repository | string | `"paralusio/dashboard"` | Paralus dashboard image |
 | images.dashboard.tag | string | `"v0.1.5"` |  |
 | images.paralus.name | string | `"paralus"` |  |
-| images.paralus.repository | string | `"mabhi2ic/paralus"` | Paralus paralus image |
-| images.paralus.tag | string | `"v1.0.1"` |  |
+| images.paralus.repository | string | `"paralusio/paralus"` | Paralus paralus image |
+| images.paralus.tag | string | `"v0.1.8"` |  |
 | images.paralusInit.name | string | `"paralus-init"` |  |
 | images.paralusInit.repository | string | `"paralusio/paralus-init"` | Paralus paralus initialize image |
 | images.paralusInit.tag | string | `"v0.1.8"` |  |
