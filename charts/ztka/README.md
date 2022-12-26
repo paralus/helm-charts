@@ -163,9 +163,9 @@ helm show values paralus/ztka
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
-| services.dashboard | object | `{"ports":[{"containerPort":80,"name":"nginx"}],"type":"ClusterIP"}` | dashboard service config |
-| services.paralus | object | `{"ports":[{"containerPort":11000,"name":"http"},{"containerPort":10000,"name":"rpc"},{"containerPort":10001,"name":"relay-peering"}],"type":"ClusterIP"}` | paralus service config |
-| services.prompt | object | `{"ports":[{"containerPort":7009,"name":"http"}],"type":"ClusterIP"}` | prompt service config |
-| services.relay | object | `{"ports":[{"containerPort":443,"name":"https"}],"type":"ClusterIP"}` | relay service config |
+| services.dashboard | object | `{"name":"dashboard","ports":[{"containerPort":80,"name":"nginx"}],"type":"ClusterIP"}` | dashboard service config |
+| services.paralus | object | `{"name":"paralus","ports":[{"containerPort":11000,"name":"http"},{"containerPort":10000,"name":"rpc"},{"containerPort":10001,"name":"relay-peering"}],"type":"ClusterIP"}` | paralus service config |
+| services.prompt | object | `{"name":"prompt","ports":[{"containerPort":7009,"name":"http"}],"type":"ClusterIP"}` | prompt service config |
+| services.relay | object | `{"name":"relay","ports":[{"containerPort":443,"name":"https"}],"type":"ClusterIP"}` | relay service config |
 | tolerations | list | `[]` |  |
 

@@ -72,6 +72,7 @@ securityContext: {}
 services:
   # -- paralus service config
   paralus:
+    name: paralus
     type: ClusterIP
     ports:
       - name: http
@@ -83,18 +84,21 @@ services:
   # -- prompt service config
   prompt:
     type: ClusterIP
+    name: prompt
     ports:
       - name: http
         containerPort: 7009
   # -- relay service config
   relay:
     type: ClusterIP
+    name: relay
     ports:
       - name: https
         containerPort: 443
   # -- dashboard service config
   dashboard:
     type: ClusterIP
+    name: dashboard
     ports:
       - name: nginx
         containerPort: 80
@@ -391,6 +395,7 @@ kratos:
           configMapKeyRef:
             name: kratos-config
             key: selfservice_flows_error_ui_url
+      
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
         - name: synchronizer
@@ -409,16 +414,34 @@ kratos:
     extraArgs:
       - --config
       - /etc/kratos/providers.yaml
+      # this loads the extra config to override hook configuration
+      - --config
+      - /etc/kratos/hooks/kratos-config-hooks.yaml
     extraVolumes:
       - name: other-configs
         emptyDir: {}
+      # loading volume from kratos config hook configmap
+      - name: kratos-config-hooks
+        configMap:
+            name: kratos-config-hooks
+            defaultMode: 420
     extraVolumeMounts:
       - name: other-configs
         mountPath: /etc/kratos
+      # content of the hook config map data
+      - name: kratos-config-hooks
+        mountPath: /etc/kratos/hooks/kratos-config-hooks.yaml
+        subPath: kratos-config-hooks.yaml
     extraInitContainers: |
         - name: create-file
           image: "busybox:latest"
           command: ['sh', '-c', 'touch /etc/kratos/providers.yaml']
+          volumeMounts:
+            - name: other-configs
+              mountPath: /etc/kratos
+        - name: create-login-hook-jsonnetfile
+          image: "busybox:latest"
+          command: ['sh', '-c', 'echo "function(ctx) { user_id: ctx.identity.id }" > /etc/kratos/body.jsonnet']
           volumeMounts:
             - name: other-configs
               mountPath: /etc/kratos

@@ -16,6 +16,14 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
+{{- define "ztka.kratos.hooks.labels" -}}
+helm.sh/chart: {{ include "ztka.chart" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
 {{/*
 Selector labels.
 */}}
@@ -212,4 +220,17 @@ Get user full-qualified domain.
 */}}
 {{- define "ztka.userFQDN" -}}
 {{.Values.fqdn.userSubdomain}}.{{.Values.fqdn.domain}}
+{{- end -}}
+
+{{/*
+Get paralus service with port that is endpoint for kratos after login webhook.
+*/}}
+{{- define "ztka.afterLoginWebhookWithPort" -}}
+{{ $url := "http://localhost:11000"}}
+{{- range .Values.services.paralus.ports -}}
+  {{- if eq .name "http" -}}
+{{- $url = printf "http://%s:%.0f"  $.Values.services.paralus.name .containerPort -}}
+  {{- end -}}
+{{- end -}}
+{{ $url }}
 {{- end -}}
