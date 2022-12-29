@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [0.2.0] - 2022-12-29
+
 ### Added
 - Updated kratos with after_login webhook to record event into paralus from [mabhi](https://github.com/mabhi)
+
 ## [0.1.9] - 2022-11-25
 
 ### Added
@@ -59,7 +62,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.1.9...HEAD
+[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.2.0...HEAD
+[0.2.0]: https://github.com/paralus/helm-charts/compare/ztka-0.1.9...ztka-0.2.0
 [0.1.9]: https://github.com/paralus/helm-charts/compare/ztka-0.1.8...ztka-0.1.9
 [0.1.8]: https://github.com/paralus/helm-charts/compare/ztka-0.1.7...ztka-0.1.8
 [0.1.7]: https://github.com/paralus/helm-charts/compare/ztka-0.1.6...ztka-0.1.7
