@@ -13,7 +13,7 @@ dependencies:
     condition: deploy.elasticsearch.enable
   - name: postgresql
     version: 11.1.9
-    repository: https://charts.bitnami.com/bitnami
+    repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     condition: deploy.postgresql.enable
   - name: filebeat
     version: 7.17.1
@@ -25,7 +25,7 @@ dependencies:
     condition: deploy.fluentbit.enable
   - name: contour
     version: 7.8.0
-    repository: https://charts.bitnami.com/bitnami
+    repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     condition: deploy.contour.enable
 maintainers:
   - name: Paralus Team
