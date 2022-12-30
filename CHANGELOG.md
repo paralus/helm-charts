@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Updated kratos with after_login webhook to record event into paralus from [mabhi](https://github.com/mabhi)
 
+### Changed
+- Updated bitnami chart repository for postgres and contour [niravparikh05](https://github.com/niravparikh05)
+
 ## [0.1.9] - 2022-11-25
 
 ### Added
