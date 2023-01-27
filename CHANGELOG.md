@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Upgraded kratos version and changes for default password feature [akshay196](https://github.com/akshay196)
+
 ## [0.2.0] - 2022-12-29
 
 ### Added
