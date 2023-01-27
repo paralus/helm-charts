@@ -17,5 +17,5 @@ dependencies:
 - name: contour
   repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
   version: 7.8.0
-digest: sha256:5533ac95db6b7dc1ef9601b033ad8f0f2436f610c2de1263289d9890a5648962
-generated: "2022-12-30T10:58:05.495751413+05:30"
+digest: sha256:0fe9a9659e8cb4d97d9aa6f1b8b3bfc6c237256d81bcf1a753ab35103eac3bd5
+generated: "2023-01-27T19:15:25.696019715+05:30"

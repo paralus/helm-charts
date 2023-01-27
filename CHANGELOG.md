@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [0.2.1] - 2023-01-27
+
 ### Changed
 - Upgraded kratos version and changes for default password feature [akshay196](https://github.com/akshay196)
 
@@ -68,7 +70,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.2.0...HEAD
+[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.2.1...HEAD
+[0.2.1]: https://github.com/paralus/helm-charts/compare/ztka-0.2.0...ztka-0.2.1
 [0.2.0]: https://github.com/paralus/helm-charts/compare/ztka-0.1.9...ztka-0.2.0
 [0.1.9]: https://github.com/paralus/helm-charts/compare/ztka-0.1.8...ztka-0.1.9
 [0.1.8]: https://github.com/paralus/helm-charts/compare/ztka-0.1.7...ztka-0.1.8
