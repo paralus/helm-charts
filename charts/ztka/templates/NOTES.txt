@@ -35,7 +35,7 @@
 You can view the recovery link for admin user by running the following command once all the pods are running:
 {{- if .Release.IsInstall }}
 
-kubectl logs -f --namespace {{ .Release.Namespace }} $(kubectl get pods --namespace {{ .Release.Namespace }} -l app.kubernetes.io/name='paralus' -o jsonpath='{ .items[0].metadata.name }') initialize | grep 'Org Admin signup URL:'
+kubectl logs -f --namespace {{ .Release.Namespace }} $(kubectl get pods --namespace {{ .Release.Namespace }} -l app.kubernetes.io/name='paralus' -o jsonpath='{ .items[0].metadata.name }') initialize | grep 'Org Admin default password:'
 {{- else if .Values.deploy.postgresql.enable }}
 
 kubectl exec -it "{{ .Release.Name }}-postgresql-0" --namespace {{ .Release.Namespace }} -- bash \

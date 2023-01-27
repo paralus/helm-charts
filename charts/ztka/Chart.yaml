@@ -4,7 +4,7 @@ description: A Helm chart for Paralus ZTKA.
 type: application
 dependencies:
   - name: kratos
-    version: 0.22.2
+    version: 0.26.3
     repository: https://k8s.ory.sh/helm/charts
     condition: deploy.kratos.enable
   - name: elasticsearch

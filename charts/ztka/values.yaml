@@ -266,6 +266,14 @@ kratos:
   kratos:
     development: false
     config:
+      version: v0.10.1
+      courier:
+        smtp:
+          # As per Kratos configuration it should string, but Kratos
+          # helm chart is using it only as a flag to set
+          # COURIER_SMTP_CONNECTION_URI variable. Actual value is
+          # taken from kratos Secret.
+          connection_uri: true
       serve:
         public:
           cors:
@@ -301,7 +309,10 @@ kratos:
                 hooks:
                   - hook: session
       identity:
-        default_schema_url: file:///etc/config/identity.default.schema.json
+        default_schema_id: default
+        schemas:
+          - id: default
+            url: file:///etc/config/identity.default.schema.json
 
     identitySchemas:
       "identity.default.schema.json": |
@@ -370,7 +381,7 @@ kratos:
           configMapKeyRef:
             name: kratos-config
             key: default_browser_return_url
-      - name: SELFSERVICE_WHITELISTED_RETURN_URLS
+      - name: SELFSERVICE_ALLOWED_RETURN_URLS
         valueFrom:
           configMapKeyRef:
             name: kratos-config
@@ -445,9 +456,6 @@ kratos:
           volumeMounts:
             - name: other-configs
               mountPath: /etc/kratos
-  watcher:
-    enabled: true
-    mountFile: /etc/kratos/providers.yaml
 
 elasticsearch:
   replicas: 1
