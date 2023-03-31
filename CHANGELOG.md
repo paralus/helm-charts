@@ -8,7 +8,6 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Update kratos chart to kratos app version 0.11.1 from [akshay196](https://github.com/akshay196)
-- Added set-limits init container for relay server to increase ulimit from [niravparikh05](https://github.com/niravparikh05)
 - Updated image versions for paralus, dashboard, relay from [niravparikh05](https://github.com/niravparikh05)
 
 ## [0.2.2] - 2023-02-24
