@@ -31,12 +31,6 @@ spec:
       volumes:
         - name: relay-audit-logs
           emptyDir: {}
-      initContainers:
-      - name: set-limits
-        image: "busybox:1.33"
-        command: ["sh", "-c", "ulimit -n 65536"]
-        securityContext:
-          privileged: true
       containers:
         - name: relay-tail
           securityContext:
