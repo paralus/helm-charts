@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [0.2.3] - 2023-03-31
+
+### Changed
+- Update kratos chart to kratos app version 0.11.1 from [akshay196](https://github.com/akshay196)
+- Updated image versions for paralus, dashboard, relay from [niravparikh05](https://github.com/niravparikh05)
+
 ## [0.2.2] - 2023-02-24
 
 ### Changed
