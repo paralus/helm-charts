@@ -266,7 +266,7 @@ kratos:
   kratos:
     development: false
     config:
-      version: v0.10.1
+      version: v0.11.0
       courier:
         smtp:
           # As per Kratos configuration it should string, but Kratos
@@ -312,12 +312,12 @@ kratos:
         default_schema_id: default
         schemas:
           - id: default
-            url: file:///etc/config/identity.default.schema.json
+            url: file:///etc/config/identity.schema.v1.json
 
     identitySchemas:
-      "identity.default.schema.json": |
+      "identity.schema.v1.json": |
         {
-          "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
+          "$id": "https://schemas.paralus.io/email-password/identity.schema.v1.json",
           "$schema": "http://json-schema.org/draft-07/schema#",
           "title": "Person",
           "type": "object",
@@ -354,14 +354,15 @@ kratos:
                     }
                   }
                 },
-                "idp_group": {
-                  "title": "IDP group",
-                  "type": "string"
+                "idp_groups": {
+                  "type": "array",
+                  "title": "IDP groups",
+                  "items": {
+                    "type": "string"
+                  }
                 }
               },
               "required": [
-                "first_name",
-                "last_name",
                 "email"
               ],
               "additionalProperties": false
