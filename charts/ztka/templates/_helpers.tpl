@@ -60,13 +60,9 @@ elasticsearch
 Get Kratos public address.
 */}}
 {{- define "ztka.kratos.publicAddr" -}}
-{{- if .Values.deploy.kratos.enable -}}
-  {{- if .Values.ingress.tls -}}
-https://{{.Release.Name}}-kratos-public
-  {{- else -}}
+  {{- if .Values.deploy.kratos.enable -}}
 http://{{.Release.Name}}-kratos-public
-  {{- end -}}
-{{- else -}}
+  {{- else -}}
 {{ required "A valid .Values.deploy.kratos.publicAddr entry required!" .Values.deploy.kratos.publicAddr }}
   {{- end -}}
 {{- end }}
@@ -75,13 +71,9 @@ http://{{.Release.Name}}-kratos-public
 Get Kratos admin address.
 */}}
 {{- define "ztka.kratos.adminAddr" -}}
-{{- if .Values.deploy.kratos.enable -}}
-  {{- if .Values.ingress.tls -}}
-https://{{.Release.Name}}-kratos-admin
-  {{- else -}}
+  {{- if .Values.deploy.kratos.enable -}}
 http://{{.Release.Name}}-kratos-admin
-  {{- end -}}
-{{- else -}}
+  {{- else -}}
 {{ required "A valid .Values.deploy.kratos.adminAddr entry required!" .Values.deploy.kratos.adminAddr }}
   {{- end -}}
 {{- end }}
