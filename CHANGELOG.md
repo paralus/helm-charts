@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- when deploying kratos as part of the chart and using TLS paralus should still connect over HTTP, and now does from [Joibel](https://github.com/Joibel)
+
 ## [0.2.4] - 2023-04-28
 
 ### Changed
