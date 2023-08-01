@@ -1,0 +1,5 @@
+## This is an example values used to overwrite default values.yaml
+
+deploy:
+  postgresql:
+    enable: true
