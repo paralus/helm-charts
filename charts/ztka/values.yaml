@@ -12,17 +12,17 @@ images:
     name: paralus
     # -- Paralus paralus image
     repository: paralusio/paralus
-    tag: "v0.2.3"
+    tag: "v0.2.4"
   paralusInit:
     name: paralus-init
     # -- Paralus paralus initialize image
     repository: paralusio/paralus-init
-    tag: "v0.2.3"
+    tag: "v0.2.4"
   relay:
     name: relay
     # -- relay image
     repository: paralusio/relay
-    tag: "v0.1.4"
+    tag: "v0.1.5"
   prompt:
     name: prompt
     # -- prompt image
@@ -414,7 +414,7 @@ kratos:
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
         - name: synchronizer
-          image: "paralusio/kratos-synchronizer:v0.2.3"
+          image: "paralusio/kratos-synchronizer:v0.2.4"
           volumeMounts:
             - name: other-configs
               mountPath: /etc/kratos

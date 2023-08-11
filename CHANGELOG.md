@@ -4,8 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [0.2.5] - 2023-08-11
+
 ### Changed
 - when deploying kratos as part of the chart and using TLS paralus should still connect over HTTP, and now does from [Joibel](https://github.com/Joibel)
+- helm hooks enable flag from [niravparikh05](https://github.com/niravparikh05)
+- Updated image versions for paralus, relay from [niravparikh05](https://github.com/niravparikh05)
 
 ## [0.2.4] - 2023-04-28
 
