@@ -182,6 +182,9 @@ analytics:
   enable: true
   gaTrackingID: "UA-230674306-1"
 
+hooks:
+  enable: true
+
 auditLogs:
   # -- database or elasticsearch for storing audit logs
   # -- database(postgres) by default

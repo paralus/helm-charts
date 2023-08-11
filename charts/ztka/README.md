@@ -121,6 +121,7 @@ helm show values paralus/ztka
 | fqdn.domain | string | `"paralus.local"` | Root domain |
 | fqdn.hostname | string | `"console"` | subdomain used for viewing dashboard |
 | fqdn.userSubdomain | string | `"*.user"` | communication |
+| hooks.enable | bool | `true` |  |
 | imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository |
 | images.dashboard.name | string | `"dashboard"` |  |
 | images.dashboard.repository | string | `"paralusio/dashboard"` | Paralus dashboard image |
