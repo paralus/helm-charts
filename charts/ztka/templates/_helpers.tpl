@@ -208,20 +208,14 @@ Get core-connector full-qualified domain.
 {{- end -}}
 
 {{/*
-TCP port for connection 
+TCP port for connection.
 */}}
 {{- define "ztka.tcpPort" -}}
-{{- $tcpPort := 443 -}}
-{{- if and  $.Values.contour.envoy.hostPorts .Values.contour.envoy.hostPorts.https -}}
-{{- $tcpPort = .Values.contour.envoy.hostPorts.https -}}
-{{- end -}}
+  {{- $tcpPort := 443 -}}
+  {{- if and  $.Values.contour.envoy.hostPorts .Values.contour.envoy.hostPorts.https -}}
+    {{- $tcpPort = .Values.contour.envoy.hostPorts.https -}}
+  {{- end -}}
 {{ $tcpPort }}
-{{- end -}}
-
-{{/*
-{{- end -}}
-
-{{/*
 {{- end -}}
 
 {{/*
