@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [0.2.6] - 2023-09-25
+
+### Changed
+- Updated image versions for paralus, relay, dashboard from [niravparikh05](https://github.com/niravparikh05)
+
 ## [0.2.5] - 2023-08-11
 
 ### Changed
@@ -93,7 +98,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.2.4...HEAD
+[Unreleased]: https://github.com/paralus/helm-charts/compare/ztka-0.2.6...HEAD
+[0.2.6]: https://github.com/paralus/helm-charts/compare/ztka-0.2.5...ztka-0.2.6
+[0.2.5]: https://github.com/paralus/helm-charts/compare/ztka-0.2.4...ztka-0.2.5
 [0.2.4]: https://github.com/paralus/helm-charts/compare/ztka-0.2.3...ztka-0.2.4
 [0.2.3]: https://github.com/paralus/helm-charts/compare/ztka-0.2.2...ztka-0.2.3
 [0.2.2]: https://github.com/paralus/helm-charts/compare/ztka-0.2.1...ztka-0.2.2
