@@ -2,6 +2,43 @@ apiVersion: v1
 entries:
   ztka:
   - apiVersion: v2
+    appVersion: v0.2.5
+    created: "2023-09-25T12:39:45.525061008Z"
+    dependencies:
+    - condition: deploy.kratos.enable
+      name: kratos
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.29.0
+    - condition: deploy.elasticsearch.enable
+      name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 7.17.1
+    - condition: deploy.postgresql.enable
+      name: postgresql
+      repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+      version: 11.1.9
+    - condition: deploy.filebeat.enable
+      name: filebeat
+      repository: https://helm.elastic.co
+      version: 7.17.1
+    - condition: deploy.fluentbit.enable
+      name: fluent-bit
+      repository: https://fluent.github.io/helm-charts
+      version: 0.20.8
+    - condition: deploy.contour.enable
+      name: contour
+      repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+      version: 7.8.0
+    description: A Helm chart for Paralus ZTKA.
+    digest: 83852b5129b3d124c054919041ea19b640b1230addc71c3d47af8415570d33fe
+    maintainers:
+    - name: Paralus Team
+    name: ztka
+    type: application
+    urls:
+    - https://github.com/paralus/helm-charts/releases/download/ztka-0.2.6/ztka-0.2.6.tgz
+    version: 0.2.6
+  - apiVersion: v2
     appVersion: v0.2.4
     created: "2023-08-11T07:44:38.816644072Z"
     dependencies:
@@ -592,39 +629,6 @@ entries:
     version: 0.0.1-alpha.6
   - apiVersion: v2
     appVersion: v0.0.1
-    created: "2022-06-20T07:30:41.621317215Z"
-    dependencies:
-    - condition: deploy.kratos.enable
-      name: kratos
-      repository: https://k8s.ory.sh/helm/charts
-      version: 0.22.2
-    - condition: deploy.elasticsearch.enable
-      name: elasticsearch
-      repository: https://helm.elastic.co
-      version: 7.17.1
-    - condition: deploy.postgresql.enable
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 11.1.9
-    - condition: deploy.filebeat.enable
-      name: filebeat
-      repository: https://helm.elastic.co
-      version: 7.17.1
-    - condition: deploy.contour.enable
-      name: contour
-      repository: https://charts.bitnami.com/bitnami
-      version: 7.8.0
-    description: A Helm chart for Paralus ZTKA.
-    digest: e3055fef586b60f1164c8105ffdecf6e1c7e9d1ce521c9bc0b35029456cc6956
-    maintainers:
-    - name: Paralus Team
-    name: ztka
-    type: application
-    urls:
-    - https://github.com/paralus/helm-charts/releases/download/ztka-0.0.1-alpha.6/ztka-0.0.1-alpha.6.tgz
-    version: 0.0.1-alpha.6
-  - apiVersion: v2
-    appVersion: v0.0.1
     created: "2022-06-14T10:22:14.4544084Z"
     dependencies:
     - condition: deploy.kratos.enable
@@ -758,6 +762,39 @@ entries:
     version: 0.0.1-alpha.6
   - apiVersion: v2
     appVersion: v0.0.1
+    created: "2022-06-20T07:30:41.621317215Z"
+    dependencies:
+    - condition: deploy.kratos.enable
+      name: kratos
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.22.2
+    - condition: deploy.elasticsearch.enable
+      name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 7.17.1
+    - condition: deploy.postgresql.enable
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.9
+    - condition: deploy.filebeat.enable
+      name: filebeat
+      repository: https://helm.elastic.co
+      version: 7.17.1
+    - condition: deploy.contour.enable
+      name: contour
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.8.0
+    description: A Helm chart for Paralus ZTKA.
+    digest: e3055fef586b60f1164c8105ffdecf6e1c7e9d1ce521c9bc0b35029456cc6956
+    maintainers:
+    - name: Paralus Team
+    name: ztka
+    type: application
+    urls:
+    - https://github.com/paralus/helm-charts/releases/download/ztka-0.0.1-alpha.6/ztka-0.0.1-alpha.6.tgz
+    version: 0.0.1-alpha.6
+  - apiVersion: v2
+    appVersion: v0.0.1
     created: "2022-06-14T07:48:30.422420346Z"
     dependencies:
     - condition: deploy.kratos.enable
@@ -790,4 +827,4 @@ entries:
     - https://paralus.github.io/helm-charts/ztka-0.0.1-alpha.5.tgz
     - https://github.com/paralus/helm-charts/releases/download/ztka-0.0.1-alpha.5/ztka-0.0.1-alpha.5.tgz
     version: 0.0.1-alpha.5
-generated: "2023-08-11T07:44:38.816975174Z"
+generated: "2023-09-25T12:39:45.525218206Z"
