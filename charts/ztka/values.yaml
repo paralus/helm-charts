@@ -591,6 +591,14 @@ contour:
       create: false
 
   envoy:
+    # -- Envoy host ports.
+    hostPorts:
+      http: 80
+      https: 443
+
     service:
       # -- Annotations for Envoy service.
       annotations: {}
+
+      # -- Type of Envoy service to create.
+      type: LoadBalancer

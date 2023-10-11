@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## Added
+- Option to override Relay external host in config from [plejik](https://github.com/plejik)
+
 ## [0.2.6] - 2023-09-25
 
 ### Changed

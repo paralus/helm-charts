@@ -18,6 +18,6 @@ data:
   RELAY_IMAGE: {{ .Values.images.relay.repository }}:{{ .Values.images.relay.tag | default .Chart.AppVersion }}
   SCHEDULER_NAMESPACE: {{ .Release.Namespace | quote }}
   SENTRY_PEERING_HOST: "paralus:10001"
-  CORE_RELAY_CONNECTOR_HOST: {{ printf "%s:%s" (include "ztka.coreConnectorFQDN" .) "443" | quote }}
-  CORE_RELAY_USER_HOST: {{ printf "%s:%s" (include "ztka.userFQDN" .) "443" | quote }}
+  CORE_RELAY_CONNECTOR_HOST: {{ printf "%s:%s" (include "ztka.coreConnectorFQDN" .) (include "ztka.tcpPort" .) | quote }}
+  CORE_RELAY_USER_HOST: {{ printf "%s:%s" (include "ztka.userFQDN" .) (include "ztka.tcpPort" .) | quote }}
   SENTRY_BOOTSTRAP_ADDR: {{ include "ztka.consoleFQDNWithPort" . | quote }}

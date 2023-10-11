@@ -95,7 +95,9 @@ helm show values paralus/ztka
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | contour | object | contour subchart overwrite | the chart will overwrite some values of contour subchart. |
+| contour.envoy.hostPorts | object | `{"http":80,"https":443}` | Envoy host ports. |
 | contour.envoy.service.annotations | object | `{}` | Annotations for Envoy service. |
+| contour.envoy.service.type | string | `"LoadBalancer"` | Type of Envoy service to create. |
 | deploy.contour.enable | bool | `true` | auto install contour ingress controller |
 | deploy.contour.tls | object | `{}` | TLS properties of the virtual host |
 | deploy.elasticsearch.address | string | `""` | Elasticsearch address. Required when `deploy.elasticsearch.enable` is unset. |
