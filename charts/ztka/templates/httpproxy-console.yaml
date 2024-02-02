@@ -5,6 +5,7 @@ metadata:
   name: console
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
+    app.kubernetes.io/component: networking
 spec:
   virtualhost:
     fqdn: {{ include "ztka.consoleFQDN" . | quote }}

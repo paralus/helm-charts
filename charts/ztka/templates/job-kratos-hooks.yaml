@@ -38,6 +38,7 @@ metadata:
     helm.sh/hook-weight: "-1"
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
+    app.kubernetes.io/component: job
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -57,6 +58,7 @@ metadata:
     helm.sh/hook-weight: "0"
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
+    app.kubernetes.io/component: job
 spec:
   backoffLimit: 2
   activeDeadlineSeconds: 600

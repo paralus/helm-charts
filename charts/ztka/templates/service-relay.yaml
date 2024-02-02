@@ -5,6 +5,7 @@ metadata:
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
     {{- include "ztka.selectorLabels" (dict "image" $.Values.images.relay "release" $.Release) | nindent 4 }}
+    app.kubernetes.io/component: networking
 spec:
   type: {{ .Values.services.relay.type }}
   ports:

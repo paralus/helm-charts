@@ -6,6 +6,7 @@ metadata:
   name: paralus-post-install-analytics
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
+    app.kubernetes.io/component: job
   annotations:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.

@@ -5,6 +5,9 @@ metadata:
   name: kratos-config
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
+    app.kubernetes.io/name: kratos-config
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: configuration
 data:
   serve_public_base_url: {{ include "ztka.consoleFQDNWithScheme" . }}
   default_browser_return_url: {{ include "ztka.consoleFQDNWithScheme" . }}

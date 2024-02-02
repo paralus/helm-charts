@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
     {{- include "ztka.selectorLabels" (dict "image" $.Values.images.paralus "release" $.Release) | nindent 4 }}
-    {{- include "ztka.componentLabel" (dict "image" $.Values.images.paralus "release" $.Release) | nindent 4 }}
+    app.kubernetes.io/component: configuration
 data:
   DEV: "false"
   AUDIT_LOG_FILE: "/audit-logs/audit.log"

@@ -5,6 +5,7 @@ metadata:
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
     {{- include "ztka.selectorLabels" (dict "image" $.Values.images.prompt "release" $.Release) | nindent 4 }}
+    app.kubernetes.io/component: workload
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -19,8 +20,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "ztka.labels" . | nindent 4 }}
+        {{- include "ztka.labels" . | nindent 8 }}
         {{- include "ztka.selectorLabels" (dict "image" $.Values.images.prompt "release" $.Release) | nindent 8 }}
+        app.kubernetes.io/component: workload
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

@@ -36,25 +36,6 @@ app.kubernetes.io/instance: {{ .release.Name }}
 {{- end }}
 
 {{/*
-Component labels
-*/}}
-{{- define "ztka.componentLabel" -}}
-app.kubernetes.io/component: {{ .image.name }}
-{{- end }}
-
-{{- define "ztka.kratos.fluentbit.labels" -}}
-helm.sh/chart: {{ include "ztka.chart" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/name: {{ .image.name }}
-app.kubernetes.io/instance: {{ .release.Name }}
-app.kubernetes.io/component: fluentbit
-app.kubernetes.io/part-of: paralus
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end }}
-
-{{/*
 Create the name of the service account to use
 */}}
 {{- define "ztka.serviceAccountName" -}}
