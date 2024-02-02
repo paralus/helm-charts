@@ -19,6 +19,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
+        {{- include "ztka.labels" . | nindent 4 }}
         {{- include "ztka.selectorLabels" (dict "image" $.Values.images.dashboard "release" $.Release) | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}

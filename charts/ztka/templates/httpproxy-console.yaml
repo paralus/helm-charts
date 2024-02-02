@@ -3,6 +3,8 @@ apiVersion: projectcontour.io/v1
 kind: HTTPProxy
 metadata:
   name: console
+  labels:
+    {{- include "ztka.labels" . | nindent 4 }}
 spec:
   virtualhost:
     fqdn: {{ include "ztka.consoleFQDN" . | quote }}
