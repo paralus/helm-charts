@@ -88,6 +88,7 @@ helm show values paralus/ztka
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| additionalLabels | object | `{}` | Additional labels to add to all resources |
 | affinity | object | `{}` |  |
 | auditLogs.storage | string | `"database"` | database(postgres) by default |
 | autoscaling.enabled | bool | `false` |  |
@@ -171,4 +172,3 @@ helm show values paralus/ztka
 | services.prompt | object | `{"name":"prompt","ports":[{"containerPort":7009,"name":"http"}],"type":"ClusterIP"}` | prompt service config |
 | services.relay | object | `{"name":"relay","ports":[{"containerPort":443,"name":"https"}],"type":"ClusterIP"}` | relay service config |
 | tolerations | list | `[]` |  |
-
