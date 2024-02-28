@@ -12,17 +12,17 @@ images:
     name: paralus
     # -- Paralus paralus image
     repository: paralusio/paralus
-    tag: "v0.2.6"
+    tag: "v0.2.7"
   paralusInit:
     name: paralus-init
     # -- Paralus paralus initialize image
     repository: paralusio/paralus-init
-    tag: "v0.2.6"
+    tag: "v0.2.7"
   relay:
     name: relay
     # -- relay image
     repository: paralusio/relay
-    tag: "v0.1.6"
+    tag: "v0.1.7"
   prompt:
     name: prompt
     # -- prompt image
@@ -32,7 +32,7 @@ images:
     name: dashboard
     # -- Paralus dashboard image
     repository: paralusio/dashboard
-    tag: "v0.2.1"
+    tag: "v0.2.2"
 
   # -- If defined, a imagePullPolicy applied to all deployments
   pullPolicy: IfNotPresent
@@ -414,7 +414,7 @@ kratos:
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
         - name: synchronizer
-          image: "paralusio/kratos-synchronizer:v0.2.6"
+          image: "paralusio/kratos-synchronizer:v0.2.7"
           volumeMounts:
             - name: other-configs
               mountPath: /etc/kratos
