@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 ## Added
 - Option to override Relay external host in config from [plejik](https://github.com/plejik)
 
+### Changed
+- Updated Kubernetes labels from [nlamirault](https://github.com/nlamirault)
+
 ## [0.2.6] - 2023-09-25
 
 ### Changed

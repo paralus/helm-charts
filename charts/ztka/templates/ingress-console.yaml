@@ -11,6 +11,7 @@ metadata:
   name: console
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
+    app.kubernetes.io/component: networking
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

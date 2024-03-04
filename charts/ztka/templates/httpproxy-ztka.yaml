@@ -3,6 +3,9 @@ apiVersion: projectcontour.io/v1
 kind: HTTPProxy
 metadata:
   name: ztka-core-connector
+  labels:
+    {{- include "ztka.labels" . | nindent 4 }}
+    app.kubernetes.io/component: networking
 spec:
   virtualhost:
     fqdn: {{ include "ztka.coreConnectorFQDN" . | quote }}
@@ -17,6 +20,9 @@ apiVersion: projectcontour.io/v1
 kind: HTTPProxy
 metadata:
   name: ztka-user
+  labels:
+    {{- include "ztka.labels" . | nindent 4 }}
+    app.kubernetes.io/component: networking
 spec:
   virtualhost:
     fqdn: {{ include "ztka.userFQDN" . | quote }}

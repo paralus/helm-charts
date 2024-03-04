@@ -5,6 +5,9 @@ metadata:
   name: kratos-config-hooks
   labels:
     {{- include "ztka.kratos.hooks.labels" . | nindent 4 }}
+    app.kubernetes.io/name: kratos-config-hooks
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: configuration
 data:
     kratos-config-hooks.yaml: |
       selfservice:
