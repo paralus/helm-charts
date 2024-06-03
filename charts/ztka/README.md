@@ -172,3 +172,4 @@ helm show values paralus/ztka
 | services.prompt | object | `{"name":"prompt","ports":[{"containerPort":7009,"name":"http"}],"type":"ClusterIP"}` | prompt service config |
 | services.relay | object | `{"name":"relay","ports":[{"containerPort":443,"name":"https"}],"type":"ClusterIP"}` | relay service config |
 | tolerations | list | `[]` |  |
+
