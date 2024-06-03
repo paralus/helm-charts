@@ -6,11 +6,12 @@ metadata:
   name: paralus-pre-upgrade-analytics
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
+    app.kubernetes.io/component: job
   annotations:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
-    "helm.sh/hook": pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
+    helm.sh/hook: pre-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded
 spec:
   template:
     metadata:

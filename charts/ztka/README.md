@@ -88,6 +88,7 @@ helm show values paralus/ztka
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| additionalLabels | object | `{}` | Additional labels to add to all resources |
 | affinity | object | `{}` |  |
 | auditLogs.storage | string | `"database"` | database(postgres) by default |
 | autoscaling.enabled | bool | `false` |  |

@@ -53,6 +53,9 @@ serviceAccount:
 # -- Annotations for the all deployed pods
 podAnnotations: {}
 
+# -- Additional labels to add to all resources
+additionalLabels: {}
+
 # Pod Security Context
 podSecurityContext: {}
   # fsGroup: 2000
