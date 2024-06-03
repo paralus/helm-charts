@@ -4,7 +4,7 @@ metadata:
   name: fluentbit-config
   labels:
     {{- include "ztka.labels" . | nindent 4 }}
-    app.kubernetes.io/name: kratos-fluentbit
+    app.kubernetes.io/name: fluentbit
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: configuration
 data:
