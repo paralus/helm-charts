@@ -103,6 +103,8 @@ Get DB Address.
 {{- define "ztka.dbAddr" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local
+  {{- else if .Values.deploy.postgresql.existingSecret -}}
+{{- printf "%s" (tpl .Values.deploy.postgresql.existingSecret $) -}}
   {{- else if empty .Values.deploy.postgresql.dsn -}}
 {{ required "A valid .Values.deploy.postgresql.address entry required!" .Values.deploy.postgresql.address }}
   {{- end -}}
@@ -114,6 +116,8 @@ Get DB Username.
 {{- define "ztka.dbUser" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Values.postgresql.auth.username}}
+  {{- else if .Values.deploy.postgresql.existingSecret -}}
+{{- printf "%s" (tpl .Values.deploy.postgresql.existingSecret $) -}}
   {{- else if empty .Values.deploy.postgresql.dsn -}}
 {{ required "A valid .Values.deploy.postgresql.username entry required!" .Values.deploy.postgresql.username }}
   {{- end -}}
@@ -125,6 +129,8 @@ Get DB Password.
 {{- define "ztka.dbPassword" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Values.postgresql.auth.password}}
+  {{- else if .Values.deploy.postgresql.existingSecret -}}
+{{- printf "%s" (tpl .Values.deploy.postgresql.existingSecret $) -}}
   {{- else if empty .Values.deploy.postgresql.dsn -}}
 {{ required "A valid .Values.deploy.postgresql.password entry required!" .Values.deploy.postgresql.password }}
   {{- end -}}
@@ -136,6 +142,8 @@ Get DB Name.
 {{- define "ztka.dbName" -}}
   {{- if .Values.deploy.postgresql.enable -}}
 {{.Values.postgresql.auth.database}}
+  {{- else if .Values.deploy.postgresql.existingSecret -}}
+{{- printf "%s" (tpl .Values.deploy.postgresql.existingSecret $) -}}
   {{- else if empty .Values.deploy.postgresql.dsn -}}
 {{ required "A valid .Values.deploy.postgresql.database entry required!" .Values.deploy.postgresql.database }}
   {{- end -}}
@@ -149,6 +157,8 @@ Get DSN
 postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{.Release.Name}}-postgresql.{{.Release.Namespace}}.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}?sslmode=disable
   {{- else if .Values.deploy.postgresql.dsn -}}
 {{ .Values.deploy.postgresql.dsn }}
+  {{- else if .Values.deploy.postgresql.existingSecret -}}
+{{- printf "%s" (tpl .Values.deploy.postgresql.existingSecret $) -}}
   {{- else -}}
 {{- $username := required "A valid .Values.deploy.postgresql.username entry required!" .Values.deploy.postgresql.username -}}
 {{- $password := required "A valid .Values.deploy.postgresql.password entry required!" .Values.deploy.postgresql.password -}}
