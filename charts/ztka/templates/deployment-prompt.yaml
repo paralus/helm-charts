@@ -62,7 +62,11 @@ spec:
           - configMapRef:
               name: prompt-config
           - secretRef:
+            {{- if .Values.deploy.postgresql.existingSecret }}
+              name: {{ .Values.deploy.postgresql.existingSecret }}
+            {{- else }}
               name: paralus-db
+            {{- end }}
           ports:
             {{- range .Values.services.prompt.ports }}
             - name: {{ .name }}
