@@ -1,4 +1,4 @@
-{{- if .Values.deploy.filebeat.enable }}
+{{- if .Values.deploy.fluentbit.enable }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
