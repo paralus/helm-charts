@@ -4,24 +4,6 @@ templates:
   - configmap-paralus.yaml
 tests:
   - it: should render the basic deployment structure
-    set:
-      fqdn:
-        domain: "example.com"
-        hostname: "console"
-        coreConnectorSubdomain: "*.core-connector"
-        userSubdomain: "*.user"
-      images:
-        paralus:
-          repository: paralusio/paralus
-          tag: "v0.2.8"
-        pullPolicy: IfNotPresent
-      services:
-        paralus:
-          name: paralus
-          type: ClusterIP
-          ports:
-            - name: http
-              containerPort: 11000
     asserts:
       - isKind:
           of: Deployment
@@ -32,23 +14,6 @@ tests:
 
   - it: should include external secrets env when configured
     set:
-      fqdn:
-        domain: "example.com"
-        hostname: "console"
-        coreConnectorSubdomain: "*.core-connector"
-        userSubdomain: "*.user"
-      images:
-        paralus:
-          repository: paralusio/paralus
-          tag: "v0.2.8"
-        pullPolicy: IfNotPresent
-      services:
-        paralus:
-          name: paralus
-          type: ClusterIP
-          ports:
-            - name: http
-              containerPort: 11000
       deploy:
         postgresql:
           existingSecret:

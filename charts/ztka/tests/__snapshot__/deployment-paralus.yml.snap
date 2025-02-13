@@ -4,8 +4,8 @@ should include external secrets env when configured:
     data:
       AUDIT_LOG_FILE: /audit-logs/audit.log
       AUDIT_LOG_STORAGE: database
-      CORE_RELAY_CONNECTOR_HOST: '*.core-connector.example.com:443'
-      CORE_RELAY_USER_HOST: '*.user.example.com:443'
+      CORE_RELAY_CONNECTOR_HOST: '*.core-connector.paralus.local:443'
+      CORE_RELAY_USER_HOST: '*.user.paralus.local:443'
       DEV: "false"
       ES_END_POINT: ""
       ES_INDEX_PREFIX: ralog-system
@@ -15,7 +15,7 @@ should include external secrets env when configured:
       RELAY_COMMANDS_ES_INDEX_PREFIX: ralog-prompt
       RELAY_IMAGE: paralusio/relay:v0.1.8
       SCHEDULER_NAMESPACE: NAMESPACE
-      SENTRY_BOOTSTRAP_ADDR: console.example.com:80
+      SENTRY_BOOTSTRAP_ADDR: console.paralus.local:80
       SENTRY_PEERING_HOST: paralus:10001
     kind: ConfigMap
     metadata:
@@ -50,7 +50,7 @@ should include external secrets env when configured:
       template:
         metadata:
           annotations:
-            checksum/config: 25597cb7fd7758be68f59d3de9bd6d6fe60948fc4513e49c32ffbe92f6f8e665
+            checksum/config: 4297441245c73841ed2a81d95ec8cb57e9f7b769758fb20300507243724937b7
           labels:
             app.kubernetes.io/component: workload
             app.kubernetes.io/instance: RELEASE-NAME
@@ -109,6 +109,10 @@ should include external secrets env when configured:
               ports:
                 - containerPort: 11000
                   name: http
+                - containerPort: 10000
+                  name: rpc
+                - containerPort: 10001
+                  name: relay-peering
               resources: {}
               securityContext: {}
               volumeMounts:
