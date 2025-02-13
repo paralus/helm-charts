@@ -1,0 +1,209 @@
+should include external secrets env when configured:
+  1: |
+    apiVersion: v1
+    data:
+      AUDIT_LOG_FILE: /audit-logs/audit.log
+      AUDIT_LOG_STORAGE: database
+      CORE_RELAY_CONNECTOR_HOST: '*.core-connector.paralus.local:443'
+      CORE_RELAY_USER_HOST: '*.user.paralus.local:443'
+      DEV: "false"
+      ES_END_POINT: ""
+      ES_INDEX_PREFIX: ralog-system
+      KRATOS_ADDR: http://RELEASE-NAME-kratos-admin
+      KRATOS_PUB_ADDR: http://RELEASE-NAME-kratos-public
+      RELAY_AUDITS_ES_INDEX_PREFIX: ralog-relay
+      RELAY_COMMANDS_ES_INDEX_PREFIX: ralog-prompt
+      RELAY_IMAGE: paralusio/relay:v0.1.8
+      SCHEDULER_NAMESPACE: NAMESPACE
+      SENTRY_BOOTSTRAP_ADDR: console.paralus.local:80
+      SENTRY_PEERING_HOST: paralus:10001
+    kind: ConfigMap
+    metadata:
+      labels:
+        app.kubernetes.io/component: configuration
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: paralus
+        app.kubernetes.io/part-of: paralus
+        app.kubernetes.io/version: v0.2.8
+        helm.sh/chart: ztka-0.2.9
+      name: paralus-config
+  2: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app.kubernetes.io/component: workload
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: paralus
+        app.kubernetes.io/part-of: paralus
+        app.kubernetes.io/version: v0.2.8
+        helm.sh/chart: ztka-0.2.9
+      name: paralus
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: paralus
+      template:
+        metadata:
+          annotations:
+            checksum/config: 4297441245c73841ed2a81d95ec8cb57e9f7b769758fb20300507243724937b7
+          labels:
+            app.kubernetes.io/component: workload
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: paralus
+            app.kubernetes.io/part-of: paralus
+            app.kubernetes.io/version: v0.2.8
+            helm.sh/chart: ztka-0.2.9
+        spec:
+          containers:
+            - command:
+                - sh
+                - -c
+                - tail -F /audit-logs/audit.log 2>/tmp/tail-err
+              image: busybox:latest
+              imagePullPolicy: IfNotPresent
+              name: paralus-tail
+              securityContext: {}
+              volumeMounts:
+                - mountPath: /audit-logs
+                  name: audit-logs
+            - command:
+                - ./paralus
+              env:
+                - name: DB_ADDR
+                  valueFrom:
+                    secretKeyRef:
+                      key: address-key
+                      name: my-external-secret
+                - name: DB_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: username-key
+                      name: my-external-secret
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: password-key
+                      name: my-external-secret
+                - name: DB_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-key
+                      name: my-external-secret
+                - name: DSN
+                  valueFrom:
+                    secretKeyRef:
+                      key: dsn-key
+                      name: my-external-secret
+              envFrom:
+                - configMapRef:
+                    name: paralus-config
+              image: paralusio/paralus:v0.2.8
+              imagePullPolicy: IfNotPresent
+              name: paralus
+              ports:
+                - containerPort: 11000
+                  name: http
+                - containerPort: 10000
+                  name: rpc
+                - containerPort: 10001
+                  name: relay-peering
+              resources: {}
+              securityContext: {}
+              volumeMounts:
+                - mountPath: /audit-logs
+                  name: audit-logs
+          initContainers:
+            - args:
+                - migrate
+                - sql
+                - -e
+                - --yes
+              command:
+                - kratos
+              env:
+                - name: DSN
+                  valueFrom:
+                    secretKeyRef:
+                      key: dsn-key
+                      name: my-external-secret
+              image: paralusio/paralus-init:v0.2.8
+              imagePullPolicy: IfNotPresent
+              name: kratos-automigrate
+            - args:
+                - -path=/data/migrations/admindb
+                - -database
+                - $(DSN)
+                - up
+              command:
+                - migrate
+              env:
+                - name: DSN
+                  valueFrom:
+                    secretKeyRef:
+                      key: dsn-key
+                      name: my-external-secret
+              image: paralusio/paralus-init:v0.2.8
+              imagePullPolicy: IfNotPresent
+              name: migrate-admindb
+            - args:
+                - -partner
+                - Paralus
+                - -partner-desc
+                - Default Partner
+                - -partner-host
+                - paralus.local
+                - -org
+                - ParalusOrg
+                - -org-desc
+                - Default Organization
+                - -admin-email
+                - admin@paralus.local
+                - -admin-first-name
+                - Admin
+                - -admin-last-name
+                - User
+              command:
+                - paralus-init
+              env:
+                - name: DB_ADDR
+                  valueFrom:
+                    secretKeyRef:
+                      key: address-key
+                      name: my-external-secret
+                - name: DB_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: username-key
+                      name: my-external-secret
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: password-key
+                      name: my-external-secret
+                - name: DB_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-key
+                      name: my-external-secret
+                - name: DSN
+                  valueFrom:
+                    secretKeyRef:
+                      key: dsn-key
+                      name: my-external-secret
+              envFrom:
+                - configMapRef:
+                    name: paralus-config
+              image: paralusio/paralus-init:v0.2.8
+              imagePullPolicy: IfNotPresent
+              name: initialize
+          securityContext: {}
+          serviceAccountName: RELEASE-NAME-ztka
+          volumes:
+            - emptyDir: {}
+              name: audit-logs

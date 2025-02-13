@@ -237,6 +237,22 @@ deploy:
     # -- Postgresql database name. Required when
     # `deploy.postgresql.enable` is unset and dsn is not specified.
     database: ""
+    # -- Configuration for using an existing Kubernetes secret for database credentials
+    existingSecret:
+      # -- Name of the existing Kubernetes secret containing database credentials
+      name: ""
+      # -- Mapping of database credential keys in the existing secret
+      keys:
+        # -- Key in the secret containing the database DSN
+        dsn: ""
+        # -- Key in the secret containing the database address
+        address: ""
+        # -- Key in the secret containing the database username
+        username: ""
+        # -- Key in the secret containing the database password
+        password: ""
+        # -- Key in the secret containing the database name
+        database: ""
 
   filebeat:
     # -- Filebeat is used to collect audit logs into the system via

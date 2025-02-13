@@ -1,0 +1,21 @@
+version: '3'
+services:
+
+  docs:
+    image: jnorwood/helm-docs
+    volumes:
+      - ./:/helm-docs
+  lint:
+    image: quay.io/helmpack/chart-testing
+    volumes:
+      - ./:/charts
+    working_dir: /charts
+    entrypoint: ct lint --config ct.yaml
+  test:
+    image: quay.io/helmpack/chart-testing
+    volumes:
+      - ./:/charts
+    working_dir: /charts
+    entrypoint: ct install  --config ct.yaml
+    # Note you will need to expose your kubernetes service to the container
+    network_mode: host

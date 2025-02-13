@@ -160,6 +160,38 @@ postgres://{{ $username }}:{{ $password }}@{{ $address }}:5432/{{ $database }}?s
 
 
 {{/*
+External Secrets Environment Variables
+*/}}
+{{- define "ztka.externalSecretsEnv" -}}
+- name: DB_ADDR
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.deploy.postgresql.existingSecret.name }}
+      key: {{ .Values.deploy.postgresql.existingSecret.keys.address | default "DB_ADDR" }}
+- name: DB_USER
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.deploy.postgresql.existingSecret.name }}
+      key: {{ .Values.deploy.postgresql.existingSecret.keys.username | default "DB_USER" }}
+- name: DB_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.deploy.postgresql.existingSecret.name }}
+      key: {{ .Values.deploy.postgresql.existingSecret.keys.password | default "DB_PASSWORD" }}
+- name: DB_NAME
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.deploy.postgresql.existingSecret.name }}
+      key: {{ .Values.deploy.postgresql.existingSecret.keys.database | default "DB_NAME" }}
+- name: DSN
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.deploy.postgresql.existingSecret.name }}
+      key: {{ .Values.deploy.postgresql.existingSecret.keys.dsn | default "DSN" }}
+{{- end }}
+
+
+{{/*
 Get console full-qualified domain.
 */}}
 {{- define "ztka.consoleFQDN" -}}
