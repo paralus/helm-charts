@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## Added
 - Option to override Relay external host in config from [plejik](https://github.com/plejik)
+- Option to provide existing Kubernetes secret for Database credentials
 
 ### Changed
 - Updated Kubernetes labels from [nlamirault](https://github.com/nlamirault)
