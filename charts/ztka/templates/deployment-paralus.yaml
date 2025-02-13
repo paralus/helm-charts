@@ -45,8 +45,13 @@ spec:
             - name: DSN
               valueFrom:
                 secretKeyRef:
+                  {{- if and .Values.deploy.postgresql.existingSecret.name .Values.deploy.postgresql.existingSecret.keys.dsn }}
+                  name: {{ .Values.deploy.postgresql.existingSecret.name }}
+                  key: {{ .Values.deploy.postgresql.existingSecret.keys.dsn }}
+                  {{- else }}
                   name: paralus-db
                   key: DSN
+                  {{- end }}
           imagePullPolicy: {{ .Values.images.pullPolicy }}
         {{- end }}
         {{- if .Values.paralus.automigrate }}
@@ -58,8 +63,13 @@ spec:
             - name: DSN
               valueFrom:
                 secretKeyRef:
+                  {{- if and .Values.deploy.postgresql.existingSecret.name .Values.deploy.postgresql.existingSecret.keys.dsn }}
+                  name: {{ .Values.deploy.postgresql.existingSecret.name }}
+                  key: {{ .Values.deploy.postgresql.existingSecret.keys.dsn }}
+                  {{- else }}
                   name: paralus-db
                   key: DSN
+                  {{- end }}
           imagePullPolicy: {{ .Values.images.pullPolicy }}
         {{- end }}
         - name: initialize
@@ -75,11 +85,17 @@ spec:
             "-admin-first-name", {{.Values.paralus.initialize.adminFirstName|quote}},
             "-admin-last-name", {{.Values.paralus.initialize.adminLastName|quote}},
              ]
+          {{- if and .Values.deploy.postgresql.existingSecret.name .Values.deploy.postgresql.existingSecret.keys }}
+          env:
+            {{- include "ztka.externalSecretsEnv" . | nindent 14 }}
+          {{- end }}
           envFrom:
           - configMapRef:
               name: paralus-config
+          {{- if not .Values.deploy.postgresql.existingSecret.name }}
           - secretRef:
               name: paralus-db
+          {{- end }}
           imagePullPolicy: {{ .Values.images.pullPolicy }}
       containers:
         - name: paralus-tail
@@ -103,8 +119,14 @@ spec:
           envFrom:
           - configMapRef:
               name: paralus-config
+          {{- if not .Values.deploy.postgresql.existingSecret.name }}
           - secretRef:
               name: paralus-db
+          {{- end }}
+          {{- if and .Values.deploy.postgresql.existingSecret.name .Values.deploy.postgresql.existingSecret.keys }}
+          env:
+            {{- include "ztka.externalSecretsEnv" . | nindent 14 }}
+          {{- end }}
           ports:
             {{- range .Values.services.paralus.ports }}
             - name: {{ .name }}

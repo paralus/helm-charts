@@ -1,0 +1,64 @@
+suite: test prompt deployment
+templates:
+  - deployment-prompt.yaml
+  - _helpers.tpl
+tests:
+  - it: should include external secrets env when configured
+    set:
+      deploy:
+        postgresql:
+          existingSecret:
+            name: "my-external-secret"
+            keys:
+              dsn: "dsn-key"
+              address: "address-key"
+              username: "username-key"
+              password: "password-key"
+              database: "database-key"
+    asserts:
+      - template: deployment-prompt.yaml
+        equal:
+          path: spec.template.spec.containers[1].env[0]
+          value:
+            name: DB_ADDR
+            valueFrom:
+              secretKeyRef:
+                name: my-external-secret
+                key: address-key
+      - template: deployment-prompt.yaml
+        equal:
+          path: spec.template.spec.containers[1].env[1]
+          value:
+            name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: my-external-secret
+                key: username-key
+      - template: deployment-prompt.yaml
+        equal:
+          path: spec.template.spec.containers[1].env[2]
+          value:
+            name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-external-secret
+                key: password-key
+      - template: deployment-prompt.yaml
+        equal:
+          path: spec.template.spec.containers[1].env[3]
+          value:
+            name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: my-external-secret
+                key: database-key
+
+  - it: should not include external secrets env when not configured
+    set:
+      fqdn:
+        domain: "example.com"
+
+    asserts:
+      - template: deployment-prompt.yaml
+        notExists:
+          path: spec.template.spec.containers[1].env

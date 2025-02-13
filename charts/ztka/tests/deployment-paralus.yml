@@ -1,0 +1,63 @@
+suite: test paralus deployment
+templates:
+  - deployment-paralus.yaml
+  - configmap-paralus.yaml
+tests:
+  - it: should render the basic deployment structure
+    set:
+      fqdn:
+        domain: "example.com"
+        hostname: "console"
+        coreConnectorSubdomain: "*.core-connector"
+        userSubdomain: "*.user"
+      images:
+        paralus:
+          repository: paralusio/paralus
+          tag: "v0.2.8"
+        pullPolicy: IfNotPresent
+      services:
+        paralus:
+          name: paralus
+          type: ClusterIP
+          ports:
+            - name: http
+              containerPort: 11000
+    asserts:
+      - isKind:
+          of: Deployment
+        template: deployment-paralus.yaml
+      - isNotEmpty:
+          path: spec.template.spec.containers
+        template: deployment-paralus.yaml
+
+  - it: should include external secrets env when configured
+    set:
+      fqdn:
+        domain: "example.com"
+        hostname: "console"
+        coreConnectorSubdomain: "*.core-connector"
+        userSubdomain: "*.user"
+      images:
+        paralus:
+          repository: paralusio/paralus
+          tag: "v0.2.8"
+        pullPolicy: IfNotPresent
+      services:
+        paralus:
+          name: paralus
+          type: ClusterIP
+          ports:
+            - name: http
+              containerPort: 11000
+      deploy:
+        postgresql:
+          existingSecret:
+            name: "my-external-secret"
+            keys:
+              dsn: "dsn-key"
+              address: "address-key"
+              username: "username-key"
+              password: "password-key"
+              database: "database-key"
+    asserts:
+      - matchSnapshot: {}

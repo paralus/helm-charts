@@ -61,8 +61,14 @@ spec:
           envFrom:
           - configMapRef:
               name: prompt-config
+          {{- if not .Values.deploy.postgresql.existingSecret.name }}
           - secretRef:
               name: paralus-db
+          {{- end }}
+          {{- if and .Values.deploy.postgresql.existingSecret.name .Values.deploy.postgresql.existingSecret.keys }}
+          env:
+            {{- include "ztka.externalSecretsEnv" . | nindent 14 }}
+          {{- end }}
           ports:
             {{- range .Values.services.prompt.ports }}
             - name: {{ .name }}
