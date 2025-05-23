@@ -12,17 +12,17 @@ images:
     name: paralus
     # -- Paralus paralus image
     repository: paralusio/paralus
-    tag: "v0.2.8"
+    tag: "v0.2.9"
   paralusInit:
     name: paralus-init
     # -- Paralus paralus initialize image
     repository: paralusio/paralus-init
-    tag: "v0.2.8"
+    tag: "v0.2.9"
   relay:
     name: relay
     # -- relay image
     repository: paralusio/relay
-    tag: "v0.1.8"
+    tag: "v0.1.9"
   prompt:
     name: prompt
     # -- prompt image
@@ -32,7 +32,7 @@ images:
     name: dashboard
     # -- Paralus dashboard image
     repository: paralusio/dashboard
-    tag: "v0.2.3"
+    tag: "v0.2.4"
 
   # -- If defined, a imagePullPolicy applied to all deployments
   pullPolicy: IfNotPresent

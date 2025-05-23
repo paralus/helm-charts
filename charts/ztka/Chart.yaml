@@ -29,5 +29,5 @@ dependencies:
     condition: deploy.contour.enable
 maintainers:
   - name: Paralus Team
-version: "0.2.10"
-appVersion: "v0.2.8"
+version: "0.3.0"
+appVersion: "v0.2.9"
