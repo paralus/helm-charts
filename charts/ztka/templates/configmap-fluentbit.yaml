@@ -1,3 +1,4 @@
+{{- if .Values.deploy.fluentbit.enable }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -92,3 +93,4 @@ data:
         Password {{ include "ztka.dbPassword" . | }}
         Database {{ include "ztka.dbName" . | }}
         Table audit_logs
+{{- end }}

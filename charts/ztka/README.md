@@ -2,7 +2,7 @@
 
 A Helm chart for Paralus ZTKA.
 
-![Version: 0.2.9](https://img.shields.io/badge/Version-0.2.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.2.8](https://img.shields.io/badge/AppVersion-v0.2.8-informational?style=flat-square)
+![Version: 0.2.10](https://img.shields.io/badge/Version-0.2.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.2.8](https://img.shields.io/badge/AppVersion-v0.2.8-informational?style=flat-square)
 
 This chart bootstraps the Paralus deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
