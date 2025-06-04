@@ -25,7 +25,6 @@ helm.sh/chart: {{ include "ztka.chart" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
-app.kubernetes.io/component: kratos
 app.kubernetes.io/part-of: paralus
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
