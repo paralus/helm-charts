@@ -81,8 +81,8 @@ helm show values paralus/ztka
 | https://helm.elastic.co | elasticsearch | 7.17.1 |
 | https://helm.elastic.co | filebeat | 7.17.1 |
 | https://k8s.ory.sh/helm/charts | kratos | 0.29.0 |
-| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | contour | 7.8.0 |
-| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | postgresql | 11.1.9 |
+| oci://registry-1.docker.io/bitnamicharts/contour | contour | 7.8.0 |
+| oci://registry-1.docker.io/bitnamicharts/contour | postgresql | 11.1.9 |
 
 ## Values
 

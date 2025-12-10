@@ -1,21 +1,21 @@
 dependencies:
-- name: kratos
-  repository: https://k8s.ory.sh/helm/charts
-  version: 0.29.0
-- name: elasticsearch
-  repository: https://helm.elastic.co
-  version: 7.17.1
-- name: postgresql
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-  version: 11.1.9
-- name: filebeat
-  repository: https://helm.elastic.co
-  version: 7.17.1
-- name: fluent-bit
-  repository: https://fluent.github.io/helm-charts
-  version: 0.20.8
-- name: contour
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-  version: 7.8.0
+  - name: kratos
+    repository: https://k8s.ory.sh/helm/charts
+    version: 0.29.0
+  - name: elasticsearch
+    repository: https://helm.elastic.co
+    version: 7.17.1
+  - name: postgresql
+    repository: oci://registry-1.docker.io/bitnamicharts/postgresql
+    version: 11.1.9
+  - name: filebeat
+    repository: https://helm.elastic.co
+    version: 7.17.1
+  - name: fluent-bit
+    repository: https://fluent.github.io/helm-charts
+    version: 0.20.8
+  - name: contour
+    repository: oci://registry-1.docker.io/bitnamicharts/contour
+    version: 7.8.0
 digest: sha256:a1feef6a4f66b7bfb11ebb10ab588c7cb1111363c51184267242587cf9a1b8d1
 generated: "2023-03-30T18:25:33.354487478+05:30"
