@@ -77,12 +77,12 @@ helm show values paralus/ztka
 
 | Repository | Name | Version |
 |------------|------|---------|
+| https://charts.bitnami.com/bitnami | postgresql | 18.1.14 |
 | https://fluent.github.io/helm-charts | fluent-bit | 0.20.8 |
 | https://helm.elastic.co | elasticsearch | 7.17.1 |
 | https://helm.elastic.co | filebeat | 7.17.1 |
 | https://k8s.ory.sh/helm/charts | kratos | 0.29.0 |
-| oci://registry-1.docker.io/bitnamicharts/contour | contour | 7.8.0 |
-| oci://registry-1.docker.io/bitnamicharts/contour | postgresql | 11.1.9 |
+| https://projectcontour.github.io/helm-charts | contour | 0.2.0 |
 
 ## Values
 
