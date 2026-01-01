@@ -18,4 +18,4 @@ dependencies:
   repository: https://projectcontour.github.io/helm-charts
   version: 0.2.0
 digest: sha256:499e8dfd7a6a6a85190e196d5d8fa2a00f8fd364238c65d69584a6ee5e31231d
-generated: "2025-12-16T13:23:12.433825+05:30"
+generated: "2025-12-26T11:21:28.654411602+05:30"
