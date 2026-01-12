@@ -11,14 +11,13 @@ images:
   paralus:
     name: paralus
     # -- Paralus paralus image
-    repository: zync07/paralus
-    tag: "latest"
-    imagePullPolicy: Always
+    repository: paralusio/paralus
+    tag: "v0.2.9"
   paralusInit:
     name: paralus-init
     # -- Paralus paralus initialize image
-    repository: zync07/paralus-init
-    tag: "latest"
+    repository: paralusio/paralus-init
+    tag: "v0.2.9"
   relay:
     name: relay
     # -- relay image
@@ -32,12 +31,11 @@ images:
   dashboard:
     name: dashboard
     # -- Paralus dashboard image
-    repository: zync07/paralus-dashboard
-    tag: "latest"
-    imagePullPolicy: Always
+    repository: paralusio/dashboard
+    tag: "v0.2.4"
 
   # -- If defined, a imagePullPolicy applied to all deployments
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 # -- If defined, uses a Secret to pull an image from a private Docker
 # registry or repository
@@ -238,16 +236,16 @@ deploy:
     dsn: ""
     # -- Postgresql address for example, "localhost:5432". Required
     # when `deploy.postgresql.enable` is unset and dsn is not specified.
-    address: "localhost:5432"
+    address: ""
     # -- Postgresql username. Required when `deploy.postgresql.enable`
     # is unset and dsn is not specified.
-    username: "admindbuser"
+    username: ""
     # -- Postgresql password. Required when `deploy.postgresql.enable`
     # is unset and dsn is not specified.
-    password: "admindbpassword"
+    password: ""
     # -- Postgresql database name. Required when
     # `deploy.postgresql.enable` is unset and dsn is not specified.
-    database: "admindb"
+    database: ""
 
   filebeat:
     # -- Filebeat is used to collect audit logs into the system via
@@ -281,9 +279,9 @@ kratos:
     enabled: false
     nameOverride: "kratos"
   kratos:
-    development: true
+    development: false
     config:
-      version: v1.3.8
+      version: v0.11.0
       courier:
         smtp:
           # As per Kratos configuration it should string, but Kratos
@@ -301,8 +299,7 @@ kratos:
               - Content-Type
               - X-Session-Token
             exposed_headers:
-              - Content-Type  return new FrontendApi(config);
-
+              - Content-Type
               - Set-Cookie
         admin:
           port: 4434
