@@ -1,6 +1,6 @@
 apiVersion: v2
 name: ztka
-description: A Helm chart for Paralus ZTKA. 
+description: A Helm chart for Paralus ZTKA.
 type: application
 dependencies:
   - name: kratos
@@ -29,5 +29,5 @@ dependencies:
     condition: deploy.contour.enable
 maintainers:
   - name: Paralus Team
-version: "0.3.0"
-appVersion: "v0.2.9"
+version: "0.3.1"
+appVersion: "v0.3.0"
