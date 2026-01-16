@@ -428,7 +428,7 @@ kratos:
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
       - name: synchronizer
-        image: "paralusio/kratos-synchronizer:v0.2.8"
+        image: "paralusio/kratos-synchronizer:v0.3.0"
         volumeMounts:
           - name: other-configs
             mountPath: /etc/kratos
