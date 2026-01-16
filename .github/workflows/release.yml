@@ -3,7 +3,7 @@ name: Release Charts
 on:
   push:
     branches:
-      - main
+      - fix-outdated-bitnami-images
 
 jobs:
   release:
