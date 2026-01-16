@@ -6,8 +6,8 @@ dependencies:
   repository: https://helm.elastic.co
   version: 7.17.1
 - name: postgresql
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-  version: 11.1.9
+  repository: https://charts.bitnami.com/bitnami
+  version: 18.1.14
 - name: filebeat
   repository: https://helm.elastic.co
   version: 7.17.1
@@ -15,7 +15,7 @@ dependencies:
   repository: https://fluent.github.io/helm-charts
   version: 0.20.8
 - name: contour
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-  version: 7.8.0
-digest: sha256:a1feef6a4f66b7bfb11ebb10ab588c7cb1111363c51184267242587cf9a1b8d1
-generated: "2023-03-30T18:25:33.354487478+05:30"
+  repository: https://projectcontour.github.io/helm-charts
+  version: 0.2.0
+digest: sha256:499e8dfd7a6a6a85190e196d5d8fa2a00f8fd364238c65d69584a6ee5e31231d
+generated: "2025-12-26T11:21:28.654411602+05:30"

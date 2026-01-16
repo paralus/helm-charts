@@ -12,8 +12,8 @@ dependencies:
     repository: https://helm.elastic.co
     condition: deploy.elasticsearch.enable
   - name: postgresql
-    version: 11.1.9
-    repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    version: 18.1.14
+    repository: https://charts.bitnami.com/bitnami
     condition: deploy.postgresql.enable
   - name: filebeat
     version: 7.17.1
@@ -24,10 +24,10 @@ dependencies:
     repository: https://fluent.github.io/helm-charts
     condition: deploy.fluentbit.enable
   - name: contour
-    version: 7.8.0
-    repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    version: 0.2.0
+    repository: https://projectcontour.github.io/helm-charts
     condition: deploy.contour.enable
 maintainers:
   - name: Paralus Team
-version: "0.3.0"
-appVersion: "v0.2.9"
+version: "0.3.1"
+appVersion: "v0.3.0"

@@ -2,7 +2,7 @@
 
 A Helm chart for Paralus ZTKA.
 
-![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.2.9](https://img.shields.io/badge/AppVersion-v0.2.9-informational?style=flat-square)
+![Version: 0.3.1](https://img.shields.io/badge/Version-0.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.3.0](https://img.shields.io/badge/AppVersion-v0.3.0-informational?style=flat-square)
 
 This chart bootstraps the Paralus deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
@@ -77,12 +77,12 @@ helm show values paralus/ztka
 
 | Repository | Name | Version |
 |------------|------|---------|
+| https://charts.bitnami.com/bitnami | postgresql | 18.1.14 |
 | https://fluent.github.io/helm-charts | fluent-bit | 0.20.8 |
 | https://helm.elastic.co | elasticsearch | 7.17.1 |
 | https://helm.elastic.co | filebeat | 7.17.1 |
 | https://k8s.ory.sh/helm/charts | kratos | 0.29.0 |
-| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | contour | 7.8.0 |
-| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | postgresql | 11.1.9 |
+| https://projectcontour.github.io/helm-charts | contour | 0.2.0 |
 
 ## Values
 
@@ -115,7 +115,7 @@ helm show values paralus/ztka
 | deploy.postgresql.dsn | string | `""` | Postgresql DSN for example, "postgres://user:password@host:5432/db". Required when `deploy.postgresql.enable` is unset and individual components are not specified. Overrides individual components (address, username, password, database) |
 | deploy.postgresql.enable | bool | `false` | Postgresql db is auto deployed and managed by Helm release when true. (It is recommended to manage your own DB instance separately or use DB services like Amazon RDS in production) |
 | deploy.postgresql.existingSecret | string | `""` | Postgresql existing Kubernetes secret for database authentication. Overwrites `deploy.postgresql.dsn`, `deploy.postgresql.address`, `deploy.postgresql.username`, `deploy.postgresql.password` and `deploy.postgresql.database` The Kubernetes secret must contain all values it overrides |
-| deploy.postgresql.password | string | `""` | Postgresql password. Required when `deploy.postgresql.enable`   is unset and dsn is not specified. |
+| deploy.postgresql.password | string | `""` | Postgresql password. Required when `deploy.postgresql.enable` is unset and dsn is not specified. |
 | deploy.postgresql.username | string | `""` | Postgresql username. Required when `deploy.postgresql.enable` is unset and dsn is not specified. |
 | elasticsearch.minimumMasterNodes | int | `1` |  |
 | elasticsearch.replicas | int | `1` |  |
@@ -129,13 +129,13 @@ helm show values paralus/ztka
 | imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository |
 | images.dashboard.name | string | `"dashboard"` |  |
 | images.dashboard.repository | string | `"paralusio/dashboard"` | Paralus dashboard image |
-| images.dashboard.tag | string | `"v0.2.4"` |  |
+| images.dashboard.tag | string | `"v0.2.5"` |  |
 | images.paralus.name | string | `"paralus"` |  |
 | images.paralus.repository | string | `"paralusio/paralus"` | Paralus paralus image |
-| images.paralus.tag | string | `"v0.2.9"` |  |
+| images.paralus.tag | string | `"v0.3.0"` |  |
 | images.paralusInit.name | string | `"paralus-init"` |  |
 | images.paralusInit.repository | string | `"paralusio/paralus-init"` | Paralus paralus initialize image |
-| images.paralusInit.tag | string | `"v0.2.9"` |  |
+| images.paralusInit.tag | string | `"v0.3.0"` |  |
 | images.prompt.name | string | `"prompt"` |  |
 | images.prompt.repository | string | `"paralusio/prompt"` | prompt image |
 | images.prompt.tag | string | `"v0.1.3"` |  |

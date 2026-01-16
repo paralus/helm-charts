@@ -12,12 +12,12 @@ images:
     name: paralus
     # -- Paralus paralus image
     repository: paralusio/paralus
-    tag: "v0.2.9"
+    tag: "v0.3.0"
   paralusInit:
     name: paralus-init
     # -- Paralus paralus initialize image
     repository: paralusio/paralus-init
-    tag: "v0.2.9"
+    tag: "v0.3.0"
   relay:
     name: relay
     # -- relay image
@@ -32,7 +32,7 @@ images:
     name: dashboard
     # -- Paralus dashboard image
     repository: paralusio/dashboard
-    tag: "v0.2.4"
+    tag: "v0.2.5"
 
   # -- If defined, a imagePullPolicy applied to all deployments
   pullPolicy: IfNotPresent
@@ -57,11 +57,13 @@ podAnnotations: {}
 additionalLabels: {}
 
 # Pod Security Context
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
 # Security Context
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -112,7 +114,8 @@ ingress:
   className: ""
   # - Annotation for ingress resources. The ssl-passthrough annotation
   # - is mandatory for ZTKA ingress.
-  annotations: {}
+  annotations:
+    {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   # -- Ingress TLS for console
@@ -121,7 +124,8 @@ ingress:
   #    hosts:
   #      - chart-example.com
 
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -191,7 +195,7 @@ hooks:
 auditLogs:
   # -- database or elasticsearch for storing audit logs
   # -- database(postgres) by default
-  storage: "database"  
+  storage: "database"
 
 deploy:
   kratos:
@@ -236,7 +240,7 @@ deploy:
     # -- Postgresql username. Required when `deploy.postgresql.enable`
     # is unset and dsn is not specified.
     username: ""
-    # -- Postgresql password. Required when `deploy.postgresql.enable`  
+    # -- Postgresql password. Required when `deploy.postgresql.enable`
     # is unset and dsn is not specified.
     password: ""
     # -- Postgresql database name. Required when
@@ -420,22 +424,22 @@ kratos:
           configMapKeyRef:
             name: kratos-config
             key: selfservice_flows_error_ui_url
-      
+
     # OIDC Provider config synchronizer as sidecar to Kratos
     extraContainers: |
-        - name: synchronizer
-          image: "paralusio/kratos-synchronizer:v0.2.8"
-          volumeMounts:
-            - name: other-configs
-              mountPath: /etc/kratos
-          env:
-            - name: DSN
-              valueFrom:
-                secretKeyRef:
-                  name: paralus-db
-                  key: DSN
-            - name: KRATOS_PROVIDER_CFG
-              value: "/etc/kratos/providers.yaml"
+      - name: synchronizer
+        image: "paralusio/kratos-synchronizer:v0.3.0"
+        volumeMounts:
+          - name: other-configs
+            mountPath: /etc/kratos
+        env:
+          - name: DSN
+            valueFrom:
+              secretKeyRef:
+                name: paralus-db
+                key: DSN
+          - name: KRATOS_PROVIDER_CFG
+            value: "/etc/kratos/providers.yaml"
     extraArgs:
       - --config
       - /etc/kratos/providers.yaml
@@ -448,8 +452,8 @@ kratos:
       # loading volume from kratos config hook configmap
       - name: kratos-config-hooks
         configMap:
-            name: kratos-config-hooks
-            defaultMode: 420
+          name: kratos-config-hooks
+          defaultMode: 420
     extraVolumeMounts:
       - name: other-configs
         mountPath: /etc/kratos
@@ -458,18 +462,18 @@ kratos:
         mountPath: /etc/kratos/hooks/kratos-config-hooks.yaml
         subPath: kratos-config-hooks.yaml
     extraInitContainers: |
-        - name: create-file
-          image: "busybox:latest"
-          command: ['sh', '-c', 'touch /etc/kratos/providers.yaml']
-          volumeMounts:
-            - name: other-configs
-              mountPath: /etc/kratos
-        - name: create-login-hook-jsonnetfile
-          image: "busybox:latest"
-          command: ['sh', '-c', 'echo "function(ctx) { user_id: ctx.identity.id }" > /etc/kratos/body.jsonnet']
-          volumeMounts:
-            - name: other-configs
-              mountPath: /etc/kratos
+      - name: create-file
+        image: "busybox:latest"
+        command: ['sh', '-c', 'touch /etc/kratos/providers.yaml']
+        volumeMounts:
+          - name: other-configs
+            mountPath: /etc/kratos
+      - name: create-login-hook-jsonnetfile
+        image: "busybox:latest"
+        command: ['sh', '-c', 'echo "function(ctx) { user_id: ctx.identity.id }" > /etc/kratos/body.jsonnet']
+        volumeMounts:
+          - name: other-configs
+            mountPath: /etc/kratos
 
 elasticsearch:
   replicas: 1
