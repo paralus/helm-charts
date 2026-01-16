@@ -27,15 +27,15 @@ jobs:
 
       - name: Add dependencies
         run: |
-            helm repo add kratos https://k8s.ory.sh/helm/charts
-            helm repo add elasticsearch https://helm.elastic.co
-            helm repo add postgresql https://charts.bitnami.com/bitnami
-            helm repo add filebeat https://helm.elastic.co
-            helm repo add contour https://projectcontour.github.io/helm-charts
-            helm repo add fluent https://fluent.github.io/helm-charts
+          helm repo add kratos https://k8s.ory.sh/helm/charts
+          helm repo add elasticsearch https://helm.elastic.co
+          helm repo add postgresql https://charts.bitnami.com/bitnami
+          helm repo add filebeat https://helm.elastic.co
+          helm repo add contour https://projectcontour.github.io/helm-charts
+          helm repo add fluent https://fluent.github.io/helm-charts
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@a3454e46a6f5ac4811069a381e646961dda2e1bf
+        uses: helm/chart-releaser-action@v1.7.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_EXISTING: "true"
